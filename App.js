@@ -10,7 +10,7 @@ export default function App() {
     </View>
   );
 }
-
+//Nisarg was here
 const styles = StyleSheet.create({
   container: {
     flex: 1,
