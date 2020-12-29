@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import db from '../EzcapeMobileApp/firebase';
+import db from './Firebase/firebaseConfig';
 
 class FirebaseConnect extends Component {
     constructor(props){
@@ -10,7 +10,7 @@ class FirebaseConnect extends Component {
 
     getUser = async () => {
         const UserDocument = await db.collection("Users").doc('HiXymxqloChH0olghN3k').get()
-        console.log(UserDocument.data())
+        console.log(UserDocument.get('address'))
     }
 
     render() {

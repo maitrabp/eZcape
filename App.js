@@ -13,7 +13,6 @@ export default function App() {
     
   );
 }
-//Nisarg was here
 const styles = StyleSheet.create({
   container: {
     flex: 1,
