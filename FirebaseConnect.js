@@ -3,8 +3,6 @@ import { View, Text, Button } from 'react-native';
 
 import firestore from  "@react-native-firestore/firestore";
 
-
-
 class FirebaseConnect extends Component {
     constructor(props){
         super(props);
