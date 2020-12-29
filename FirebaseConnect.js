@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-
-import firestore from  "@react-native-firestore/firestore";
+import firebase from 'firebase';
 
 class FirebaseConnect extends Component {
     constructor(props){
@@ -10,7 +9,7 @@ class FirebaseConnect extends Component {
     }
 
     getUser = async () => {
-        const UserDocument = await firestore().collection("Users").doc('HiXymxqloChH0olghN3k').get()
+        const UserDocument = await firebase.firestore().collection("Users").doc('HiXymxqloChH0olghN3k').get()
         console.log(UserDocument)
     }
 

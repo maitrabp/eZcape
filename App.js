@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {FirebaseConnect} from './FirebaseConnect';
+import FirebaseConnect from './FirebaseConnect';
 
 export default function App() {
   return (
@@ -10,6 +10,7 @@ export default function App() {
       <StatusBar style="auto" />
       <FirebaseConnect></FirebaseConnect>
     </View>
+    
   );
 }
 //Nisarg was here
