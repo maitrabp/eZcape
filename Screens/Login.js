@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, TextInput} from 'react-native'
 import EzButton from '../Components/EzButton'
 import auth from '@react-native-firebase/auth';
 import firebase from '../Firebase/firebaseConfig';
+import EzTextInput from '../Components/EzTextInput';
 
 
 export default function Login({navigation}) {
@@ -27,17 +28,16 @@ export default function Login({navigation}) {
     return (
         <View style={styles.container}>
             <Text style={styles.textInput}>Login</Text>
-            <TextInput 
-                style={styles.textInput} 
+            <EzTextInput 
                 placeholder="email" 
                 onChangeText={email => setemail(email)}
                 defaultValue={email}
             />
-            <TextInput 
-                style={styles.textInput} 
+            <EzTextInput 
                 placeholder="Password" 
                 onChangeText={password => setPassword(password)}
                 defaultValue={password}
+                secureTextEntry={true}
             />
             <EzButton onPress={login} title={"Login"} />
             <EzButton onPress={redirectSignUp} title={"Sign Up"} />
@@ -49,10 +49,10 @@ export default function Login({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: '1',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        paddingTop: '20%',
     },
     textInput: {
         alignItems: 'center',
