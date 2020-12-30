@@ -7,11 +7,6 @@ import Navigator from './Routes/Homestack';
 export default function App() {
   return (
     <Navigator />
-    // <View style={styles.container}>
-      
-      
-    // </View>
-    
   );
 }
 const styles = StyleSheet.create({
