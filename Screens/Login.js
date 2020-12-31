@@ -11,17 +11,19 @@ export default function Login({navigation}) {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
+    const [emailErrorFree, setEmailErrorFree] = useState(false);
+    const [passwordErrorFree, setPasswordErrorFree] = useState(false);
+    
     const login = () => {
-        if(email != ''){
+        console.log(email);
+        if (emailErrorFree && passwordErrorFree)
+        {
             firebase.auth().signInWithEmailAndPassword(email, password)
             .then((res) => {
                 console.log(res)
                 console.log('User logged-in successfully!')
                 navigation.navigate('Home');
             })
-        } else {
-           setEmailError("Email must not be empty!");
         }
         
     }
@@ -30,9 +32,34 @@ export default function Login({navigation}) {
         navigation.navigate('SignUp');
     }
 
-    const onChange = (type, value) =>{
-        (type == 'email') ? ((value === '') ? setEmailError("Email must not be empty!") : setemail(value)): {};
-        (type == 'password') ? ((value === '') ? setPasswordError("Password must not be empty!") : setPassword(value)): {};
+    const emailHandler = (typedText) => {
+        
+        if (typedText === '')
+        {
+            setEmailError("Email must not be empty!");
+            setEmailErrorFree(false);
+        } else {
+            setEmailError("");
+            setemail(typedText);
+            setEmailErrorFree(true);
+        }
+    }
+
+    const passwordHandler = (typedText) => {
+        //1. Empty Check
+        //2. Maximum length check
+        //3. Minimum length check
+        //4. Strength check (combinations of char and num.)
+        
+        if (typedText == '')
+        {
+            setPasswordError("Password must not be empty!");
+            setPasswordErrorFree(false);
+        } else {
+            setPasswordError("");
+            setPassword(typedText);
+            setPasswordErrorFree(true);
+        }
     }
     
     
@@ -43,26 +70,24 @@ export default function Login({navigation}) {
                 placeholder="Email" 
                 defaultValue={email}
                 error={emailError}
-                onChangeText={(value) => onChange('email',value)}
+                onChangeText={emailHandler}
             />
             <EzTextInput 
                 placeholder="Password" 
                 defaultValue={password}
                 secureTextEntry={true}
                 error={passwordError}
-                onChangeText={(value) => onChange('password', value)}
+                onChangeText={passwordHandler}
             />
             <EzButton onPress={login} title={"Login"} />
-            <EzButton onPress={redirectSignUp} title={"New User? Sign Up"} />
-            
-            
+            <EzButton onPress={redirectSignUp} title={"New User? Sign Up"} /> 
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: '1',
+        flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         paddingTop: '20%',
