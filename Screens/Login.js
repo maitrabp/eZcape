@@ -1,8 +1,7 @@
 import React from 'react'
-import {createContext, useState, useContext} from 'react';
+import {useState} from 'react';
 import { StyleSheet, View, Text, TextInput} from 'react-native'
 import EzButton from '../Components/EzButton'
-import auth from '@react-native-firebase/auth';
 import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
 
@@ -29,7 +28,7 @@ export default function Login({navigation}) {
         <View style={styles.container}>
             <Text style={styles.textInput}>Login</Text>
             <EzTextInput 
-                placeholder="email" 
+                placeholder="Email" 
                 onChangeText={email => setemail(email)}
                 defaultValue={email}
             />

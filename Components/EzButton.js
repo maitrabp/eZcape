@@ -10,22 +10,23 @@ export default function EzButton({onPress, title}) {
 }
 const styles = StyleSheet.create({
     outsideContainer: {
+        width: "80%",
         elevation: 8,
         backgroundColor: "#000000",
-        borderRadius: 10,
+        borderRadius: 5,
         paddingVertical: 10,
         paddingHorizontal: 12,
         justifyContent: "center",
-        height: "38px",
-        width: "80%",
-        marginTop: "1rem"
+        height: "35px",
+        marginBottom: "1rem"
     },
     insideText: {
-        fontSize: 10,
+        fontSize: 12,
         color: "yellow",
-        fontWeight: "bold",
+        fontWeight: "normal",
         alignSelf: "center",
-        textTransform: "uppercase"
+        textTransform: "uppercase",
+        letterSpacing: 1
     }
     
 })

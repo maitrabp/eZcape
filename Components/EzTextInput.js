@@ -1,19 +1,25 @@
 import React from 'react'
-import { StyleSheet, TextInput} from 'react-native'
+import { StyleSheet, TextInput, View, Text} from 'react-native'
 
-export default function EzTextInput({...props}) {
+export default function EzTextInput({placeholder, ...props}) {
     return (
-        <TextInput 
-            style={styles.textInput} 
-            {...props}
-        />
+        <View style = {styles.container}>
+            <Text style={{fontWeight: "bold"}}>{placeholder + ':'}</Text>
+            <TextInput 
+                style={styles.textInput} 
+                placeholder={placeholder}
+                {...props}
+            />
+        </View>
     );
 }
 const styles = StyleSheet.create({
+    container: {
+        width: "80%",
+        marginBottom: "0.8rem",
+    },
     textInput: {
-      width: "80%",
       borderRadius: 5,
-      margin: "1rem",
       height: "38px",
       borderColor: '#000000',
       borderWidth: 1,
