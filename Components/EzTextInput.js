@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, TextInput, View, Text} from 'react-native'
 
-export default function EzTextInput({placeholder, ...props}) {
+export default function EzTextInput({placeholder, error, ...props}) {
     return (
         <View style = {styles.container}>
             <Text style={{fontWeight: "bold"}}>{placeholder + ':'}</Text>
@@ -10,6 +10,7 @@ export default function EzTextInput({placeholder, ...props}) {
                 placeholder={placeholder}
                 {...props}
             />
+            <Text style={styles.error}>{error}</Text>
         </View>
     );
 }
@@ -26,6 +27,12 @@ const styles = StyleSheet.create({
       padding: 10,
       textAlign: 'center',
       fontSize: 15
+    },
+    error: {
+        color: "red",
+        fontWeight: "normal",
+        fontStyle: "italic",
+        fontSize: "10"
     }
     
 })

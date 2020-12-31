@@ -14,7 +14,8 @@ export default function SignUp() {
     const usersCollection = db.collection('Users');
 
     const submitForm = () => {
-        if(password === verifypassword && phnum.length === 10) {
+        if(password === verifypassword && 
+            phnum.length === 10) {
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((res) => {
                 res.user.updateProfile({

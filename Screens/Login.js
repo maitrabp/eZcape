@@ -9,18 +9,30 @@ import EzTextInput from '../Components/EzTextInput';
 export default function Login({navigation}) {
     const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const login = () => {
-        firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((res) => {
-            console.log(res)
-            console.log('User logged-in successfully!')
-            navigation.navigate('Home');
-        })
+        if(email != ''){
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((res) => {
+                console.log(res)
+                console.log('User logged-in successfully!')
+                navigation.navigate('Home');
+            })
+        } else {
+           setEmailError("Email must not be empty!");
+        }
+        
     }
 
     const redirectSignUp = () => {
         navigation.navigate('SignUp');
+    }
+
+    const onChange = (type, value) =>{
+        (type == 'email') ? ((value === '') ? setEmailError("Email must not be empty!") : setemail(value)): {};
+        (type == 'password') ? ((value === '') ? setPasswordError("Password must not be empty!") : setPassword(value)): {};
     }
     
     
@@ -29,17 +41,19 @@ export default function Login({navigation}) {
             <Text style={styles.textInput}>Login</Text>
             <EzTextInput 
                 placeholder="Email" 
-                onChangeText={email => setemail(email)}
                 defaultValue={email}
+                error={emailError}
+                onChangeText={(value) => onChange('email',value)}
             />
             <EzTextInput 
                 placeholder="Password" 
-                onChangeText={password => setPassword(password)}
                 defaultValue={password}
                 secureTextEntry={true}
+                error={passwordError}
+                onChangeText={(value) => onChange('password', value)}
             />
             <EzButton onPress={login} title={"Login"} />
-            <EzButton onPress={redirectSignUp} title={"Sign Up"} />
+            <EzButton onPress={redirectSignUp} title={"New User? Sign Up"} />
             
             
         </View>
