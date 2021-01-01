@@ -17,11 +17,11 @@ export default function EzTextInput({placeholder, error, ...props}) {
 const styles = StyleSheet.create({
     container: {
         width: "80%",
-        marginBottom: "0.8rem",
+        marginBottom: 10,
     },
     textInput: {
       borderRadius: 5,
-      height: "38px",
+      height: 38,
       borderColor: '#000000',
       borderWidth: 1,
       padding: 10,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         color: "red",
         fontWeight: "normal",
         fontStyle: "italic",
-        fontSize: "10"
+        fontSize: 15
     }
     
 })

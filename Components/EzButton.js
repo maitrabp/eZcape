@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 12,
         justifyContent: "center",
-        height: "35px",
-        marginBottom: "1rem"
+        height: 35,
+        marginBottom: 10
     },
     insideText: {
         fontSize: 12,

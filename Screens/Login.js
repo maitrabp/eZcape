@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     textInput: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: '1rem',
+        marginBottom: 10,
     },
     button: {
         width: "100%",
