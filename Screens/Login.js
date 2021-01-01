@@ -56,7 +56,7 @@ export default function Login({navigation}) {
     //Email validation when user clicks out of the email input field
     const emailOBvalidation = () => {
         
-        if (email.length < 2)
+        if (email.length < 1)
         {
             setEmailError("Email must not be empty!");
         } else {
@@ -71,8 +71,9 @@ export default function Login({navigation}) {
             setEmailError("Email must not be empty!");
         } else {
             setEmailError("");
-            setemail(typedText);
+            
         } 
+        setemail(typedText);
     }
     //Password validation when user clicks out of the password input field
     const passwordOBvalidation = () => {
