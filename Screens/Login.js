@@ -7,113 +7,102 @@ import EzTextInput from '../Components/EzTextInput';
 
 
 export default function Login({navigation}) {
+
+    //State Change Variables
     const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [emailErrorFree, setEmailErrorFree] = useState(false);
-    const [passwordErrorFree, setPasswordErrorFree] = useState(false);
-    
+
+    //Logging in the user(firebase)...
     const login = () => {
-        console.log(email);
         if (emailError === '' && passwordError === '')
         {
+            //Calling firebase for sign in
             firebase.auth().signInWithEmailAndPassword(email, password)
+            //Success
             .then((res) => {
-                console.log(res)
                 console.log('User logged-in successfully!')
                 navigation.navigate('Home')
             })
+            //Failure
             .catch((error) => {
+                //email format error
                 if (error.code === "auth/invalid-email")
                 {
-                    setEmailError(error.message)
-                }
+                    alert(error.message)
+                } 
+                //user validity error
                 else if (error.code === "auth/user-not-found")
                 {
-                    alert(error.message)
-                }
-                else if (error.code === "auth/invalid-password")
+                    alert("The email address you entered is not registered.");
+                } 
+                //password validity error
+                else if (error.code === "auth/wrong-password")
                 {
-                    setPasswordError(error.message)
+                    alert("The password you entered is incorrect.");
                 }
+                //other errors
                 else {
                     console.error(error)
                 }
             })
         }  
     }
-
+    //redirect to signup page..
     const redirectSignUp = () => {
         navigation.navigate('SignUp');
     }
-
+    //Email validation when user clicks out of the email input field
     const emailOBvalidation = () => {
         
         if (email.length < 2)
         {
             setEmailError("Email must not be empty!");
-            // setEmailErrorFree(false);
         } else {
             setEmailError("");
-            // setEmailErrorFree(true);
         }
     }
+    //Email validation when user makes changes in the email input field
     const emailOCTvalidation = (typedText) => {
         
         if (typedText === '')
         {
             setEmailError("Email must not be empty!");
-            // setEmailErrorFree(false);
         } else {
             setEmailError("");
             setemail(typedText);
-            // setEmailErrorFree(true);
         } 
-        //more if and else conditions to validate other things..
     }
+    //Password validation when user clicks out of the password input field
     const passwordOBvalidation = () => {
-        //1. Empty Check
-        //2. Maximum length check
-        //3. Minimum length check
-        //4. Strength check (combinations of char and num.)
-        
-        if (password.length < 2)
+        if (password.length < 1)
         {
             setPasswordError("Password must not be empty!");
-            // setPasswordErrorFree(false);
         }
         else if (password.length < 8)
         {
             setPasswordError("Password must be atleast 8 characters in length");
         } else {
             setPasswordError("");
-            // setPasswordErrorFree(true);
         }
     }
-
+    //Password validation when user makes changes in the password input field
     const passwordOCTvalidation = (typedText) => {
-        //1. Empty Check
-        //2. Maximum length check
-        //3. Minimum length check
-        //4. Strength check (combinations of char and num.)
-        
-        if (typedText == '')
+        if (typedText === '')
         {
             setPasswordError("Password must not be empty!");
-            // setPasswordErrorFree(false);
         }
         else if (typedText.length < 8)
         {
             setPasswordError("Password must be atleast 8 characters in length");
         } else {
             setPasswordError("");
-            setPassword(typedText);
-            // setPasswordErrorFree(true);
         }
+        setPassword(typedText);
     }
     
-    
+    //rendering the widgets
     return (
         <View style={styles.container}>
             <Text style={styles.textInput}>Login</Text>
@@ -137,7 +126,7 @@ export default function Login({navigation}) {
         </View>
     )
 }
-
+//Styles for Login Page
 const styles = StyleSheet.create({
     container: {
         flex: 1,
