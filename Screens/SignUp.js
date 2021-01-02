@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Text, StyleSheet } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
 import firebase, {db} from '../Firebase/firebaseConfig';
@@ -183,18 +183,20 @@ export default function SignUp() {
     } 
 
 return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
             <Text>SignUp</Text>
             <EzTextInput 
                 placeholder="Firstname"
                 onBlur = {firstNameOBvalidation} 
                 onChangeText={firstNameOCTvalidation}
+                error = {firstnameError}
                 defaultValue={firstname}
             />
             <EzTextInput 
                 placeholder="Lastname"
                 onBlur = {lastNameOBvalidation} 
                 onChangeText={lastNameOCTvalidation}
+                error = {lastnameError}
                 defaultValue={lastname}
                 
             />
@@ -202,6 +204,7 @@ return (
                 placeholder="Email" 
                 onBlur = {emailOBvalidation}
                 onChangeText={emailOCTvalidation}
+                error = {emailError}
                 defaultValue={email}
                 keyboardType = "email-address"
             />
@@ -209,6 +212,7 @@ return (
                 placeholder="Password" 
                 onBlur = {passwordOBvalidation}
                 onChangeText={passwordOCTvalidation}
+                error={passwordError}
                 defaultValue={password}
                 secureTextEntry={true}
             />
@@ -224,6 +228,7 @@ return (
                 placeholder="Address" 
                 onBlur = {addressOBvalidation}
                 onChangeText={addressOCTvalidation}
+                error={addressError}
                 defaultValue={address}
             />
             <EzTextInput 
@@ -231,13 +236,15 @@ return (
                 onBlur = {phnumOBvalidation}
                 onChangeText={phnumOCTvalidation}
                 defaultValue={phnum}
+                error={phnumError}
+                maxLength={10}
                 keyboardType = "phone-pad"
             />
             <EzButton
                 onPress={Signup}
                 title = {"Register"}
             />
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 const styles = StyleSheet.create({
