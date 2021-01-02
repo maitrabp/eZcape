@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     insideText: {
         fontSize: 12,
         color: "yellow",
-        fontWeight: "normal",
+        fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase",
         letterSpacing: 1

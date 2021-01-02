@@ -10,12 +10,23 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [verifypassword, setVerifPassword] = useState('');
     const [address, setAddress] = useState('');
-    const [phnum, setPhonenum] = useState('');
+    const [phnum, setPhnum] = useState('');
+
+    const [firstnameError, setFirstnameError] = useState('');
+    const [lastnameError, setLastnameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [addressError, setAddressError] = useState('');
+    const [phnumError, setPhnumError] = useState('');
+
+
     const usersCollection = db.collection('Users');
 
-    const submitForm = () => {
+    //Signing up the user(firebase)...
+    const Signup = () => {
         if(password === verifypassword && 
             phnum.length === 10) {
+                //Calling firebase for signup
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((res) => {
                 res.user.updateProfile({
@@ -29,56 +40,201 @@ export default function SignUp() {
                     address: address,
                     phoneNumber: phnum
                 })
-            
             })
         } else {
             console.log("Error: Passwords don't match")
         }
-        
     }
-    return (
+/*--------------------------------------------------------------ON BLUR VALIDATIONS -------------------------------------------------------------------*/
+    const emailOBvalidation = () => {
+        if (email.length < 1)
+        {
+            setEmailError("Email must not be empty!");
+        } else {
+            setEmailError("");
+        }
+    }
+
+    const firstNameOBvalidation = () => {
+        var pattern = /^[a-zA-Z]$/
+        if (firstname.length < 1)
+        {
+            setFirstnameError("First name must not be empty!");
+        }
+        else if (!pattern.test(firstname))
+        {
+            setFirstnameError("First name can only contain letters!")
+        } else {
+            setFirstnameError("");
+        }
+    }
+
+    const lastNameOBvalidation = () => {
+        var pattern = /^[a-zA-Z]$/
+        if (lastname.length < 1)
+        {
+            setLastnameError("Last name must not be empty!");
+        }else if(!pattern.test(lastname)){
+            setLastnameError("Last name can only contain letters!")
+        }
+        else {
+            setLastnameError("");
+        }
+    }
+
+    const phnumOBvalidation = () => {
+        //var pattern = /^[0-9]$/
+        if (phnum.length < 10)
+        {
+            setPhnumError("Phone number not long enough");
+        }
+        else if (phnum.length > 10)
+        {
+            setPhnumError("Phone number is too long");
+        } else {
+            setPhnumError("");
+        }
+    }
+
+    const addressOBvalidation = () => {
+        if (address.length < 1)
+        {
+            setAddressError("Address must not be empty");
+        } else {
+            setAddressError("");
+        }
+    }
+
+    const passwordOBvalidation = () => {
+        if (password.length < 1)
+        {
+            setPasswordError("Password must not be empty");
+        } else {
+            setPasswordError("");
+        }
+    }
+
+/*--------------------------------------------------------------ON CHANGE TEXT VALIDATIONS ------------------------------------------------------------*/   
+    const emailOCTvalidation = (typedText) => {
+        if (typedText === '')
+        {
+            setEmailError("Email must not be empty!")
+        } else {
+            setEmailError("");
+        }
+        setEmail(typedText);
+    }
+
+    const firstNameOCTvalidation = (typedText) => {
+        var pattern = /^[a-zA-Z]$/
+        if (typedText === '')
+        {
+            setFirstnameError("First name must not be empty!");
+        }
+        else if (!pattern.test(typedText))
+        {
+            setFirstnameError("First name can only contain letters!")
+        } else {
+            setFirstnameError("");
+        }
+        setFirstname(typedText);
+    }
+
+    const lastNameOCTvalidation = (typedText) => {
+        var pattern = /^[a-zA-Z]$/
+        if (typedText === '')
+        {
+            setLastnameError("Last name must not be empty!");
+        }
+        else if(!pattern.test(typedText)){
+            setLastnameError("Last name can only contain letters!")
+        }
+        else {
+            setLastnameError("");
+        }
+        setLastname(typedText);
+    }
+
+    const phnumOCTvalidation = (typedText) => {
+        if(typedText === '') {
+            setPhnumError("Phone number must not be empty!")
+        } else {
+            setPhnumError("");
+        }
+        setPhnum(typedText);
+    }
+
+    const addressOCTvalidation = (typedText) => {
+        if(typedText === '') {
+            setAddressError("Address must not be empty!")
+        } else {
+            setAddressError("");
+        }
+        setAddress(typedText);
+    } 
+
+    const passwordOCTvalidation = (typedText) => {
+        if(typedText === '') {
+            setPasswordError("Password must not be empty!")
+        } else {
+            setPasswordError("");
+        }
+        setPassword(typedText);
+    } 
+
+return (
         <View style={styles.container}>
             <Text>SignUp</Text>
             <EzTextInput 
-                placeholder="Firstname" 
-                onChangeText={firstname => setFirstname(firstname)}
+                placeholder="Firstname"
+                onBlur = {firstNameOBvalidation} 
+                onChangeText={firstNameOCTvalidation}
                 defaultValue={firstname}
             />
             <EzTextInput 
-                placeholder="Lastname" 
-                onChangeText={lastname => setLastname(lastname)}
+                placeholder="Lastname"
+                onBlur = {lastNameOBvalidation} 
+                onChangeText={lastNameOCTvalidation}
                 defaultValue={lastname}
+                
             />
             <EzTextInput 
                 placeholder="Email" 
-                onChangeText={email => setEmail(email)}
+                onBlur = {emailOBvalidation}
+                onChangeText={emailOCTvalidation}
                 defaultValue={email}
+                keyboardType = "email-address"
             />
             <EzTextInput 
                 placeholder="Password" 
-                onChangeText={password => setPassword(password)}
+                onBlur = {passwordOBvalidation}
+                onChangeText={passwordOCTvalidation}
                 defaultValue={password}
                 secureTextEntry={true}
             />
             <EzTextInput 
-                placeholder="Verify Password" 
-                onChangeText={verifypassword => setVerifPassword(verifypassword)}
+                placeholder="Verify Password"
+                onBlue = {passwordOBvalidation} 
+                onChangeText={passwordOCTvalidation}
                 defaultValue={verifypassword}
                 secureTextEntry={true}
             />
             
             <EzTextInput 
                 placeholder="Address" 
-                onChangeText={address => setAddress(address)}
+                onBlur = {addressOBvalidation}
+                onChangeText={addressOCTvalidation}
                 defaultValue={address}
             />
             <EzTextInput 
                 placeholder="Phone Number" 
-                onChangeText={phnum => setPhonenum(phnum)}
+                onBlur = {phnumOBvalidation}
+                onChangeText={phnumOCTvalidation}
                 defaultValue={phnum}
+                keyboardType = "phone-pad"
             />
             <EzButton
-                onPress={submitForm}
+                onPress={Signup}
                 title = {"Register"}
             />
         </View>
