@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import { KeyboardAvoidingView, Text, StyleSheet } from 'react-native'
+import {View, Text, StyleSheet } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
 import EzPhoneInput from '../Components/EzPhoneInput'
 import firebase, {db} from '../Firebase/firebaseConfig';
 import { formatPhoneNumber } from 'react-phone-number-input'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 export default function SignUp() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -51,18 +52,28 @@ export default function SignUp() {
 
     function formatPhoneNum(text)
     {
+        let formatted = '';
         var cleaned = ('' + text).replace(/\D/g, '')
-        var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
-        if (match) {
-            var intlCode = (match[1] ? '+1 ' : ''),
-                number = [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
-
-            setPhnum(number);
-
-            return;
+        for(var i = 0; i < cleaned.length; i++){
+            if(i==0){
+                formatted = '(';
+            } else if(i == 3){
+                formatted = formatted + ') ';
+            } else if(i == 6){
+                formatted = formatted + '-';
+            }
+            formatted = formatted + cleaned[i];
         }
-
-        setPhnum(text);
+        setPhnum(formatted);
+    }
+    //Use this when we store the phone number into the database..
+    function unformatPhoneNum(text){
+        let unformatted = '';
+        unformatted = text.replace('(', '');
+        unformatted = unformatted.replace(')', '');
+        unformatted = unformatted.replace('-', '');
+        unformatted  = unformatted.replace(' ', '');
+        setPhnum(unformatted);
     }
 
 /*--------------------------------------------------------------ON BLUR VALIDATIONS -------------------------------------------------------------------*/
@@ -104,11 +115,11 @@ export default function SignUp() {
 
     const phnumOBvalidation = () => {
         //var pattern = /^[0-9]$/
-        if (phnum.length < 10)
+        if (phnum.length < 14)
         {
             setPhnumError("Phone number not long enough");
         }
-        else if (phnum.length > 10)
+        else if (phnum.length > 14)
         {
             setPhnumError("Phone number is too long");
         } else {
@@ -141,7 +152,7 @@ export default function SignUp() {
 
     const verifyPasswordOBvalidation = () => {
         if(verifypassword === '') {
-            setVerifyPasswordError("Verifying password must not be empty!")
+            setVerifyPasswordError("Verification password must not be empty!")
         } else {
             setVerifyPasswordError("");
         }
@@ -194,7 +205,7 @@ export default function SignUp() {
         } else {
             setPhnumError("");
         }
-        setPhnum(typedText);
+        formatPhoneNum(typedText)
     }
 
     const addressOCTvalidation = (typedText) => {
@@ -221,7 +232,7 @@ export default function SignUp() {
 
     const verifyPasswordOCTvalidation = (typedText) => {
         if(typedText === '') {
-            setVerifyPasswordError("Verifying password must not be empty!")
+            setVerifyPasswordError("Verification password must not be empty!")
         } else {
             setVerifyPasswordError("");
         }
@@ -231,7 +242,7 @@ export default function SignUp() {
 
 
 return (
-        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <KeyboardAwareScrollView contentContainerStyle={styles.container} extraHeight={150} enableOnAndroid>
             <Text>SignUp</Text>
             <EzTextInput 
                 placeholder="Firstname"
@@ -286,7 +297,7 @@ return (
                 onChangeText={phnumOCTvalidation}
                 value={phnum}
                 error={phnumError}
-                maxLength={10}
+                maxLength={14}
                 keyboardType = "phone-pad"
             />
             {/* <EzPhoneInput
@@ -300,14 +311,14 @@ return (
                 onPress={Signup}
                 title = {"Register"}
             />
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
     )
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
+        alignItems:"center",
         paddingTop: '5%',
     },
 })

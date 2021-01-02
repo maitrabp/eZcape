@@ -1824,6 +1824,11 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@react-native-community/masked-view@^0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
+  integrity sha512-rk4sWFsmtOw8oyx8SD3KSvawwaK7gRBSEIy2TAwURyGt+3TizssXP1r8nx3zY+R7v2vYYHXZ+k2/GULAT/bcaQ==
+
 "@react-native-firebase/app@^10.4.0":
   version "10.4.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-10.4.0.tgz#f0de2117ac36f58abb690c7b0560207b42d80482"
@@ -2759,6 +2764,11 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@^2.2.5:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
+
 cli-cursor@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
@@ -3018,6 +3028,11 @@ cosmiconfig@^5.0.5, cosmiconfig@^5.1.0:
     is-directory "^0.3.1"
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
+
+country-flag-icons@^1.0.2:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/country-flag-icons/-/country-flag-icons-1.2.8.tgz#5c7f6834f364e56a43d7f390d0aaeda29a170d54"
+  integrity sha512-6Cu1S6+ut8yij7i3vsBdjqCIumiyJ7snJIuilFfaMXHQYOlFykjZfrXUTIGLt6jGHoeVmnNTeEszN6tQjAoxiQ==
 
 create-react-class@^15.6.2:
   version "15.7.0"
@@ -4401,6 +4416,13 @@ inline-style-prefixer@^5.1.0:
   dependencies:
     css-in-js-utils "^2.0.0"
 
+input-format@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/input-format/-/input-format-0.3.2.tgz#5cd21ba4fc01c84971d83e39939cb568d1f2913b"
+  integrity sha512-fjLWtM0VKVj6DZ4WaEP2qKc55e65yMvs6kxNrvuw2npfs4b2R9mXtBh6jyFa9tFeLsYwCPbY4l5vhMJqyweYwQ==
+  dependencies:
+    prop-types "^15.7.2"
+
 inquirer@^3.0.6:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-3.3.0.tgz#9dd2f2ad765dcab1ff0443b491442a20ba227dc9"
@@ -5469,6 +5491,11 @@ levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+libphonenumber-js@^1.9.6:
+  version "1.9.6"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.6.tgz#cdab0552a6705c5a5c1d69db15be9562b248591e"
+  integrity sha512-Ob419L88HxP3iVXPMI1Z/146izHrUPcV70ClnoP9WyNBgdy6mtlkCxx4ewMDmCzsdY5D4diDOUz8kboqLdKBoQ==
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
@@ -6962,6 +6989,17 @@ react-navigation@^4.4.3:
   dependencies:
     "@react-navigation/core" "^3.7.9"
     "@react-navigation/native" "^3.8.3"
+
+react-phone-number-input@^3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.1.8.tgz#8c9d01483e80c0d67ad12d81fee68079fd3aa0e3"
+  integrity sha512-wZMYW69JgxHWvbwx3ZZfvWFVav41ujT27k47fPGSVDw3zexTxkIG8ZUP5bYPLdEWUA1YnIVnm7ymvS7FqWRG9w==
+  dependencies:
+    classnames "^2.2.5"
+    country-flag-icons "^1.0.2"
+    input-format "^0.3.1"
+    libphonenumber-js "^1.9.6"
+    prop-types "^15.7.2"
 
 react-refresh@^0.4.0:
   version "0.4.3"

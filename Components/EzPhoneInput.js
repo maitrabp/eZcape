@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet, View, Text} from 'react-native'
-import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
 export default function EzPhoneInput({placeholder, error, ...props}) {
