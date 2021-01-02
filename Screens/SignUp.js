@@ -2,13 +2,15 @@ import React, {useState} from 'react'
 import { KeyboardAvoidingView, Text, StyleSheet } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
+import EzPhoneInput from '../Components/EzPhoneInput'
 import firebase, {db} from '../Firebase/firebaseConfig';
+import { formatPhoneNumber } from 'react-phone-number-input'
 export default function SignUp() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [verifypassword, setVerifPassword] = useState('');
+    const [verifypassword, setVerifyPassword] = useState('');
     const [address, setAddress] = useState('');
     const [phnum, setPhnum] = useState('');
 
@@ -16,6 +18,7 @@ export default function SignUp() {
     const [lastnameError, setLastnameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [verifyPasswordError, setVerifyPasswordError] = useState('');
     const [addressError, setAddressError] = useState('');
     const [phnumError, setPhnumError] = useState('');
 
@@ -45,6 +48,23 @@ export default function SignUp() {
             console.log("Error: Passwords don't match")
         }
     }
+
+    function formatPhoneNum(text)
+    {
+        var cleaned = ('' + text).replace(/\D/g, '')
+        var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
+        if (match) {
+            var intlCode = (match[1] ? '+1 ' : ''),
+                number = [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+
+            setPhnum(number);
+
+            return;
+        }
+
+        setPhnum(text);
+    }
+
 /*--------------------------------------------------------------ON BLUR VALIDATIONS -------------------------------------------------------------------*/
     const emailOBvalidation = () => {
         if (email.length < 1)
@@ -56,7 +76,7 @@ export default function SignUp() {
     }
 
     const firstNameOBvalidation = () => {
-        var pattern = /^[a-zA-Z]$/
+        var pattern = /^[a-zA-Z]+$/
         if (firstname.length < 1)
         {
             setFirstnameError("First name must not be empty!");
@@ -70,7 +90,7 @@ export default function SignUp() {
     }
 
     const lastNameOBvalidation = () => {
-        var pattern = /^[a-zA-Z]$/
+        var pattern = /^[a-zA-Z]+$/
         if (lastname.length < 1)
         {
             setLastnameError("Last name must not be empty!");
@@ -94,6 +114,7 @@ export default function SignUp() {
         } else {
             setPhnumError("");
         }
+        // setPhnum(formatPhoneNumber('+1' + phnum));
     }
 
     const addressOBvalidation = () => {
@@ -109,10 +130,22 @@ export default function SignUp() {
         if (password.length < 1)
         {
             setPasswordError("Password must not be empty");
+        }
+        else if (password.length < 8)
+        {
+            setPasswordError("Password must be atleast 8 characters in length");
         } else {
             setPasswordError("");
         }
     }
+
+    const verifyPasswordOBvalidation = () => {
+        if(verifypassword === '') {
+            setVerifyPasswordError("Verifying password must not be empty!")
+        } else {
+            setVerifyPasswordError("");
+        }
+    } 
 
 /*--------------------------------------------------------------ON CHANGE TEXT VALIDATIONS ------------------------------------------------------------*/   
     const emailOCTvalidation = (typedText) => {
@@ -126,7 +159,7 @@ export default function SignUp() {
     }
 
     const firstNameOCTvalidation = (typedText) => {
-        var pattern = /^[a-zA-Z]$/
+        var pattern = /^[a-zA-Z]+$/
         if (typedText === '')
         {
             setFirstnameError("First name must not be empty!");
@@ -141,7 +174,7 @@ export default function SignUp() {
     }
 
     const lastNameOCTvalidation = (typedText) => {
-        var pattern = /^[a-zA-Z]$/
+        var pattern = /^[a-zA-Z]+$/
         if (typedText === '')
         {
             setLastnameError("Last name must not be empty!");
@@ -176,11 +209,26 @@ export default function SignUp() {
     const passwordOCTvalidation = (typedText) => {
         if(typedText === '') {
             setPasswordError("Password must not be empty!")
+        }
+        else if (password.length < 8)
+        {
+            setPasswordError("Password must be atleast 8 characters in length");
         } else {
             setPasswordError("");
         }
         setPassword(typedText);
     } 
+
+    const verifyPasswordOCTvalidation = (typedText) => {
+        if(typedText === '') {
+            setVerifyPasswordError("Verifying password must not be empty!")
+        } else {
+            setVerifyPasswordError("");
+        }
+        setVerifyPassword(typedText);
+    } 
+
+
 
 return (
         <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -218,8 +266,9 @@ return (
             />
             <EzTextInput 
                 placeholder="Verify Password"
-                onBlue = {passwordOBvalidation} 
-                onChangeText={passwordOCTvalidation}
+                onBlur = {verifyPasswordOBvalidation} 
+                onChangeText={verifyPasswordOCTvalidation}
+                error={verifyPasswordError}
                 defaultValue={verifypassword}
                 secureTextEntry={true}
             />
@@ -235,11 +284,18 @@ return (
                 placeholder="Phone Number" 
                 onBlur = {phnumOBvalidation}
                 onChangeText={phnumOCTvalidation}
-                defaultValue={phnum}
+                value={phnum}
                 error={phnumError}
                 maxLength={10}
                 keyboardType = "phone-pad"
             />
+            {/* <EzPhoneInput
+                placeholder="Enter phone number"
+                value={phnum}
+                defaultCountry="US"
+                maxLength={14}
+                onChange={setPhnum}
+            /> */}
             <EzButton
                 onPress={Signup}
                 title = {"Register"}
