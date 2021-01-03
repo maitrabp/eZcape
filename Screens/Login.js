@@ -22,7 +22,6 @@ export default function Login({navigation}) {
             firebase.auth().signInWithEmailAndPassword(email, password)
             //Success
             .then((res) => {
-                console.log('User logged-in successfully!')
                 navigation.navigate('Home')
             })
             //Failure

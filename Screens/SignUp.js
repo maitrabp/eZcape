@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet, Alert } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
-import EzPhoneInput from '../Components/EzPhoneInput'
 import firebase, {db} from '../Firebase/firebaseConfig';
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -40,8 +39,6 @@ export default function SignUp({navigation}) {
                 res.user.updateProfile({
                     displayName: firstname + ' ' + lastname
                 })
-                console.log(res)
-                console.log('User has been registered successfully! ' + res.user.uid)
                 usersCollection.doc(res.user.uid).set({
                     firstName: firstname,
                     lastName: lastname,
@@ -53,7 +50,6 @@ export default function SignUp({navigation}) {
                 })
             })
             .catch((err) => {
-                console.log(err)
                 if(err.code == 'auth/invalid-email')
                     alert(err.message)
                 else if(err.code == "auth/email-already-in-use")
@@ -89,7 +85,6 @@ export default function SignUp({navigation}) {
         unformatted = unformatted.replace(')', '');
         unformatted = unformatted.replace('-', '');
         unformatted  = unformatted.replace(' ', '');
-        console.log(unformatted)
         
         return unformatted;
     }
@@ -322,13 +317,6 @@ return (
                     maxLength={14}
                     keyboardType = "phone-pad"
                 />
-                {/* <EzPhoneInput
-                    placeholder="Enter phone number"
-                    value={phnum}
-                    defaultCountry="US"
-                    maxLength={14}
-                    onChange={setPhnum}
-                /> */}
                 <EzButton
                     onPress={Signup}
                     title = {"Register"}
