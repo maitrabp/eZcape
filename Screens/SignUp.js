@@ -242,7 +242,7 @@ export default function SignUp({navigation}) {
         if(typedText === '') {
             setPasswordError("Password must not be empty!")
         }
-        else if (password.length < 8)
+        else if (typedText.length < 8)
         {
             setPasswordError("Password must be atleast 8 characters in length");
         } else {
