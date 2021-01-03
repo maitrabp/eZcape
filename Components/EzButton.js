@@ -10,7 +10,7 @@ export default function EzButton({onPress, title}) {
 }
 const styles = StyleSheet.create({
     outsideContainer: {
-        width: "80%",
+        width: "90%",
         elevation: 8,
         backgroundColor: "#000000",
         borderRadius: 5,

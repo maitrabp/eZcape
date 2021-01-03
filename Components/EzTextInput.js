@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, TextInput, View, Text} from 'react-native'
+import * as Animatable from 'react-native-animatable';
 
 export default function EzTextInput({placeholder, error, ...props}) {
     return (
@@ -10,18 +11,19 @@ export default function EzTextInput({placeholder, error, ...props}) {
                 placeholder={placeholder}
                 {...props}
             />
-            <Text style={styles.error}>{error}</Text>
+            {error ? <Animatable.Text animation="slideInLeft" duration={500} style={styles.error}>{error}</Animatable.Text>: error=null}
+            
         </View>
     );
 }
 const styles = StyleSheet.create({
     container: {
-        width: "80%",
+        width: "90%",
         marginBottom: 10,
     },
     textInput: {
       borderRadius: 5,
-      height: 38,
+      height: 39,
       borderColor: '#000000',
       borderWidth: 1,
       padding: 10,
