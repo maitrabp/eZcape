@@ -30,8 +30,10 @@ export default function SignUp() {
 
     //Signing up the user(firebase)...
     const Signup = () => {
-        if(password === verifypassword && 
-            phnum.length === 10) {
+        
+        //Unformat phone number before storing it in DB..
+        var unformattedPhoneNumber = unformatPhoneNum(phnum);
+        if((password === verifypassword) && (firstnameError === '') && (lastnameError === '') && (addressError === '') && (phnumError === '' && unformattedPhoneNumber.length === 10)) {
                 //Calling firebase for signup
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((res) => {
@@ -44,11 +46,16 @@ export default function SignUp() {
                     firstName: firstname,
                     lastName: lastname,
                     address: address,
-                    phoneNumber: phnum
+                    phoneNumber: unformattedPhoneNumber
                 })
             })
+            .catch((err) => {
+                console.log(err)
+                if(err.code == 'auth/invalid-email')
+                    alert(err.message)
+            })
         } else {
-            console.log("Error: Passwords don't match")
+            alert("Before submitting, Please make sure all fields are filled without any errors!");
         }
     }
 
@@ -70,12 +77,14 @@ export default function SignUp() {
     }
     //Use this when we store the phone number into the database..
     function unformatPhoneNum(text){
-        let unformatted = '';
+        var unformatted = '';
         unformatted = text.replace('(', '');
         unformatted = unformatted.replace(')', '');
         unformatted = unformatted.replace('-', '');
         unformatted  = unformatted.replace(' ', '');
-        setPhnum(unformatted);
+        console.log(unformatted)
+        
+        return unformatted;
     }
 
 /*--------------------------------------------------------------ON BLUR VALIDATIONS -------------------------------------------------------------------*/
@@ -155,8 +164,11 @@ export default function SignUp() {
     const verifyPasswordOBvalidation = () => {
         if(verifypassword === '') {
             setVerifyPasswordError("Verification password must not be empty!")
-        } else {
-            setVerifyPasswordError("");
+        } else if(verifypassword != password) {
+            setVerifyPasswordError("Re-entered password does not match with original!")
+        } 
+        else {
+            setVerifyPasswordError("Passwords matched!");
         }
     } 
 

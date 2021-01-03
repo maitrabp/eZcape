@@ -3,6 +3,12 @@ import { StyleSheet, TextInput, View, Text} from 'react-native'
 import * as Animatable from 'react-native-animatable';
 
 export default function EzTextInput({placeholder, error, ...props}) {
+    var errorStyling;
+    if(error === "Passwords matched!") {
+        errorStyling = styles.success;
+    } else {
+        errorStyling = styles.error;
+    }
     return (
         <View style = {styles.container}>
             <Text style={{fontWeight: "bold"}}>{placeholder + ':'}</Text>
@@ -11,7 +17,7 @@ export default function EzTextInput({placeholder, error, ...props}) {
                 placeholder={placeholder}
                 {...props}
             />
-            {error ? <Animatable.Text animation="slideInLeft" duration={500} style={styles.error}>{error}</Animatable.Text>: error=null}
+            {error ? <Animatable.Text animation="slideInLeft" duration={500} style={errorStyling}>{error}</Animatable.Text>: error=null}
             
         </View>
     );
@@ -32,6 +38,11 @@ const styles = StyleSheet.create({
     },
     error: {
         color: "red",
+        fontWeight: "normal",
+        fontSize: 15
+    },
+    success: {
+        color: "green",
         fontWeight: "normal",
         fontSize: 15
     }
