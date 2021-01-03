@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet } from 'react-native'
+import {View, Text, StyleSheet, Alert } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
 import EzPhoneInput from '../Components/EzPhoneInput'
@@ -8,7 +8,7 @@ import { formatPhoneNumber } from 'react-phone-number-input'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as Animatable from 'react-native-animatable';
 
-export default function SignUp() {
+export default function SignUp({navigation}) {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
@@ -47,11 +47,18 @@ export default function SignUp() {
                     lastName: lastname,
                     address: address,
                     phoneNumber: unformattedPhoneNumber
+                }).then((res) => {
+                    alert("You have been successfully registered with eZcape! Enjoy!")
+                    navigation.navigate("Login")
                 })
             })
             .catch((err) => {
                 console.log(err)
                 if(err.code == 'auth/invalid-email')
+                    alert(err.message)
+                else if(err.code == "auth/email-already-in-use")
+                    alert(err.message)
+                else
                     alert(err.message)
             })
         } else {
