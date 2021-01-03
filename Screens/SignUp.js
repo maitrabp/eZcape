@@ -119,11 +119,11 @@ export default function SignUp() {
         //var pattern = /^[0-9]$/
         if (phnum.length < 14)
         {
-            setPhnumError("A valid phone number is 10 digits!");
+            setPhnumError("Phone number should be 10 digits!");
         }
         else if (phnum.length > 14)
         {
-            setPhnumError("A valid phone number is 10 digits!");
+            setPhnumError("Phone number should be 10 digits!");
         } else {
             setPhnumError("");
         }
@@ -244,8 +244,8 @@ export default function SignUp() {
 
 
 return (
-        <Animatable.View animation = "fadeInDown" duration={1000}>
-            <KeyboardAwareScrollView contentContainerStyle={styles.container} extraHeight={150} enableOnAndroid>
+        <KeyboardAwareScrollView contentContainerStyle={{flex:1, backgroundColor:"white"}} extraHeight={150} enableOnAndroid>
+            <Animatable.View animation = "fadeInDown" style = {styles.container} duration={1000}>
                 <Text>SignUp</Text>
                 <EzTextInput 
                     placeholder="Firstname"
@@ -314,14 +314,13 @@ return (
                     onPress={Signup}
                     title = {"Register"}
                 />
-            </KeyboardAwareScrollView>
-        </Animatable.View>
+            </Animatable.View>
+        </KeyboardAwareScrollView>
+        
     )
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
         alignItems:"center",
         paddingTop: '5%',
     },

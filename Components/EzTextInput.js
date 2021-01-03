@@ -23,17 +23,16 @@ const styles = StyleSheet.create({
     },
     textInput: {
       borderRadius: 5,
-      height: 39,
+      height: 40,
       borderColor: '#000000',
       borderWidth: 1,
-      padding: 10,
+      padding: 8,
       textAlign: 'center',
       fontSize: 15
     },
     error: {
         color: "red",
         fontWeight: "normal",
-        fontStyle: "italic",
         fontSize: 15
     }
     
