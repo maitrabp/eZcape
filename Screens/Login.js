@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TextInput} from 'react-native'
 import EzButton from '../Components/EzButton'
 import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
-
+import * as Animatable from 'react-native-animatable';
 
 export default function Login({navigation}) {
 
@@ -105,7 +105,7 @@ export default function Login({navigation}) {
     
     //rendering the widgets
     return (
-        <View style={styles.container}>
+        <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
             <Text style={styles.textInput}>Login</Text>
             <EzTextInput 
                 placeholder="Email" 
@@ -124,7 +124,7 @@ export default function Login({navigation}) {
             />
             <EzButton onPress={login} title={"Login"} />
             <EzButton onPress={redirectSignUp} title={"New User? Sign Up"} /> 
-        </View>
+        </Animatable.View>
     )
 }
 //Styles for Login Page

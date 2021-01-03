@@ -6,6 +6,8 @@ import EzPhoneInput from '../Components/EzPhoneInput'
 import firebase, {db} from '../Firebase/firebaseConfig';
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import * as Animatable from 'react-native-animatable';
+
 export default function SignUp() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -117,11 +119,11 @@ export default function SignUp() {
         //var pattern = /^[0-9]$/
         if (phnum.length < 14)
         {
-            setPhnumError("Phone number not long enough");
+            setPhnumError("A valid phone number is 10 digits!");
         }
         else if (phnum.length > 14)
         {
-            setPhnumError("Phone number is too long");
+            setPhnumError("A valid phone number is 10 digits!");
         } else {
             setPhnumError("");
         }
@@ -242,76 +244,78 @@ export default function SignUp() {
 
 
 return (
-        <KeyboardAwareScrollView contentContainerStyle={styles.container} extraHeight={150} enableOnAndroid>
-            <Text>SignUp</Text>
-            <EzTextInput 
-                placeholder="Firstname"
-                onBlur = {firstNameOBvalidation} 
-                onChangeText={firstNameOCTvalidation}
-                error = {firstnameError}
-                defaultValue={firstname}
-            />
-            <EzTextInput 
-                placeholder="Lastname"
-                onBlur = {lastNameOBvalidation} 
-                onChangeText={lastNameOCTvalidation}
-                error = {lastnameError}
-                defaultValue={lastname}
+        <Animatable.View animation = "fadeInDown" duration={1000}>
+            <KeyboardAwareScrollView contentContainerStyle={styles.container} extraHeight={150} enableOnAndroid>
+                <Text>SignUp</Text>
+                <EzTextInput 
+                    placeholder="Firstname"
+                    onBlur = {firstNameOBvalidation} 
+                    onChangeText={firstNameOCTvalidation}
+                    error = {firstnameError}
+                    defaultValue={firstname}
+                />
+                <EzTextInput 
+                    placeholder="Lastname"
+                    onBlur = {lastNameOBvalidation} 
+                    onChangeText={lastNameOCTvalidation}
+                    error = {lastnameError}
+                    defaultValue={lastname}
+                    
+                />
+                <EzTextInput 
+                    placeholder="Email" 
+                    onBlur = {emailOBvalidation}
+                    onChangeText={emailOCTvalidation}
+                    error = {emailError}
+                    defaultValue={email}
+                    keyboardType = "email-address"
+                />
+                <EzTextInput 
+                    placeholder="Password" 
+                    onBlur = {passwordOBvalidation}
+                    onChangeText={passwordOCTvalidation}
+                    error={passwordError}
+                    defaultValue={password}
+                    secureTextEntry={true}
+                />
+                <EzTextInput 
+                    placeholder="Verify Password"
+                    onBlur = {verifyPasswordOBvalidation} 
+                    onChangeText={verifyPasswordOCTvalidation}
+                    error={verifyPasswordError}
+                    defaultValue={verifypassword}
+                    secureTextEntry={true}
+                />
                 
-            />
-            <EzTextInput 
-                placeholder="Email" 
-                onBlur = {emailOBvalidation}
-                onChangeText={emailOCTvalidation}
-                error = {emailError}
-                defaultValue={email}
-                keyboardType = "email-address"
-            />
-            <EzTextInput 
-                placeholder="Password" 
-                onBlur = {passwordOBvalidation}
-                onChangeText={passwordOCTvalidation}
-                error={passwordError}
-                defaultValue={password}
-                secureTextEntry={true}
-            />
-            <EzTextInput 
-                placeholder="Verify Password"
-                onBlur = {verifyPasswordOBvalidation} 
-                onChangeText={verifyPasswordOCTvalidation}
-                error={verifyPasswordError}
-                defaultValue={verifypassword}
-                secureTextEntry={true}
-            />
-            
-            <EzTextInput 
-                placeholder="Address" 
-                onBlur = {addressOBvalidation}
-                onChangeText={addressOCTvalidation}
-                error={addressError}
-                defaultValue={address}
-            />
-            <EzTextInput 
-                placeholder="Phone Number" 
-                onBlur = {phnumOBvalidation}
-                onChangeText={phnumOCTvalidation}
-                value={phnum}
-                error={phnumError}
-                maxLength={14}
-                keyboardType = "phone-pad"
-            />
-            {/* <EzPhoneInput
-                placeholder="Enter phone number"
-                value={phnum}
-                defaultCountry="US"
-                maxLength={14}
-                onChange={setPhnum}
-            /> */}
-            <EzButton
-                onPress={Signup}
-                title = {"Register"}
-            />
-        </KeyboardAwareScrollView>
+                <EzTextInput 
+                    placeholder="Address" 
+                    onBlur = {addressOBvalidation}
+                    onChangeText={addressOCTvalidation}
+                    error={addressError}
+                    defaultValue={address}
+                />
+                <EzTextInput 
+                    placeholder="Phone Number" 
+                    onBlur = {phnumOBvalidation}
+                    onChangeText={phnumOCTvalidation}
+                    value={phnum}
+                    error={phnumError}
+                    maxLength={14}
+                    keyboardType = "phone-pad"
+                />
+                {/* <EzPhoneInput
+                    placeholder="Enter phone number"
+                    value={phnum}
+                    defaultCountry="US"
+                    maxLength={14}
+                    onChange={setPhnum}
+                /> */}
+                <EzButton
+                    onPress={Signup}
+                    title = {"Register"}
+                />
+            </KeyboardAwareScrollView>
+        </Animatable.View>
     )
 }
 const styles = StyleSheet.create({
