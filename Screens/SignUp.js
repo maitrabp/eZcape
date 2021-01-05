@@ -44,9 +44,13 @@ export default function SignUp({navigation}) {
                     lastName: lastname,
                     address: address,
                     phoneNumber: unformattedPhoneNumber
-                }).then((res) => {
-                    alert("You have been successfully registered with eZcape! Enjoy!")
-                    navigation.navigate("Login")
+                }).then((res2) => {
+                    res.user.sendEmailVerification()
+                    .then(()=> {
+                        alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
+                        navigation.navigate("Login")
+                    });
+                    
                 })
             })
             .catch((err) => {

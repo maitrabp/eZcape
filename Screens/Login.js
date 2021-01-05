@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, TextInput} from 'react-native'
 import EzButton from '../Components/EzButton'
 import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
+import EzTextLink from '../Components/EzTextLink';
 import * as Animatable from 'react-native-animatable';
 
 export default function Login({navigation}) {
@@ -22,7 +23,13 @@ export default function Login({navigation}) {
             firebase.auth().signInWithEmailAndPassword(email, password)
             //Success
             .then((res) => {
-                navigation.navigate('Home')
+                if(!res.user.emailVerified){
+                    console.log("Signing out cuz you ain't verified bitch!");
+                    firebase.auth().signOut();
+                    //sign out code
+                } else {
+                    navigation.navigate('Home')
+                }
             })
             //Failure
             .catch((error) => {
@@ -52,6 +59,11 @@ export default function Login({navigation}) {
     const redirectSignUp = () => {
         navigation.navigate('SignUp');
     }
+
+    const redirectPasswordReset = () => {
+        navigation.navigate('PasswordReset');
+    }
+
     //Email validation when user clicks out of the email input field
     const emailOBvalidation = () => {
         
@@ -122,7 +134,10 @@ export default function Login({navigation}) {
                 onChangeText={passwordOCTvalidation}
             />
             <EzButton onPress={login} title={"Login"} />
-            <EzButton onPress={redirectSignUp} title={"New User? Sign Up"} /> 
+            <View style={styles.linkContainer}>
+                <EzTextLink onPress={redirectSignUp} title={"Create an Account"} /> 
+                <EzTextLink onPress={redirectPasswordReset} title={"Forgot Password?"} /> 
+            </View>         
         </Animatable.View>
     )
 }
@@ -134,6 +149,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: '20%',
     },
+    linkContainer: {
+        width: "90%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        paddingTop: "1%"
+    },
     textInput: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -142,4 +164,5 @@ const styles = StyleSheet.create({
     button: {
         width: "100%",
     }
+
   });
