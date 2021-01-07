@@ -23,10 +23,13 @@ export default function Login({navigation}) {
             firebase.auth().signInWithEmailAndPassword(email, password)
             //Success
             .then((res) => {
-                //NOT DONE (CHECK LATER)
                 if(!res.user.emailVerified){
-                    alert("Sorry. You cannot login because your email is not verified.");
                     firebase.auth().signOut();
+                    res.user.sendEmailVerification()
+                    .then(()=> {
+                        alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
+                        navigation.navigate("Login")
+                    });
                     //sign out code
                 } else {
                     navigation.navigate('Home')
