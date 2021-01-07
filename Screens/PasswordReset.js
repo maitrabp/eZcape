@@ -68,7 +68,7 @@ export default function Login({navigation}) {
     //rendering the widgets
     return (
         <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
-            <Text style={styles.textInput}>Login</Text>
+            <Text style={styles.textInput}>Reset Password</Text>
             <EzTextInput 
                 placeholder="Email" 
                 defaultValue={email}

@@ -23,8 +23,9 @@ export default function Login({navigation}) {
             firebase.auth().signInWithEmailAndPassword(email, password)
             //Success
             .then((res) => {
+                //NOT DONE (CHECK LATER)
                 if(!res.user.emailVerified){
-                    console.log("Signing out cuz you ain't verified bitch!");
+                    alert("Signing out cuz you ain't verified bitch!");
                     firebase.auth().signOut();
                     //sign out code
                 } else {
