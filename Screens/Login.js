@@ -24,15 +24,11 @@ export default function Login({navigation}) {
             //Success
             .then((res) => {
                 if(!res.user.emailVerified){
-                    firebase.auth().signOut();
-                    res.user.sendEmailVerification()
-                    .then(()=> {
-                        alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
-                        navigation.navigate("Login")
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    })
+                    // firebase.auth().signOut();
+                    // res.user.sendEmailVerification()
+                    navigation.navigate("Email Verification")
+                    // alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
+                      
                     //sign out code
                 } else {
                     navigation.navigate('Home')
@@ -64,11 +60,15 @@ export default function Login({navigation}) {
     }
     //redirect to signup page..
     const redirectSignUp = () => {
-        navigation.navigate('SignUp');
+        navigation.navigate('Sign Up');
     }
 
     const redirectPasswordReset = () => {
-        navigation.navigate('PasswordReset');
+        navigation.navigate('Password Reset');
+    }
+
+    const redirectEmailVerification = () => {
+        navigation.navigate('Email Verification');
     }
 
     //Email validation when user clicks out of the email input field
@@ -143,7 +143,6 @@ export default function Login({navigation}) {
             <EzButton onPress={login} title={"Login"} />
             <View style={styles.linkContainer}>
                 <EzTextLink onPress={redirectSignUp} title={"Create Account"} /> 
-                <EzTextLink title="Re-send Verification Email" />
                 <EzTextLink onPress={redirectPasswordReset} title={"Forgot Password?"} /> 
             </View>         
         </Animatable.View>
@@ -160,8 +159,8 @@ const styles = StyleSheet.create({
     linkContainer: {
         width: "90%",
         display: "flex",
-        alignItems: 'center',
-        flexDirection: "column",
+        flexDirection: "row",
+        justifyContent: "space-between",
         padding: "1%"
     },
     textInput: {

@@ -4,19 +4,23 @@ import Login from '../Screens/Login';
 import SignUp from '../Screens/SignUp';
 import PasswordReset from '../Screens/PasswordReset';
 import Home from '../Screens/Home';
+import EmailVerification from '../Screens/EmailVerification';
 
 const screens = {
-    Login: {
+    "Login": {
         screen: Login
     },
-    SignUp: {
+    "Sign Up": {
         screen: SignUp
     },
-    PasswordReset: {
+    "Password Reset": {
         screen: PasswordReset
     },
-    Home: {
+    "Home": {
         screen: Home
+    },
+    "Email Verification": {
+        screen: EmailVerification
     }
 }
 

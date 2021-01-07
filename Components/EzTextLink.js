@@ -14,6 +14,5 @@ const styles = StyleSheet.create({
         underline: {textDecorationLine: 'underline'},
         fontStyle: "normal",
         fontSize: 15,
-        marginBottom: 5
     }
 })
