@@ -162,7 +162,14 @@ export default function SignUp({navigation}) {
         else if (password.length < 8)
         {
             setPasswordError("Password must be atleast 8 characters in length");
-        } else {
+        } 
+        else if(verifypassword != password){
+            setVerifyPasswordError("Passwords do not match yet!");
+        }
+        else if(verifypassword === password) {
+            setVerifyPasswordError("Passwords matched!");
+        }
+        else {
             setPasswordError("");
         }
     }

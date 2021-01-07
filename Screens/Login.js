@@ -29,7 +29,10 @@ export default function Login({navigation}) {
                     .then(()=> {
                         alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
                         navigation.navigate("Login")
-                    });
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
                     //sign out code
                 } else {
                     navigation.navigate('Home')
@@ -121,7 +124,7 @@ export default function Login({navigation}) {
     //rendering the widgets
     return (
         <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
-            <Text style={styles.textInput}>Login</Text>
+            <Text style={styles.textInput}>Logo Goes Here!</Text>
             <EzTextInput 
                 placeholder="Email" 
                 defaultValue={email}
@@ -139,7 +142,8 @@ export default function Login({navigation}) {
             />
             <EzButton onPress={login} title={"Login"} />
             <View style={styles.linkContainer}>
-                <EzTextLink onPress={redirectSignUp} title={"Create an Account"} /> 
+                <EzTextLink onPress={redirectSignUp} title={"Create Account"} /> 
+                <EzTextLink title="Re-send Verification Email" />
                 <EzTextLink onPress={redirectPasswordReset} title={"Forgot Password?"} /> 
             </View>         
         </Animatable.View>
@@ -156,9 +160,9 @@ const styles = StyleSheet.create({
     linkContainer: {
         width: "90%",
         display: "flex",
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        paddingTop: "1%"
+        alignItems: 'center',
+        flexDirection: "column",
+        padding: "1%"
     },
     textInput: {
         alignItems: 'center',

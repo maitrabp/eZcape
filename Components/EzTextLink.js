@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
         color: "gray",
         underline: {textDecorationLine: 'underline'},
         fontStyle: "normal",
-        fontSize: 15
+        fontSize: 15,
+        marginBottom: 5
     }
 })
