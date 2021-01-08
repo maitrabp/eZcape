@@ -31,7 +31,8 @@
     "react-navigation": "^4.4.3",
     "react-navigation-stack": "^2.10.2",
     "react-phone-number-input": "^3.1.8",
-    "yarn": "^1.22.10"
+    "yarn": "^1.22.10",
+    "yarnpkg": "^0.15.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
