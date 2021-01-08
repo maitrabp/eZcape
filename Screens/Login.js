@@ -6,8 +6,16 @@ import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
 import EzTextLink from '../Components/EzTextLink';
 import * as Animatable from 'react-native-animatable';
+import {AppLoading} from 'expo';
+import { 
+    useFonts, KronaOne_400Regular 
+} from '@expo-google-fonts/krona-one';
 
 export default function Login({navigation}) {
+
+    let [fontsLoaded, error] = useFonts({
+        KronaOne_400Regular,
+    })
 
     //State Change Variables
     const [email, setemail] = useState('');
@@ -167,6 +175,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 10,
+        fontFamily: 'KronaOne_400Regular',
+        fontSize: 20,
     },
     button: {
         width: "100%",

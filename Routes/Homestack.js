@@ -21,7 +21,8 @@ const screens = {
     },
     "Email Verification": {
         screen: EmailVerification
-    }
+    },
+   
 }
 
 const HomeStack = createStackNavigator(screens);
