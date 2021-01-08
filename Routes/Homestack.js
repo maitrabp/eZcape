@@ -8,7 +8,10 @@ import EmailVerification from '../Screens/EmailVerification';
 
 const screens = {
     "Login": {
-        screen: Login
+        screen: Login,
+        navigationOptions: {
+            header: null,
+        }
     },
     "Sign Up": {
         screen: SignUp
@@ -17,7 +20,7 @@ const screens = {
         screen: Home,
         navigationOptions: {
             header: null,
-        },
+        }
     },
     "Password Reset": {
         screen: PasswordReset
@@ -26,7 +29,7 @@ const screens = {
         screen: EmailVerification,
         navigationOptions: {
             header: null,
-        },
+        }
     }
 }
 

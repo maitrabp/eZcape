@@ -57,5 +57,4 @@ const styles = StyleSheet.create({
         fontWeight: "normal",
         fontSize: 15
     },
-    
 })
