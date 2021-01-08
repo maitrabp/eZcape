@@ -24,7 +24,17 @@ export default function EmailVerification({navigation}) {
     const sendLink = () => {
         user.sendEmailVerification()
         .then(() => {
-            alert("You should have recived an email verification, check you email!")
+            alert("You should have recived an email verification, check your email and login again!")
+            SignOut()
+        })
+        .catch((error) => {
+            if (error.code == "auth/too-many-requests")
+            {
+                alert("Due to security reasons, please try again in about 30 seconds.")
+            } else {
+                console.log(error);
+            }
+            
         })
     } 
 
@@ -32,17 +42,18 @@ export default function EmailVerification({navigation}) {
         firebase.auth().signOut()
         .then((res) => {
                 navigation.navigate('Login')
+        })  
+        .catch((error) => {
+            if (error.code == "auth/too-many-requests")
+            {
+                alert("Due to security reasons, please try again in about 30 seconds.")
+            } else {
+                console.log(error);
             }
-        );    
+            
+        })  
     }
 
-    const Continue = () => {
-        if(!user.emailVerified){
-            alert("Email has not yet been verified!")
-        } else {
-            navigation.navigate('Home')
-        }
-    }
 
     return (
         <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
@@ -52,10 +63,6 @@ export default function EmailVerification({navigation}) {
             </View>
             <View style={styles.buttonStyling}>
                 <EzButton style={styles.buttonStyling} onPress={SignOut} title={"Back to Login"}/>
-            </View>
-            <Text style={styles.textStyling}>After verifying click here to get started!</Text>
-            <View style={styles.buttonStyling}>
-                <EzButton style={styles.buttonStyling} onPress={Continue} title={"Let's plan your first trip!"}/>
             </View>
         </Animatable.View>
     )
