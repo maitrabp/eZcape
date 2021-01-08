@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet, Alert } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
+import EzPhoneInput from '../Components/EzPhoneInput'
 import firebase, {db} from '../Firebase/firebaseConfig';
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -229,7 +230,12 @@ export default function SignUp({navigation}) {
     const phnumOCTvalidation = (typedText) => {
         if(typedText === '') {
             setPhnumError("Phone number must not be empty!")
-        } else {
+        } 
+        else if (typedText.length < 14)
+        {
+            setPhnumError("Phone number should be 10 digits!");
+        }
+        else {
             setPhnumError("");
         }
         formatPhoneNum(typedText)
@@ -319,15 +325,14 @@ return (
                     error={addressError}
                     defaultValue={address}
                 />
-                <EzTextInput 
-                    placeholder="Phone Number" 
-                    onBlur = {phnumOBvalidation}
+                 <EzPhoneInput 
+                    placeholder="Phone Number"
+                    onBlur={phnumOBvalidation}
                     onChangeText={phnumOCTvalidation}
                     value={phnum}
                     error={phnumError}
                     maxLength={14}
-                    keyboardType = "phone-pad"
-                />
+                    keyboardType = "phone-pad"/>
                 <EzButton
                     onPress={Signup}
                     title = {"Register"}
