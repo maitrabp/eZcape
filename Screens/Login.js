@@ -25,7 +25,11 @@ export default function Login({navigation}) {
 
     //Logging in the user(firebase)...
     const login = () => {
-        if (emailError === '' && passwordError === '')
+        if (email === '' || password === '')
+        {
+            alert("You have not yet entered your email or password")
+        }
+        else if (emailError === '' && passwordError === '')
         {
             //Calling firebase for sign in
             firebase.auth().signInWithEmailAndPassword(email, password)
