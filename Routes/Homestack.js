@@ -8,21 +8,29 @@ import EmailVerification from '../Screens/EmailVerification';
 
 const screens = {
     "Login": {
-        screen: Login
+        screen: Login,
+        navigationOptions: {
+            header: null,
+        }
     },
     "Sign Up": {
         screen: SignUp
     },
+    "Home": {
+        screen: Home,
+        navigationOptions: {
+            header: null,
+        }
+    },
     "Password Reset": {
         screen: PasswordReset
     },
-    "Home": {
-        screen: Home
-    },
     "Email Verification": {
-        screen: EmailVerification
-    },
-   
+        screen: EmailVerification,
+        navigationOptions: {
+            header: null,
+        }
+    }
 }
 
 const HomeStack = createStackNavigator(screens);
