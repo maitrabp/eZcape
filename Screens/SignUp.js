@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet, Alert } from 'react-native'
+import {View, Text, StyleSheet, Alert, Platform, Button, Image } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
 import EzPhoneInput from '../Components/EzPhoneInput'
@@ -7,6 +7,7 @@ import firebase, {db} from '../Firebase/firebaseConfig';
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as Animatable from 'react-native-animatable';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function SignUp({navigation}) {
     const [firstname, setFirstname] = useState('');
@@ -24,9 +25,36 @@ export default function SignUp({navigation}) {
     const [verifyPasswordError, setVerifyPasswordError] = useState('');
     const [addressError, setAddressError] = useState('');
     const [phnumError, setPhnumError] = useState('');
+    const [image, setImage] = useState(null);
 
 
     const usersCollection = db.collection('Users');
+
+    const useEffect = (() => {
+        (async () => {
+            if (Platform.OS != 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
+            }
+        })();
+    }, []);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+          setImage(result.uri);
+        }
+    };
 
     //Signing up the user(firebase)...
     const Signup = () => {
@@ -278,6 +306,8 @@ return (
         <KeyboardAwareScrollView contentContainerStyle={{flex:1, backgroundColor:"white"}} extraHeight={150} enableOnAndroid>
             <Animatable.View animation = "fadeInDown" style = {styles.container} duration={1000}>
                 <Text>SignUp</Text>
+                <Button title="Pick an image from camera roll" onPress={pickImage} />
+                <Image source={{ uri: image }} style={styles.image} />
                 <EzTextInput 
                     placeholder="Firstname"
                     onBlur = {firstNameOBvalidation} 
@@ -325,7 +355,7 @@ return (
                     error={addressError}
                     defaultValue={address}
                 />
-                 <EzPhoneInput 
+                <EzPhoneInput 
                     placeholder="Phone Number"
                     onBlur={phnumOBvalidation}
                     onChangeText={phnumOCTvalidation}
@@ -333,6 +363,9 @@ return (
                     error={phnumError}
                     maxLength={14}
                     keyboardType = "phone-pad"/>
+                
+                
+
                 <EzButton
                     onPress={Signup}
                     title = {"Register"}
@@ -347,4 +380,9 @@ const styles = StyleSheet.create({
         alignItems:"center",
         paddingTop: '5%',
     },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 100
+    }
 })

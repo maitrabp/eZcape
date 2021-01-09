@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
         flexDirection:'row'
     },
     codeSelection: {
-        backgroundColor: 'none',
         borderRightWidth: 1,
         borderRightColor: '#000000',
         width: "20%",

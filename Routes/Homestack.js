@@ -10,7 +10,7 @@ const screens = {
     "Login": {
         screen: Login,
         navigationOptions: {
-            header: null,
+            headerShown: false,
         }
     },
     "Sign Up": {
@@ -19,7 +19,7 @@ const screens = {
     "Home": {
         screen: Home,
         navigationOptions: {
-            header: null,
+            headerShown: false,
         }
     },
     "Password Reset": {
@@ -28,7 +28,7 @@ const screens = {
     "Email Verification": {
         screen: EmailVerification,
         navigationOptions: {
-            header: null,
+            headerShown: false,
         }
     }
 }
