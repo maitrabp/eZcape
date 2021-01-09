@@ -11,7 +11,6 @@ export default function EzTextLink({title, onPress}) {
 const styles = StyleSheet.create({
     link:{
         color: "gray",
-        underline: {textDecorationLine: 'underline'},
         fontStyle: "normal",
         fontSize: 15,
     }

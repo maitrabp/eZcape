@@ -8,6 +8,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo-google-fonts/hanuman": "^0.1.0",
+    "@expo-google-fonts/krona-one": "^0.1.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^10.4.0",
     "@react-native-firebase/auth": "^10.4.0",
@@ -32,7 +34,8 @@
     "react-navigation": "^4.4.3",
     "react-navigation-stack": "^2.10.2",
     "react-phone-number-input": "^3.1.8",
-    "yarn": "^1.22.10"
+    "yarn": "^1.22.10",
+    "yarnpkg": "^0.15.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
