@@ -4,7 +4,7 @@ import * as Animatable from 'react-native-animatable';
 
 export default function EzTextInput({placeholder, error, ...props}) {
     var errorStyling;
-    if(error === "Passwords matched!") {
+    if(error === "Passwords matched!" || error==="Available Username!") {
         errorStyling = styles.success;
     } else {
         errorStyling = styles.error;
