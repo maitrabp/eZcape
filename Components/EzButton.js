@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
         width: "90%",
         elevation: 8,
         backgroundColor: "#000000",
-        borderRadius: 5,
         paddingVertical: 8,
         paddingHorizontal: 12,
         justifyContent: "center",

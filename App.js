@@ -5,8 +5,10 @@ import Navigator from './Routes/Homestack';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
+//Load Fonts
 const getFonts = () => Font.loadAsync({
-    'Krona-Regular': require("./Assets/Fonts/KronaOne-Regular.ttf")
+    'Krona-Regular': require("./Assets/Fonts/KronaOne-Regular.ttf"),
+    'MPlus-Regular': require("./Assets/Fonts/MPLUS1p-Regular.ttf")
 });
 
 
