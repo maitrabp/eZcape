@@ -9,7 +9,7 @@ export default function EzPhoneInput({placeholder, error, ...props}) {
     const [countryCodePicker, setCountryCodePicker] = useState(false)
     return (
         <View style = {styles.container}>
-            <Text style={{fontWeight: "bold"}}>{placeholder + ':'}</Text>
+            <Text style={{fontWeight: "bold", fontFamily: "Krona-Regular"}}>{placeholder + ':'}</Text>
             
             <View style ={styles.phoneView}>
                 <TouchableOpacity onPress = {() => setCountryCodePicker(true)} style={styles.codeSelection}>

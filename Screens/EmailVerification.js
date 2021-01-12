@@ -3,19 +3,8 @@ import {StyleSheet,View, Text } from 'react-native'
 import firebase from '../Firebase/firebaseConfig';
 import EzButton from '../Components/EzButton';
 import * as Animatable from 'react-native-animatable';
-
-import { 
-    KronaOne_400Regular, useFonts 
-} from '@expo-google-fonts/krona-one';
-import AppLoading from 'expo-app-loading';
 export default function EmailVerification({navigation}) {
 
-    let [fontsLoaded] = useFonts({
-        KronaOne_400Regular,
-    });
-    //logic...
-    //methods..
-    //varibles..
     const user = firebase.auth().currentUser;
     const sendLink = () => {
         user.sendEmailVerification()
@@ -49,23 +38,17 @@ export default function EmailVerification({navigation}) {
             
         })  
     }
-
-    if (!fontsLoaded) {
-        return <AppLoading/>;
-    }else {
-        return (
-            <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
-                <Text style={styles.textStyling}>Please verify your email, if you did not recieve an email you can resend the registration link </Text>
-                <View style={styles.buttonStyling}>
-                    <EzButton onPress={sendLink} title={"Re-Send Verification Email"} />
-                </View>
-                <View style={styles.buttonStyling}>
-                    <EzButton style={styles.buttonStyling} onPress={SignOut} title={"Back to Login"}/>
-                </View>
-            </Animatable.View>
-        );
-    } 
-    
+    return (
+        <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
+            <Text style={styles.textStyling}>Please verify your email, if you did not recieve an email you can resend the registration link </Text>
+            <View style={styles.buttonStyling}>
+                <EzButton onPress={sendLink} title={"Re-Send Verification Email"} />
+            </View>
+            <View style={styles.buttonStyling}>
+                <EzButton style={styles.buttonStyling} onPress={SignOut} title={"Back to Login"}/>
+            </View>
+        </Animatable.View>
+    );
 }
 //Styles for Email Verification
 const styles = StyleSheet.create({
@@ -82,7 +65,7 @@ const styles = StyleSheet.create({
     },
     textStyling: {
         width: "90%",
-        fontFamily: "KronaOne_400Regular",
+        fontFamily: "Krona-Regular",
         color: "#5a5a5a",
         fontSize: 14,
         fontStyle: "normal",

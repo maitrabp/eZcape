@@ -1,22 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity} from 'react-native'
-import { 
-    useFonts, KronaOne_400Regular 
-} from '@expo-google-fonts/krona-one';
-import AppLoading from "expo-app-loading"
 export default function EzButton({onPress, title}) {
-    let [fontsLoaded] = useFonts({
-        KronaOne_400Regular,
-    })
-    if (!fontsLoaded) {
-        return <AppLoading/>;
-    }else {
-        return (
-            <TouchableOpacity onPress={onPress} style = {styles.outsideContainer}>
-                <Text style={styles.insideText}>{title}</Text>
-            </TouchableOpacity>
-        );
-    }
+    return (
+        <TouchableOpacity onPress={onPress} style = {styles.outsideContainer}>
+            <Text style={styles.insideText}>{title}</Text>
+        </TouchableOpacity>
+    );
 }
 const styles = StyleSheet.create({
     outsideContainer: {
@@ -36,8 +25,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase",
-        fontFamily: 'KronaOne_400Regular',
+        fontFamily: 'Krona-Regular',
         letterSpacing: 1
     }
-    
 })

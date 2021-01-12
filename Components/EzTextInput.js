@@ -11,7 +11,7 @@ export default function EzTextInput({placeholder, error, ...props}) {
     }
     return (
         <View style = {styles.container}>
-            <Text style={{fontWeight: "bold"}}>{placeholder + ':'}</Text>
+            <Text style={{fontWeight: "bold", fontFamily: "Krona-Regular"}}>{placeholder + ':'}</Text>
             <TextInput 
                 style={styles.textInput} 
                 placeholder={placeholder}

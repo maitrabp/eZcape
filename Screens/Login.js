@@ -6,16 +6,8 @@ import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
 import EzTextLink from '../Components/EzTextLink';
 import * as Animatable from 'react-native-animatable';
-import AppLoading from 'expo-app-loading';
-import { 
-    useFonts, KronaOne_400Regular 
-} from '@expo-google-fonts/krona-one';
 
 export default function Login({navigation}) {
-
-    let [fontsLoaded] = useFonts({
-        KronaOne_400Regular,
-    })
 
     //State Change Variables
     const [email, setemail] = useState('');
@@ -132,36 +124,33 @@ export default function Login({navigation}) {
         }
         setPassword(typedText);
     }
-    if (!fontsLoaded) {
-        return <AppLoading/>;
-    }else {
-        //rendering the widgets
-        return (
-            <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
-                <Text style={styles.textInput}>Logo Goes Here!</Text>
-                <EzTextInput 
-                    placeholder="Email" 
-                    defaultValue={email}
-                    error={emailError}
-                    onBlur = {emailOBvalidation}
-                    onChangeText={emailOCTvalidation}
-                />
-                <EzTextInput 
-                    placeholder="Password" 
-                    defaultValue={password}
-                    secureTextEntry={true}
-                    error={passwordError}
-                    onBlur = {passwordOBvalidation}
-                    onChangeText={passwordOCTvalidation}
-                />
-                <EzButton onPress={login} title={"Login"} />
-                <View style={styles.linkContainer}>
-                    <EzTextLink onPress={redirectSignUp} title={"Create Account"} /> 
-                    <EzTextLink onPress={redirectPasswordReset} title={"Forgot Password?"} /> 
-                </View>         
-            </Animatable.View>
-        )
-    }
+    //rendering the widgets
+    return (
+        <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
+            <Text style={styles.textInput}>Logo Goes Here!</Text>
+            <EzTextInput 
+                placeholder="Email" 
+                defaultValue={email}
+                error={emailError}
+                onBlur = {emailOBvalidation}
+                onChangeText={emailOCTvalidation}
+            />
+            <EzTextInput 
+                placeholder="Password" 
+                defaultValue={password}
+                secureTextEntry={true}
+                error={passwordError}
+                onBlur = {passwordOBvalidation}
+                onChangeText={passwordOCTvalidation}
+            />
+            <EzButton onPress={login} title={"Login"} />
+            <View style={styles.linkContainer}>
+                <EzTextLink onPress={redirectSignUp} title={"Create Account"} /> 
+                <EzTextLink onPress={redirectPasswordReset} title={"Forgot Password?"} /> 
+            </View>         
+        </Animatable.View>
+    )
+
 }
 //Styles for Login Page
 const styles = StyleSheet.create({
@@ -182,7 +171,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 10,
-        fontFamily: 'KronaOne_400Regular',
+        fontFamily: 'Krona-Regular',
         fontSize: 20,
     },
     button: {
