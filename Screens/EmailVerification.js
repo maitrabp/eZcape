@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {StyleSheet,View, Text, Image } from 'react-native'
 import firebase from '../Firebase/firebaseConfig';
 import EzButton from '../Components/EzButton';
@@ -7,11 +7,24 @@ export default function EmailVerification({navigation}) {
 
     const user = firebase.auth().currentUser;
     const imageEV = require('../Assets/EmailVerificationGraphic.png');
+    const [proceed, setProcceed] = useState(0)
+    useEffect(() => {
+        console.log(proceed)
+        if(proceed != 0) {
+            user.reload()
+            if(user.emailVerified){
+                navigation.navigate('Home')
+            } else {
+                alert("Please verify your email prior to proceeding further.")
+            }
+        }
+    }, [proceed])
+    
     const sendLink = () => {
         user.sendEmailVerification()
         .then(() => {
             alert("You should have recived an email verification, check your email and login again!")
-            SignOut()
+            //SignOut()
         })
         .catch((error) => {
             if (error.code == "auth/too-many-requests")
@@ -49,7 +62,7 @@ export default function EmailVerification({navigation}) {
                     height: "30%",
                     width: "45%",
                     justifyContent: "center",
-                    marginVertical: "16%",
+                    marginVertical: "10%",
                 }} 
             />
             <Text style={styles.textStyling}>Welcome {user?user.displayName:" User"}! Please press 'verify' to confirm [{user?user.email:"this"}] is a valid email address. </Text>
@@ -59,6 +72,10 @@ export default function EmailVerification({navigation}) {
             <View style={styles.buttonStyling}>
                 <EzButton style={styles.buttonStyling} onPress={SignOut} title={"Back to Login"}/>
             </View>
+            <View style={styles.buttonStyling}>
+                <EzButton style={styles.buttonStyling} onPress={() => setProcceed(proceed + 1)} title={"Let's plan your first trip"}/>
+            </View>
+
         </Animatable.View>
     );
 }

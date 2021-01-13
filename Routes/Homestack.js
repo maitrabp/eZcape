@@ -30,8 +30,7 @@ const screens = {
         navigationOptions: {
             headerShown: false,
         }
-    }
-   
+    } 
 }
 
 const HomeStack = createStackNavigator(screens);
