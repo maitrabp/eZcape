@@ -73,7 +73,6 @@ export default function SignUp({navigation}) {
     }
     async function usernameExistsCheck(){
         const usernameRec = await usernamesCollection.doc(username).get()
-        console.log(usernameRec)
         if(!usernameRec.exists){
             setUsernameError("Available Username!")
         } else {

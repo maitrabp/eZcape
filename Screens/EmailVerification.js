@@ -5,21 +5,31 @@ import EzButton from '../Components/EzButton';
 import * as Animatable from 'react-native-animatable';
 export default function EmailVerification({navigation}) {
 
-    const user = firebase.auth().currentUser;
+    var user = firebase.auth().currentUser;
     const imageEV = require('../Assets/EmailVerificationGraphic.png');
     const [proceed, setProcceed] = useState(0)
     useEffect(() => {
+        let mounted = true;
         console.log(proceed)
         if(proceed != 0) {
-            user.reload()
-            if(user.emailVerified){
-                navigation.navigate('Home')
-            } else {
-                alert("Please verify your email prior to proceeding further.")
-            }
+            const loadUser = async () => {
+                await user.reload()
+                //only if cleanup (unmounted) has not been called, then validate below.. 
+                //otherwise if it was already unmounted, then the response was late so ignore
+                if(mounted){
+                    if(user.emailVerified){
+                        navigation.navigate('Home')
+                    } else {
+                        alert("Please verify your email before proceeding.");
+                    }
+                }
+            };
+            loadUser();
+        }
+        return () => {
+            mounted = false;
         }
     }, [proceed])
-    
     const sendLink = () => {
         user.sendEmailVerification()
         .then(() => {
