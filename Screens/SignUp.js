@@ -53,7 +53,9 @@ export default function SignUp({navigation}) {
         }
         else if (!result.didCancel) {
             setImageUri(result.uri);
-            setImageSource(result.uri);
+            setImageSource({
+                uri: result.uri
+            });
             console.log('URI: ', result.uri);
             // setUpload(true);
             // uploadFile();
@@ -63,7 +65,7 @@ export default function SignUp({navigation}) {
 
     const updateUserImage = (tempUrl) => {
         setUpload(false);
-        setImageSource(tempUrl);
+        // setImageSource(tempUrl);
     }
 
     const uploadFile = async (res) => {
