@@ -6,16 +6,8 @@ import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
 import EzTextLink from '../Components/EzTextLink';
 import * as Animatable from 'react-native-animatable';
-import {AppLoading} from 'expo';
-import { 
-    useFonts, KronaOne_400Regular 
-} from '@expo-google-fonts/krona-one';
 
 export default function Login({navigation}) {
-
-    let [fontsLoaded, error] = useFonts({
-        KronaOne_400Regular,
-    })
 
     //State Change Variables
     const [email, setemail] = useState('');
@@ -132,7 +124,6 @@ export default function Login({navigation}) {
         }
         setPassword(typedText);
     }
-    
     //rendering the widgets
     return (
         <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
@@ -159,6 +150,7 @@ export default function Login({navigation}) {
             </View>         
         </Animatable.View>
     )
+
 }
 //Styles for Login Page
 const styles = StyleSheet.create({
@@ -179,7 +171,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 10,
-        fontFamily: 'KronaOne_400Regular',
+        fontFamily: 'Krona-Regular',
         fontSize: 20,
     },
     button: {

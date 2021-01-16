@@ -11,7 +11,7 @@ export default function EzTextInput({placeholder, error, ...props}) {
     }
     return (
         <View style = {styles.container}>
-            <Text style={{fontWeight: "bold"}}>{placeholder + ':'}</Text>
+            <Text style={{fontFamily: "Krona-Regular", fontSize: 14}}>{placeholder + ':'}</Text>
             <TextInput 
                 style={styles.textInput} 
                 placeholder={placeholder}
@@ -25,10 +25,9 @@ export default function EzTextInput({placeholder, error, ...props}) {
 const styles = StyleSheet.create({
     container: {
         width: "90%",
-        marginBottom: 10,
+        marginBottom: 12,
     },
     textInput: {
-      borderRadius: 5,
       height: 40,
       borderColor: '#000000',
       borderWidth: 1,
