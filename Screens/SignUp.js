@@ -20,6 +20,8 @@ export default function SignUp({navigation}) {
     const [address, setAddress] = useState('');
     const [phnum, setPhnum] = useState('');
     const [upload, setUpload] = useState(false);
+    const [username, setUsername] = useState('');
+
 
     const [firstnameError, setFirstnameError] = useState('');
     const [lastnameError, setLastnameError] = useState('');
@@ -29,9 +31,10 @@ export default function SignUp({navigation}) {
     const [addressError, setAddressError] = useState('');
     const [phnumError, setPhnumError] = useState('');
     const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
-
+    const [usernameError, setUsernameError] = useState('');
 
     const usersCollection = db.collection('Users');
+    const usernamesCollection = db.collection('Usernames');
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -102,25 +105,32 @@ export default function SignUp({navigation}) {
         
         //Unformat phone number before storing it in DB..
         var unformattedPhoneNumber = unformatPhoneNum(phnum);
-        if((password === verifypassword) && (firstnameError === '') && (lastnameError === '') && (addressError === '') && (phnumError === '' && unformattedPhoneNumber.length === 10)) {
+        if((password === verifypassword) && (firstnameError === '') && (lastnameError === '') && (addressError === '') && (phnumError === '' && unformattedPhoneNumber.length === 10) && usernameError==="Available Username!") {
                 //Calling firebase for signup
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((res) => {
                 res.user.updateProfile({
                     displayName: firstname + ' ' + lastname
                 })
+
                 setUpload(true);
                 uploadFile(res);
                 while (upload)
                 {
                     
                 }
+
+                usernamesCollection.doc(username).set({
+                    userDocId: res.user.uid
+                })
+
                 usersCollection.doc(res.user.uid).set({
                     firstName: firstname,
                     lastName: lastname,
                     address: address,
                     phoneNumber: unformattedPhoneNumber,
-                    imageUrl: imageSource
+                    imageUrl: imageSource,
+                    userName: username
                 }).then((res2) => {
                     
                     res.user.sendEmailVerification()
@@ -128,7 +138,6 @@ export default function SignUp({navigation}) {
                         alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
                         navigation.navigate("Login")
                     });
-                    
                 })
             })
             .catch((err) => {
@@ -140,7 +149,16 @@ export default function SignUp({navigation}) {
                     alert(err.message)
             })
         } else {
-            alert("Before submitting, Please make sure all fields are filled without any errors!");
+            alert("Before submitting, Please make sure all fields are filled without any errors!")
+        }
+    }
+    async function usernameExistsCheck(){
+        const usernameRec = await usernamesCollection.doc(username).get()
+        console.log(usernameRec)
+        if(!usernameRec.exists){
+            setUsernameError("Available Username!")
+        } else {
+            setUsernameError("This username has been taken. Please try another one!")
         }
     }
 
@@ -262,6 +280,25 @@ export default function SignUp({navigation}) {
             setVerifyPasswordError("Passwords matched!");
         }
     } 
+    const usernameOBvalidation = () => {
+        var pattern = /^[a-zA-Z][a-zA-Z0-9_]+$/
+        if(username === '') {
+            setUsernameError("Username must not be empty!")
+        } 
+        else if(!(/[a-zA-Z]/).test(username[0])){
+            setUsernameError("First character of the username must be a letter.")
+        }
+        else if(username.length <= 6) {
+            setUsernameError("Username must be more than 6 characters")
+        }
+        else if(!pattern.test(username)){
+            setUsernameError("Username can only contain letters, digits, and underscores")
+        }
+        else {
+            usernameExistsCheck();
+        }
+        
+    }
 
 /*--------------------------------------------------------------ON CHANGE TEXT VALIDATIONS ------------------------------------------------------------*/   
     const emailOCTvalidation = (typedText) => {
@@ -349,19 +386,40 @@ export default function SignUp({navigation}) {
         setVerifyPassword(typedText);
     } 
 
+    const usernameOCTvalidation = (typedText) => {
+        var pattern = /^[a-zA-Z][a-zA-Z0-9_]+$/
+        if(typedText === '') {
+            setUsernameError("Username must not be empty!")
+        } 
+        else if(!(/[a-zA-Z]/).test(typedText[0])){
+            setUsernameError("First character of the username must be a letter.")
+        }
+        else if(typedText.length <= 6) {
+            setUsernameError("Username must be more than 6 characters")
+        }
+        else if(!pattern.test(typedText)){
+            setUsernameError("Username can only contain letters, digits, and underscores")
+        }
+        else {
+            setUsernameError("");
+        }
+        setUsername(typedText);
+    }
+
 
 
 return (
         <KeyboardAwareScrollView contentContainerStyle={{flex:1, backgroundColor:"white"}} extraHeight={150} enableOnAndroid>
             <Animatable.View animation = "fadeInDown" style = {styles.container} duration={1000}>
                 <Text>SignUp</Text>
-                {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
+
                 <TouchableOpacity onPress={pickImage}>
                     {
                         upload ? <ActivityIndicator size="large" /> : <Image source={imageSource} style={styles.image} />
                     }
                     
                 </TouchableOpacity>
+
                 <EzTextInput 
                     placeholder="Firstname"
                     onBlur = {firstNameOBvalidation} 
@@ -369,6 +427,7 @@ return (
                     error = {firstnameError}
                     defaultValue={firstname}
                 />
+
                 <EzTextInput 
                     placeholder="Lastname"
                     onBlur = {lastNameOBvalidation} 
@@ -377,6 +436,15 @@ return (
                     defaultValue={lastname}
                     
                 />
+
+                <EzTextInput 
+                    placeholder="Username"
+                    onBlur = {usernameOBvalidation} 
+                    onChangeText={usernameOCTvalidation}
+                    error = {usernameError}
+                    defaultValue={username}   
+                />
+
                 <EzTextInput 
                     placeholder="Email" 
                     onBlur = {emailOBvalidation}
@@ -385,6 +453,7 @@ return (
                     defaultValue={email}
                     keyboardType = "email-address"
                 />
+
                 <EzTextInput 
                     placeholder="Password" 
                     onBlur = {passwordOBvalidation}
@@ -393,6 +462,7 @@ return (
                     defaultValue={password}
                     secureTextEntry={true}
                 />
+
                 <EzTextInput 
                     placeholder="Verify Password"
                     onBlur = {verifyPasswordOBvalidation} 
@@ -409,7 +479,8 @@ return (
                     error={addressError}
                     defaultValue={address}
                 />
-                <EzPhoneInput 
+
+                 <EzPhoneInput 
                     placeholder="Phone Number"
                     onBlur={phnumOBvalidation}
                     onChangeText={phnumOCTvalidation}
@@ -417,8 +488,6 @@ return (
                     error={phnumError}
                     maxLength={14}
                     keyboardType = "phone-pad"/>
-                
-                
 
                 <EzButton
                     onPress={Signup}

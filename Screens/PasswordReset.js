@@ -14,7 +14,11 @@ export default function Login({navigation}) {
 
     //Sending reset password link (firebase)...
     const submit = () => {
-        if (emailError === '')
+        if (email === '')
+        {
+            alert("Email must be filled out")
+        }
+        else if (emailError === '')
         {
             //Calling firebase to send password reset email
             firebase.auth().sendPasswordResetEmail(email)
