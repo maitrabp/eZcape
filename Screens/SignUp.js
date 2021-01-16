@@ -21,6 +21,8 @@ export default function SignUp({navigation}) {
     const [phnum, setPhnum] = useState('');
     const [upload, setUpload] = useState(false);
     const [username, setUsername] = useState('');
+    const [imageUri, setImageUri] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
 
 
     const [firstnameError, setFirstnameError] = useState('');
@@ -40,40 +42,39 @@ export default function SignUp({navigation}) {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
-          aspect: [4, 3],
+          aspect: [3, 3],
           quality: 1,
         });
     
-        console.log(result);
+        // console.log(result);
     
         if (result.error) {
             console.log(error)
         }
         else if (!result.didCancel) {
-            setImageSource({
-                uri: result.uri
-            });
+            setImageUri(result.uri);
+            setImageSource(result.uri);
+            console.log('URI: ', result.uri);
             // setUpload(true);
             // uploadFile();
         }
     };
 
 
-    const updateUserImage = (imageUrl) => {
+    const updateUserImage = (tempUrl) => {
         setUpload(false);
-        setImageSource({
-            uri: imageUrl
-        });
+        setImageSource(tempUrl);
     }
 
     const uploadFile = async (res) => {
-        const file = await uriToBlob(imageSource.uri);
+        const file = await uriToBlob(imageUri);
         const uid = res.user.uid;
         firebase.storage().ref('profile_pictures/' + uid + '.png')
             .put(file)
             .then(snapshot => snapshot.ref.getDownloadURL())
             .then(url => {
                 updateUserImage(url);
+                setImageUrl(url);
                 console.log("URL: ", url);
             }).catch(error => {
                 // setUpload(false);
@@ -129,7 +130,7 @@ export default function SignUp({navigation}) {
                     lastName: lastname,
                     address: address,
                     phoneNumber: unformattedPhoneNumber,
-                    imageUrl: imageSource,
+                    imageUrl: imageUrl,
                     userName: username
                 }).then((res2) => {
                     
