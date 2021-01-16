@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet, Alert, Platform, Button, Image } from 'react-native'
+import {View, ActivityIndicator, Text, StyleSheet, Alert, Platform, Button, Image, TouchableOpacity } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
 import EzPhoneInput from '../Components/EzPhoneInput'
@@ -8,6 +8,8 @@ import { formatPhoneNumber } from 'react-phone-number-input'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as Animatable from 'react-native-animatable';
 import * as ImagePicker from 'expo-image-picker';
+import User from '../Shared/User';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 export default function SignUp({navigation}) {
     const [firstname, setFirstname] = useState('');
@@ -17,6 +19,7 @@ export default function SignUp({navigation}) {
     const [verifypassword, setVerifyPassword] = useState('');
     const [address, setAddress] = useState('');
     const [phnum, setPhnum] = useState('');
+    const [upload, setUpload] = useState(false);
 
     const [firstnameError, setFirstnameError] = useState('');
     const [lastnameError, setLastnameError] = useState('');
@@ -25,21 +28,10 @@ export default function SignUp({navigation}) {
     const [verifyPasswordError, setVerifyPasswordError] = useState('');
     const [addressError, setAddressError] = useState('');
     const [phnumError, setPhnumError] = useState('');
-    const [image, setImage] = useState(null);
+    const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
 
 
     const usersCollection = db.collection('Users');
-
-    const useEffect = (() => {
-        (async () => {
-            if (Platform.OS != 'web') {
-                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-                if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
-                }
-            }
-        })();
-    }, []);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -51,10 +43,59 @@ export default function SignUp({navigation}) {
     
         console.log(result);
     
-        if (!result.cancelled) {
-          setImage(result.uri);
+        if (result.error) {
+            console.log(error)
+        }
+        else if (!result.didCancel) {
+            setImageSource({
+                uri: result.uri
+            });
+            // setUpload(true);
+            // uploadFile();
         }
     };
+
+
+    const updateUserImage = (imageUrl) => {
+        setUpload(false);
+        setImageSource({
+            uri: imageUrl
+        });
+    }
+
+    const uploadFile = async (res) => {
+        const file = await uriToBlob(imageSource.uri);
+        const uid = res.user.uid;
+        firebase.storage().ref('profile_pictures/' + uid + '.png')
+            .put(file)
+            .then(snapshot => snapshot.ref.getDownloadURL())
+            .then(url => {
+                updateUserImage(url);
+                console.log("URL: ", url);
+            }).catch(error => {
+                // setUpload(false);
+                // setImageSource(require('../Assets/default_user.png'));
+                // alert(error);
+                console.log(error);
+            });
+    }
+
+    const uriToBlob = (uri) => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                resolve(xhr.response);
+            };
+
+            xhr.onerror = function(){
+                reject(new Error('Error on upload image'));
+            };
+
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+            xhr.send(null);
+        });
+    }
 
     //Signing up the user(firebase)...
     const Signup = () => {
@@ -68,12 +109,20 @@ export default function SignUp({navigation}) {
                 res.user.updateProfile({
                     displayName: firstname + ' ' + lastname
                 })
+                setUpload(true);
+                uploadFile(res);
+                while (upload)
+                {
+                    
+                }
                 usersCollection.doc(res.user.uid).set({
                     firstName: firstname,
                     lastName: lastname,
                     address: address,
-                    phoneNumber: unformattedPhoneNumber
+                    phoneNumber: unformattedPhoneNumber,
+                    imageUrl: imageSource
                 }).then((res2) => {
+                    
                     res.user.sendEmailVerification()
                     .then(()=> {
                         alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
@@ -306,8 +355,13 @@ return (
         <KeyboardAwareScrollView contentContainerStyle={{flex:1, backgroundColor:"white"}} extraHeight={150} enableOnAndroid>
             <Animatable.View animation = "fadeInDown" style = {styles.container} duration={1000}>
                 <Text>SignUp</Text>
-                <Button title="Pick an image from camera roll" onPress={pickImage} />
-                <Image source={{ uri: image }} style={styles.image} />
+                {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
+                <TouchableOpacity onPress={pickImage}>
+                    {
+                        upload ? <ActivityIndicator size="large" /> : <Image source={imageSource} style={styles.image} />
+                    }
+                    
+                </TouchableOpacity>
                 <EzTextInput 
                     placeholder="Firstname"
                     onBlur = {firstNameOBvalidation} 
@@ -383,6 +437,10 @@ const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
+        resizeMode: 'cover',
+        // tintColor: '#999',
+        marginBottom: 10,
+        marginTop: 10,
         borderRadius: 100
     }
 })
