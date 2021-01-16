@@ -18,6 +18,8 @@ target 'EzcapeMobileApp' do
   # Note that if you have use_frameworks! enabled, Flipper will not work.
   #
    use_flipper!
+   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
    post_install do |installer|
      flipper_post_install(installer)
    end

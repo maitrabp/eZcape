@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet, Alert } from 'react-native'
+import {View, ActivityIndicator, Text, StyleSheet, Alert, Platform, Button, Image, TouchableOpacity } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
 import EzPhoneInput from '../Components/EzPhoneInput'
@@ -7,6 +7,9 @@ import firebase, {db} from '../Firebase/firebaseConfig';
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as Animatable from 'react-native-animatable';
+import * as ImagePicker from 'expo-image-picker';
+import User from '../Shared/User';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 export default function SignUp({navigation}) {
     const [firstname, setFirstname] = useState('');
@@ -16,7 +19,11 @@ export default function SignUp({navigation}) {
     const [verifypassword, setVerifyPassword] = useState('');
     const [address, setAddress] = useState('');
     const [phnum, setPhnum] = useState('');
+    const [upload, setUpload] = useState(false);
     const [username, setUsername] = useState('');
+    const [imageUri, setImageUri] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+
 
     const [firstnameError, setFirstnameError] = useState('');
     const [lastnameError, setLastnameError] = useState('');
@@ -25,10 +32,74 @@ export default function SignUp({navigation}) {
     const [verifyPasswordError, setVerifyPasswordError] = useState('');
     const [addressError, setAddressError] = useState('');
     const [phnumError, setPhnumError] = useState('');
+    const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
     const [usernameError, setUsernameError] = useState('');
 
     const usersCollection = db.collection('Users');
     const usernamesCollection = db.collection('Usernames');
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [3, 3],
+          quality: 1,
+        });
+    
+        // console.log(result);
+    
+        if (result.error) {
+            console.log(error)
+        }
+        else if (!result.didCancel) {
+            setImageUri(result.uri);
+            setImageSource(result.uri);
+            console.log('URI: ', result.uri);
+            // setUpload(true);
+            // uploadFile();
+        }
+    };
+
+
+    const updateUserImage = (tempUrl) => {
+        setUpload(false);
+        setImageSource(tempUrl);
+    }
+
+    const uploadFile = async (res) => {
+        const file = await uriToBlob(imageUri);
+        const uid = res.user.uid;
+        firebase.storage().ref('profile_pictures/' + uid + '.png')
+            .put(file)
+            .then(snapshot => snapshot.ref.getDownloadURL())
+            .then(url => {
+                updateUserImage(url);
+                setImageUrl(url);
+                console.log("URL: ", url);
+            }).catch(error => {
+                // setUpload(false);
+                // setImageSource(require('../Assets/default_user.png'));
+                // alert(error);
+                console.log(error);
+            });
+    }
+
+    const uriToBlob = (uri) => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                resolve(xhr.response);
+            };
+
+            xhr.onerror = function(){
+                reject(new Error('Error on upload image'));
+            };
+
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+            xhr.send(null);
+        });
+    }
 
     //Signing up the user(firebase)...
     const Signup = () => {
@@ -42,16 +113,27 @@ export default function SignUp({navigation}) {
                 res.user.updateProfile({
                     displayName: firstname + ' ' + lastname
                 })
+
+                setUpload(true);
+                uploadFile(res);
+                while (upload)
+                {
+                    
+                }
+
                 usernamesCollection.doc(username).set({
                     userDocId: res.user.uid
                 })
+
                 usersCollection.doc(res.user.uid).set({
                     firstName: firstname,
                     lastName: lastname,
                     address: address,
                     phoneNumber: unformattedPhoneNumber,
+                    imageUrl: imageUrl,
                     userName: username
                 }).then((res2) => {
+                    
                     res.user.sendEmailVerification()
                     .then(()=> {
                         alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
@@ -331,6 +413,13 @@ return (
             <Animatable.View animation = "fadeInDown" style = {styles.container} duration={1000}>
                 <Text>SignUp</Text>
 
+                <TouchableOpacity onPress={pickImage}>
+                    {
+                        upload ? <ActivityIndicator size="large" /> : <Image source={imageSource} style={styles.image} />
+                    }
+                    
+                </TouchableOpacity>
+
                 <EzTextInput 
                     placeholder="Firstname"
                     onBlur = {firstNameOBvalidation} 
@@ -414,4 +503,13 @@ const styles = StyleSheet.create({
         alignItems:"center",
         paddingTop: '5%',
     },
+    image: {
+        width: 100,
+        height: 100,
+        resizeMode: 'cover',
+        // tintColor: '#999',
+        marginBottom: 10,
+        marginTop: 10,
+        borderRadius: 100
+    }
 })
