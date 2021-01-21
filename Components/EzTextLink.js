@@ -10,8 +10,9 @@ export default function EzTextLink({title, onPress}) {
 }
 const styles = StyleSheet.create({
     link:{
-        color: "gray",
+        color: "black",
         fontStyle: "normal",
         fontSize: 15,
+        fontWeight: "500"
     }
 })
