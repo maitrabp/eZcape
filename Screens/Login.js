@@ -33,9 +33,8 @@ export default function Login({navigation}) {
                     navigation.navigate("Email Verification")
                     // alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
                       
-                    //sign out code
                 } else {
-                    navigation.navigate('Home')
+                    navigation.navigate('MainScreen')
                 }
             })
             //Failure

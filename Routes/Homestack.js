@@ -5,8 +5,15 @@ import SignUp from '../Screens/SignUp';
 import PasswordReset from '../Screens/PasswordReset';
 import Home from '../Screens/Home';
 import EmailVerification from '../Screens/EmailVerification';
+import MainScreen from "../Screens/MainScreen";
 
 const screens = {
+    "MainScreen": {
+        screen: MainScreen,
+        navigationOptions: {
+            headerShown:false,
+        }
+    },
     "Login": {
         screen: Login,
         navigationOptions: {
@@ -30,7 +37,8 @@ const screens = {
         navigationOptions: {
             headerShown: false,
         }
-    } 
+    },
+   
 }
 
 const HomeStack = createStackNavigator(screens);
