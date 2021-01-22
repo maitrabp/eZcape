@@ -7,7 +7,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>${PRODUCT_NAME} would like to use your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -43,8 +43,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -64,6 +62,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>KronaOne-Regular.ttf</string>
+		<string>MPLUS1p-Regular.ttf</string>
 	</array>
 </dict>
 </plist>
