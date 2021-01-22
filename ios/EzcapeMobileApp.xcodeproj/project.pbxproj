@@ -15,6 +15,11 @@
 		96905EF65AED1B983A6B3ABC /* libPods-EzcapeMobileApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-EzcapeMobileApp.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		450887B8C9C04A9E943210A4 /* KronaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8916AB2F073F4D6BA835429E /* KronaOne-Regular.ttf */; };
+		FED4C244E60040F698337341 /* MPLUS1p-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FFACBE050D345CDA5056174 /* MPLUS1p-Regular.ttf */; };
+		511266BFAB8D41079E0CE96A /* default_user.png in Resources */ = {isa = PBXBuildFile; fileRef = 59ABBDCBC491433A8FADD91B /* default_user.png */; };
+		3BC796A37071472496B4586E /* defaultUser.png in Resources */ = {isa = PBXBuildFile; fileRef = F7AEB94249CA48AC92085545 /* defaultUser.png */; };
+		867F37024C7C4B15B3F2A080 /* EmailVerificationGraphic.png in Resources */ = {isa = PBXBuildFile; fileRef = 867767EBD05347A2A54A4470 /* EmailVerificationGraphic.png */; };
+		8ADAEDB522E546919B7546EB /* loginBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF2DF36C917F4DD5A5A23D36 /* loginBackground.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +39,11 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		8916AB2F073F4D6BA835429E /* KronaOne-Regular.ttf */ = {isa = PBXFileReference; name = "KronaOne-Regular.ttf"; path = "../Assets/Fonts/KronaOne-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0FFACBE050D345CDA5056174 /* MPLUS1p-Regular.ttf */ = {isa = PBXFileReference; name = "MPLUS1p-Regular.ttf"; path = "../Assets/Fonts/MPLUS1p-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		59ABBDCBC491433A8FADD91B /* default_user.png */ = {isa = PBXFileReference; name = "default_user.png"; path = "../Assets/default_user.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F7AEB94249CA48AC92085545 /* defaultUser.png */ = {isa = PBXFileReference; name = "defaultUser.png"; path = "../Assets/defaultUser.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		867767EBD05347A2A54A4470 /* EmailVerificationGraphic.png */ = {isa = PBXFileReference; name = "EmailVerificationGraphic.png"; path = "../Assets/EmailVerificationGraphic.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FF2DF36C917F4DD5A5A23D36 /* loginBackground.jpg */ = {isa = PBXFileReference; name = "loginBackground.jpg"; path = "../Assets/loginBackground.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +136,11 @@
 			isa = "PBXGroup";
 			children = (
 				8916AB2F073F4D6BA835429E /* KronaOne-Regular.ttf */,
+				0FFACBE050D345CDA5056174 /* MPLUS1p-Regular.ttf */,
+				59ABBDCBC491433A8FADD91B /* default_user.png */,
+				F7AEB94249CA48AC92085545 /* defaultUser.png */,
+				867767EBD05347A2A54A4470 /* EmailVerificationGraphic.png */,
+				FF2DF36C917F4DD5A5A23D36 /* loginBackground.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -196,6 +211,11 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				450887B8C9C04A9E943210A4 /* KronaOne-Regular.ttf in Resources */,
+				FED4C244E60040F698337341 /* MPLUS1p-Regular.ttf in Resources */,
+				511266BFAB8D41079E0CE96A /* default_user.png in Resources */,
+				3BC796A37071472496B4586E /* defaultUser.png in Resources */,
+				867F37024C7C4B15B3F2A080 /* EmailVerificationGraphic.png in Resources */,
+				8ADAEDB522E546919B7546EB /* loginBackground.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

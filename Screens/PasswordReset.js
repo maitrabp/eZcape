@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState} from 'react';
-import { StyleSheet, View, Text, TextInput} from 'react-native'
+import { StyleSheet, Text, ImageBackground} from 'react-native'
 import EzButton from '../Components/EzButton'
 import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
@@ -71,31 +71,33 @@ export default function Login({navigation}) {
     
     //rendering the widgets
     return (
-        <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
-            <Text style={styles.textInput}>Reset Password</Text>
-            <EzTextInput 
-                placeholder="Email" 
-                defaultValue={email}
-                error={emailError}
-                onBlur = {emailOBvalidation}
-                onChangeText={emailOCTvalidation}
-            />
-            <EzButton onPress={submit} title={"Submit"} />
-        </Animatable.View>
+        <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={{flex: 1}}>
+            <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
+                <Text style={styles.textInput}>Let's reset your password!</Text>
+                <EzTextInput 
+                    placeholder="Email" 
+                    defaultValue={email}
+                    error={emailError}
+                    onBlur = {emailOBvalidation}
+                    onChangeText={emailOCTvalidation}
+                />
+                <EzButton onPress={submit} title={"Submit"} />
+            </Animatable.View>
+        </ImageBackground>
     )
 }
 //Styles for Login Page
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#ffffff',
         alignItems: 'center',
-        paddingTop: '20%',
+        paddingTop: '15%',
     },
     textInput: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 10,
+        marginBottom: "8%",
+        fontFamily: "Krona-Regular",
+        fontSize: 15
     },
     button: {
         width: "100%",

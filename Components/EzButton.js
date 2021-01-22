@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     insideText: {
         fontSize: 12,
-        color: "yellow",
+        color: "#FFBF00",
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase",

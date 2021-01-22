@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState} from 'react';
-import { StyleSheet, View, Text, TextInput} from 'react-native'
+import { StyleSheet, View, Text, ImageBackground} from 'react-native'
 import EzButton from '../Components/EzButton'
 import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
@@ -126,37 +126,38 @@ export default function Login({navigation}) {
     }
     //rendering the widgets
     return (
-        <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
-            <Text style={styles.textInput}>Logo Goes Here!</Text>
-            <EzTextInput 
-                placeholder="Email" 
-                defaultValue={email}
-                error={emailError}
-                onBlur = {emailOBvalidation}
-                onChangeText={emailOCTvalidation}
-            />
-            <EzTextInput 
-                placeholder="Password" 
-                defaultValue={password}
-                secureTextEntry={true}
-                error={passwordError}
-                onBlur = {passwordOBvalidation}
-                onChangeText={passwordOCTvalidation}
-            />
-            <EzButton onPress={login} title={"Login"} />
-            <View style={styles.linkContainer}>
-                <EzTextLink onPress={redirectSignUp} title={"Create Account"} /> 
-                <EzTextLink onPress={redirectPasswordReset} title={"Forgot Password?"} /> 
-            </View>         
-        </Animatable.View>
+        <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={{flex: 1}}>
+            <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
+                
+                    <Text style={styles.textInput}>Logo Goes Here!</Text>
+                    <EzTextInput 
+                        placeholder="Email" 
+                        defaultValue={email}
+                        error={emailError}
+                        onBlur = {emailOBvalidation}
+                        onChangeText={emailOCTvalidation}
+                    />
+                    <EzTextInput 
+                        placeholder="Password" 
+                        defaultValue={password}
+                        secureTextEntry={true}
+                        error={passwordError}
+                        onBlur = {passwordOBvalidation}
+                        onChangeText={passwordOCTvalidation}
+                    />
+                    <EzButton onPress={login} title={"Login"} />
+                    <View style={styles.linkContainer}>
+                        <EzTextLink onPress={redirectSignUp} title={"Create Account"} /> 
+                        <EzTextLink onPress={redirectPasswordReset} title={"Forgot Password?"} /> 
+                    </View>       
+            </Animatable.View>
+        </ImageBackground>
     )
 
 }
 //Styles for Login Page
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center',
         paddingTop: '20%',
     },

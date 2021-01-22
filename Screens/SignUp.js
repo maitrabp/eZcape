@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, ActivityIndicator, Text, StyleSheet, Alert, Platform, Button, Image, TouchableOpacity } from 'react-native'
+import {View, ActivityIndicator, Text, StyleSheet, Alert, Platform, Button, Image, ImageBackground, TouchableOpacity } from 'react-native'
 import EzButton from '../Components/EzButton';
 import EzTextInput from '../Components/EzTextInput'
 import EzPhoneInput from '../Components/EzPhoneInput'
@@ -411,92 +411,93 @@ export default function SignUp({navigation}) {
 
 
 return (
-        <KeyboardAwareScrollView contentContainerStyle={{flex:1, backgroundColor:"white"}} extraHeight={150} enableOnAndroid>
-            <Animatable.View animation = "fadeInDown" style = {styles.container} duration={1000}>
-                <Text>SignUp</Text>
+    <ImageBackground source = {require('../Assets/loginBackground.jpg')} style = {{flex: 1}} imageStyle={{opacity: 0.3}}>
+            <KeyboardAwareScrollView extraHeight={300} enableOnAndroid>
+                <Animatable.View animation = "fadeInDown" style = {styles.container} duration={1000}>
+                    <Text>SignUp</Text>
 
-                <TouchableOpacity onPress={pickImage}>
-                    {
-                        upload ? <ActivityIndicator size="large" /> : <Image source={imageSource} style={styles.image} />
-                    }
+                    <TouchableOpacity onPress={pickImage}>
+                        {
+                            upload ? <ActivityIndicator size="large" /> : <Image source={imageSource} style={styles.image} />
+                        }
+                    </TouchableOpacity>
+
+                    <EzTextInput 
+                        placeholder="Firstname"
+                        onBlur = {firstNameOBvalidation} 
+                        onChangeText={firstNameOCTvalidation}
+                        error = {firstnameError}
+                        defaultValue={firstname}
+                    />
+
+                    <EzTextInput 
+                        placeholder="Lastname"
+                        onBlur = {lastNameOBvalidation} 
+                        onChangeText={lastNameOCTvalidation}
+                        error = {lastnameError}
+                        defaultValue={lastname}
+                        
+                    />
+
+                    <EzTextInput 
+                        placeholder="Username"
+                        onBlur = {usernameOBvalidation} 
+                        onChangeText={usernameOCTvalidation}
+                        error = {usernameError}
+                        defaultValue={username}   
+                    />
+
+                    <EzTextInput 
+                        placeholder="Email" 
+                        onBlur = {emailOBvalidation}
+                        onChangeText={emailOCTvalidation}
+                        error = {emailError}
+                        defaultValue={email}
+                        keyboardType = "email-address"
+                    />
+
+                    <EzTextInput 
+                        placeholder="Password" 
+                        onBlur = {passwordOBvalidation}
+                        onChangeText={passwordOCTvalidation}
+                        error={passwordError}
+                        defaultValue={password}
+                        secureTextEntry={true}
+                    />
+
+                    <EzTextInput 
+                        placeholder="Verify Password"
+                        onBlur = {verifyPasswordOBvalidation} 
+                        onChangeText={verifyPasswordOCTvalidation}
+                        error={verifyPasswordError}
+                        defaultValue={verifypassword}
+                        secureTextEntry={true}
+                    />
                     
-                </TouchableOpacity>
+                    <EzTextInput 
+                        placeholder="Address" 
+                        onBlur = {addressOBvalidation}
+                        onChangeText={addressOCTvalidation}
+                        error={addressError}
+                        defaultValue={address}
+                    />
 
-                <EzTextInput 
-                    placeholder="Firstname"
-                    onBlur = {firstNameOBvalidation} 
-                    onChangeText={firstNameOCTvalidation}
-                    error = {firstnameError}
-                    defaultValue={firstname}
-                />
+                    <EzPhoneInput 
+                        placeholder="Phone Number"
+                        onBlur={phnumOBvalidation}
+                        onChangeText={phnumOCTvalidation}
+                        value={phnum}
+                        error={phnumError}
+                        maxLength={14}
+                        keyboardType = "phone-pad"/>
 
-                <EzTextInput 
-                    placeholder="Lastname"
-                    onBlur = {lastNameOBvalidation} 
-                    onChangeText={lastNameOCTvalidation}
-                    error = {lastnameError}
-                    defaultValue={lastname}
-                    
-                />
-
-                <EzTextInput 
-                    placeholder="Username"
-                    onBlur = {usernameOBvalidation} 
-                    onChangeText={usernameOCTvalidation}
-                    error = {usernameError}
-                    defaultValue={username}   
-                />
-
-                <EzTextInput 
-                    placeholder="Email" 
-                    onBlur = {emailOBvalidation}
-                    onChangeText={emailOCTvalidation}
-                    error = {emailError}
-                    defaultValue={email}
-                    keyboardType = "email-address"
-                />
-
-                <EzTextInput 
-                    placeholder="Password" 
-                    onBlur = {passwordOBvalidation}
-                    onChangeText={passwordOCTvalidation}
-                    error={passwordError}
-                    defaultValue={password}
-                    secureTextEntry={true}
-                />
-
-                <EzTextInput 
-                    placeholder="Verify Password"
-                    onBlur = {verifyPasswordOBvalidation} 
-                    onChangeText={verifyPasswordOCTvalidation}
-                    error={verifyPasswordError}
-                    defaultValue={verifypassword}
-                    secureTextEntry={true}
-                />
-                
-                <EzTextInput 
-                    placeholder="Address" 
-                    onBlur = {addressOBvalidation}
-                    onChangeText={addressOCTvalidation}
-                    error={addressError}
-                    defaultValue={address}
-                />
-
-                 <EzPhoneInput 
-                    placeholder="Phone Number"
-                    onBlur={phnumOBvalidation}
-                    onChangeText={phnumOCTvalidation}
-                    value={phnum}
-                    error={phnumError}
-                    maxLength={14}
-                    keyboardType = "phone-pad"/>
-
-                <EzButton
-                    onPress={Signup}
-                    title = {"Register"}
-                />
-            </Animatable.View>
-        </KeyboardAwareScrollView>
+                    <EzButton
+                        onPress={Signup}
+                        title = {"Register"}
+                    />
+                </Animatable.View>
+            </KeyboardAwareScrollView>
+        </ImageBackground>
         
     )
 }
@@ -504,6 +505,7 @@ const styles = StyleSheet.create({
     container: {
         alignItems:"center",
         paddingTop: '5%',
+        paddingBottom: "12%"
     },
     image: {
         width: 100,
