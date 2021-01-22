@@ -2,6 +2,7 @@
   "name": "EzcapeMobileApp",
   "displayName": "EzcapeMobileApp",
   "expo": {
+    "android":{"softwareKeyboardLayoutMode": "pan"},
     "name": "EzcapeMobileApp",
     "slug": "EzcapeMobileApp",
     "version": "1.0.0",
