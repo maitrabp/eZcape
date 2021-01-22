@@ -28,7 +28,7 @@ const DrawerNavigator = createDrawerNavigator({
     TripScreen: {
         screen: TripScreen,
         navigationOptions: {
-            title: "Trips",
+            title: "Trip",
             drawerIcon: ({tintColor}) => <Feather name = "map-pin" size={16} color={tintColor}/>
         }
     },
@@ -42,12 +42,12 @@ const DrawerNavigator = createDrawerNavigator({
 }, 
 {
     contentComponent: props => <EzSideBar {...props}/>,
-    drawerWidth: Dimensions.get("window").width * 0.85,
+    drawerWidth: Dimensions.get("window").width * 0.80,
     hideStatusBar: true,
 
     contentOptions: {
-        activeBackgroundColor: "#FFBF00",
-        activeTintColor: "white",
+        activeBackgroundColor: "black",
+        activeTintColor: "#FFBF00",
         itemsContainerStyle: {
             marginTop: 16,
             marginHorizontal: 8

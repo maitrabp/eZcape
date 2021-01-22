@@ -9,14 +9,14 @@ export default function EzSideBar(props) {
     return (
         <ScrollView>
             <ImageBackground
-                source={require("../Assets/sidebarBackground.png")}
-                style={{width: undefined, padding: 16, paddingTop: 48, backgroundColor: "yellow"}}>
+                source={require("../Assets/sidebarBackground2.png")}
+                style={{width: undefined, padding: 16, paddingTop: 48, backgroundColor: "black"}}>
                     <View style={{width: undefined, alignItems: "center"}}>
                         <Image source={require("../Assets/defaultUser.png")} style={styles.profile}/>
                         <Text style={styles.name}>Maitra Patel</Text> 
                         <View style={{flexDirection: "row"}}>
                             <Text style={styles.tripsTaken}>{25} Trips </Text>
-                            <Ionicons name="airplane" size={16} color="black"/>
+                            <Ionicons name="airplane" size={16} color="#FFBF00"/>
                         </View>
                     </View>
             </ImageBackground>
@@ -35,10 +35,11 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 50,
         borderWidth: 3,
-        borderColor: "black",
+        borderColor: "#FFBF00",
+        backgroundColor: "#FFBF00"
     },
     name:{
-        color: "black",
+        color: "#FFBF00",
         fontSize: 16,
         fontWeight: "500",
         marginVertical:8,
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
         fontFamily: "Krona-Regular",
         fontWeight: "normal",
         marginRight: 4,
-        marginTop: 2
+        marginTop: 2,
+        color: "#FFBF00"
     }
 })
