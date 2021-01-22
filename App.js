@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { StyleSheet, Image} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Image } from 'react-native';
 import Navigator from './Routes/Homestack';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
@@ -19,38 +19,40 @@ function cacheFonts(fonts) {
 }
 
 export default function App() {
-    const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
 
-    async function _loadAssetsAsync() {
-        const imageAssets = cacheImages([
-         require('./Assets/loginBackground.jpg'),
-         require('./Assets/EmailVerificationGraphic.png'),
-         require('./Assets/default_user.png'),
-         require('./Assets/defaultUser.png')
-      ]);
+  async function _loadAssetsAsync() {
+    const imageAssets = cacheImages([
+      require('./Assets/loginBackground.jpg'),
+      require('./Assets/EmailVerificationGraphic.png'),
+      require('./Assets/default_user.png'),
+      require('./Assets/defaultUser.png'),
+      require("./Assets/sidebarBackground.png"),
+      require("./Assets/sidebarBackground2.png")
+    ]);
 
-      const fontAssets = cacheFonts([
-        {'Krona-Regular': require("./Assets/Fonts/KronaOne-Regular.ttf")},
-        {'MPlus-Regular': require("./Assets/Fonts/MPLUS1p-Regular.ttf")}
-      ]);
+    const fontAssets = cacheFonts([
+      { 'Krona-Regular': require("./Assets/Fonts/KronaOne-Regular.ttf") },
+      { 'MPlus-Regular': require("./Assets/Fonts/MPLUS1p-Regular.ttf") }
+    ]);
 
-      await Promise.all([...imageAssets, ...fontAssets]);
-    }
+    await Promise.all([...imageAssets, ...fontAssets]);
+  }
 
-    if(assetsLoaded){
-      return (
-        <Navigator /> //there's screens inside here..
-      );
-    } else {
-      return (
-        <AppLoading 
-          startAsync={_loadAssetsAsync}
-          onFinish = {() => setAssetsLoaded(true)}
-          onError={console.warn}
-        />
-      )
-    }
-      
+  if (assetsLoaded) {
+    return (
+      <Navigator /> //there's screens inside here..
+    );
+  } else {
+    return (
+      <AppLoading
+        startAsync={_loadAssetsAsync}
+        onFinish={() => setAssetsLoaded(true)}
+        onError={console.warn}
+      />
+    )
+  }
+
 }
 const styles = StyleSheet.create({
   container: {
