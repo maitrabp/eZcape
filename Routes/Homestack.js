@@ -8,12 +8,6 @@ import EmailVerification from '../Screens/EmailVerification';
 import MainScreen from "../Screens/MainScreen";
 
 const screens = {
-    "MainScreen": {
-        screen: MainScreen,
-        navigationOptions: {
-            headerShown:false,
-        }
-    },
     "Login": {
         screen: Login,
         navigationOptions: {
@@ -38,7 +32,12 @@ const screens = {
             headerShown: false,
         }
     },
-   
+    "MainScreen": {
+        screen: MainScreen,
+        navigationOptions: {
+            headerShown:false,
+        }
+    }
 }
 
 const HomeStack = createStackNavigator(screens);

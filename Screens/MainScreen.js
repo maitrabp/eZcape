@@ -19,7 +19,7 @@ const DrawerNavigator = createDrawerNavigator({
         }
     },
     HomeScreen: {
-        screen: ProfileScreen,
+        screen: HomeScreen,
         navigationOptions: {
             title: "Home",
             drawerIcon: ({tintColor}) => <Feather name = "home" size={16} color={tintColor}/>
