@@ -6,6 +6,7 @@ import PasswordReset from '../Screens/PasswordReset';
 import Home from '../Screens/Home';
 import EmailVerification from '../Screens/EmailVerification';
 import MainScreen from "../Screens/MainScreen";
+import Screen from "../Screens/Screen"
 
 const screens = {
     "Login": {
@@ -36,6 +37,12 @@ const screens = {
         screen: MainScreen,
         navigationOptions: {
             headerShown:false,
+        }
+    },
+    "Screen": {
+        screen: Screen,
+        navigationOptions: {
+            headerShown: false
         }
     }
 }

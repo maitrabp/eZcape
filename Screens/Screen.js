@@ -4,7 +4,6 @@ import {FontAwesome5} from '@expo/vector-icons'
 import Home from './Home'
 import Profile from './Profile'
 import firebase from '../Firebase/firebaseConfig';
-import App from '../App'
 
 export default class Screen extends Component {
     render() {
@@ -12,7 +11,7 @@ export default class Screen extends Component {
             firebase.auth().signOut()
             .then((res) => {
                 console.log("DONE");
-                //No access to stack navigator....TBD
+                this.props.navigation.navigate("Login")
             })  
             .catch((error) => {
                 if (error.code == "auth/too-many-requests")

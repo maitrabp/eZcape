@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, ScrollView, ImageBackground, Image} from 'react-native'
 import {DrawerNavigatorItems} from 'react-navigation-drawer'
 import {Ionicons} from '@expo/vector-icons'
-import { render } from 'react-dom'
+import firebase from '../Firebase/firebaseConfig';
 
 export default function EzSideBar(props) {
+    var user = firebase.auth().currentUser;
 
     return (
         <ScrollView>
@@ -13,7 +14,7 @@ export default function EzSideBar(props) {
                 style={{width: undefined, padding: 16, paddingTop: 48, backgroundColor: "black"}}>
                     <View style={{width: undefined, alignItems: "center"}}>
                         <Image source={require("../Assets/defaultUser.png")} style={styles.profile}/>
-                        <Text style={styles.name}>Maitra Patel</Text> 
+                        <Text style={styles.name}>{user.displayName}</Text> 
                         <View style={{flexDirection: "row"}}>
                             <Text style={styles.tripsTaken}>{25} Trips </Text>
                             <Ionicons name="airplane" size={16} color="#FFBF00"/>
