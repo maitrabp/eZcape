@@ -71,7 +71,7 @@ export default function SignUp({navigation}) {
     const uploadFile = async (res) => {
         const file = await uriToBlob(imageUri);
         const uid = res.user.uid;
-        firebase.storage().ref('profile_pictures/' + uid + '.png')
+        firebase.storage().ref('profile_pictures/' + uid)
             .put(file)
             .then(snapshot => snapshot.ref.getDownloadURL())
             .then(url => {
