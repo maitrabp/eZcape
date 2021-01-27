@@ -9,7 +9,7 @@ export default function EzSideBar(props) {
 
     const useEffect = async () => {
         firebase.storage()
-            .ref('profile_pictures/' + user.uid + '.png') //name in storage in firebase console
+            .ref('profile_pictures/' + user.uid) //name in storage in firebase console
             .getDownloadURL()
             .then((url) => {
                 setImageSource({uri: url});
