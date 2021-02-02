@@ -8,6 +8,12 @@ import EmailVerification from '../Screens/EmailVerification';
 import MainScreen from "../Screens/MainScreen";
 
 const screens = {
+    "Home": {
+        screen: Home,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
     "Login": {
         screen: Login,
         navigationOptions: {
@@ -17,12 +23,7 @@ const screens = {
     "Sign Up": {
         screen: SignUp
     },
-    "Home": {
-        screen: Home,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
+    
     "Password Reset": {
         screen: PasswordReset
     },
