@@ -26,7 +26,7 @@ export default function EzSideBar(props) {
                 style={{width: undefined, padding: 16, paddingTop: 48, backgroundColor: "black"}}>
                     <View style={{width: undefined, alignItems: "center"}}>
                         <Image source={imageSource} style={styles.profile}/>
-                        <Text style={styles.name}>{user.displayName}</Text> 
+                        <Text style={styles.name}>{user?.displayName}</Text> 
                         <View style={{flexDirection: "row"}}>
                             <Text style={styles.tripsTaken}>{25} Trips </Text>
                             <Ionicons name="airplane" size={16} color="#FFBF00"/>
