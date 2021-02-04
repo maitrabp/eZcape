@@ -34,7 +34,7 @@ export default function App() {
     const fontAssets = cacheFonts([
       { 'Krona-Regular': require("./Assets/Fonts/KronaOne-Regular.ttf") },
       { 'MPlus-Regular': require("./Assets/Fonts/MPLUS1p-Regular.ttf") },
-      { 'BalsamiqSans-Regular': require("./Assets/Fonts/BalsamiqSans-Regular.ttf")}
+      { 'Spartan-Medium': require("./Assets/Fonts/Spartan-Medium.ttf")}
     ]);
 
     await Promise.all([...imageAssets, ...fontAssets]);

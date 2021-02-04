@@ -7,7 +7,7 @@ import {Ionicons} from '@expo/vector-icons'
 
 const Profile = () => {
     var user = firebase.auth().currentUser;
-    const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
+    const [imageSource, setImageSource] = useState(require('../Assets/EmailVerificationGraphic.png'));
 
     const fetchImage = async () => {
         firebase.storage()
@@ -30,10 +30,12 @@ const Profile = () => {
                 <Text style = {styles.name}>Maitra Patel</Text>
             </Animatable.View>
             <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1000}>
-                <Image source={imageSource} style={styles.profile}/>
-                <TouchableOpacity onPress={something} style = {styles.editImageBtn}>
-                    <Ionicons name="airplane" size={16} color="white"/>
-                </TouchableOpacity>
+                <View style={styles.imageContainer}>
+                    <Image source={imageSource} style={styles.profile}/>
+                    <TouchableOpacity onPress={something} style = {styles.editImageBtn}>
+                        <Ionicons name="camera-sharp" size={18} color="black"/>
+                    </TouchableOpacity>
+                </View>
             </Animatable.View>
         </KeyboardAwareScrollView>
     )
@@ -43,32 +45,35 @@ export default Profile
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: "#ffffff",
+        backgroundColor: "black",
         
     },
     name: {
-        fontFamily: "BalsamiqSans-Regular",
-        color: "white",
-        fontSize: 18,
-        marginTop: 40
+        color: "black",
+        fontSize: 15,
+        marginTop: 40,
+        letterSpacing: 0.5,
+        fontFamily: "Spartan-Medium",
 
     },
     profile:{
         width:120,
         height: 120,
-        borderRadius: 60,
-        borderWidth: 4,
-        borderColor: "#FFBF00",
+        borderRadius: 60,        
+        borderColor: "white",
+        backgroundColor: "white",
+        borderWidth: 6
+    },
+    imageContainer: {
         marginBottom: -30,
         position: "absolute"
     },
     editImageBtn: {
         position: "absolute",
-        marginBottom: -30,
-        right: "30%"
+        right: 0,
+        bottom: 0,
     },
     editBtnText: {
-        fontFamily: "BalsamiqSans-Regular",
         color: "white",
     },
     imageBackboard: {
@@ -84,9 +89,9 @@ const styles = StyleSheet.create({
         height: "80%",
         width: "100%",
         alignItems: "center",
-        borderTopEndRadius: 50,
-        borderTopStartRadius: 50,
-        backgroundColor: "black"
+        borderTopEndRadius: 30,
+        borderTopStartRadius: 30,
+        backgroundColor: "white"
     },
     
 })
