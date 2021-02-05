@@ -29,7 +29,7 @@ export default function EzSideBar(props) {
                         <Text style={styles.name}>{user?.displayName}</Text> 
                         <View style={{flexDirection: "row"}}>
                             <Text style={styles.tripsTaken}>{25} Trips </Text>
-                            <Ionicons name="airplane" size={16} color="#FFBF00"/>
+                            <Ionicons name="location-sharp" size={16} color="#FFBF00"/>
                         </View>
                     </View>
             </ImageBackground>

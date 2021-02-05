@@ -26,14 +26,18 @@ const Profile = () => {
     return (
         <KeyboardAwareScrollView extraHeight={300} contentContainerStyle = {styles.container} enableOnAndroid>
 
-            <Animatable.View style={styles.fieldsBackboard} animation = "fadeInUpBig" duration={1000}>
-                <Text style = {styles.name}>Maitra Patel</Text>
+            <Animatable.View style={styles.fieldsBackboard} animation = "fadeInUpBig" duration={1200}>
+                <View style={styles.name}>
+                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="black"/> {20}</Text>
+                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "bold"}}>Maitra Patel</Text>
+                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="location-sharp" size={18} color="black"/> {6}</Text>
+                </View>
             </Animatable.View>
-            <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1000}>
+            <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1200}>
                 <View style={styles.imageContainer}>
                     <Image source={imageSource} style={styles.profile}/>
                     <TouchableOpacity onPress={something} style = {styles.editImageBtn}>
-                        <Ionicons name="camera-sharp" size={18} color="black"/>
+                        <Ionicons style={{backgroundColor: "white", borderRadius: "50%", textAlign: "center", lineHeight: 36, verticalAlign: "middle"}} name="add-sharp" size={35}  color="black"/>
                     </TouchableOpacity>
                 </View>
             </Animatable.View>
@@ -45,16 +49,16 @@ export default Profile
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: "black",
+        backgroundColor: "#212121",
         
     },
     name: {
         color: "black",
-        fontSize: 15,
+        width: "100%",
         marginTop: 40,
-        letterSpacing: 0.5,
-        fontFamily: "Spartan-Medium",
-
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: 'space-evenly'
     },
     profile:{
         width:120,
@@ -72,6 +76,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 0,
         bottom: 0,
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
     },
     editBtnText: {
         color: "white",
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderTopEndRadius: 30,
         borderTopStartRadius: 30,
-        backgroundColor: "white"
+        backgroundColor: "#FCF4A3"
     },
     
 })
