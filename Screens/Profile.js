@@ -7,7 +7,7 @@ import {Ionicons} from '@expo/vector-icons'
 
 const Profile = () => {
     var user = firebase.auth().currentUser;
-    const [imageSource, setImageSource] = useState(require('../Assets/EmailVerificationGraphic.png'));
+    const [imageSource, setImageSource] = useState(require('../Assets/sidebarBackground.png'));
 
     const fetchImage = async () => {
         firebase.storage()
@@ -28,16 +28,16 @@ const Profile = () => {
 
             <Animatable.View style={styles.fieldsBackboard} animation = "fadeInUpBig" duration={1200}>
                 <View style={styles.name}>
-                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="black"/> {20}</Text>
-                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "bold"}}>Maitra Patel</Text>
-                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="location-sharp" size={18} color="black"/> {6}</Text>
+                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
+                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>Maitra Patel</Text>
+                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="location-sharp" size={18} color="#FFBF00"/> {6} Friends</Text>
                 </View>
             </Animatable.View>
             <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1200}>
                 <View style={styles.imageContainer}>
                     <Image source={imageSource} style={styles.profile}/>
                     <TouchableOpacity onPress={something} style = {styles.editImageBtn}>
-                        <Ionicons style={{backgroundColor: "white", borderRadius: "50%", textAlign: "center", lineHeight: 36, verticalAlign: "middle"}} name="add-sharp" size={35}  color="black"/>
+                        <Ionicons name="add-circle-outline" size={30} color="#FFBF00"/>
                     </TouchableOpacity>
                 </View>
             </Animatable.View>
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     name: {
         color: "black",
         width: "100%",
-        marginTop: 40,
         display: "flex",
         flexDirection: "row",
         justifyContent: 'space-evenly'
@@ -74,14 +73,8 @@ const styles = StyleSheet.create({
     },
     editImageBtn: {
         position: "absolute",
-        right: 0,
+        right: -8,
         bottom: 0,
-        alignItems: "center",
-        alignContent: "center",
-        justifyContent: "center",
-    },
-    editBtnText: {
-        color: "white",
     },
     imageBackboard: {
         height: "20%",
@@ -91,6 +84,7 @@ const styles = StyleSheet.create({
         
     },
     fieldsBackboard: {
+        paddingTop: 40,
         position: 'absolute',
         bottom: 0,
         height: "80%",
@@ -98,7 +92,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderTopEndRadius: 30,
         borderTopStartRadius: 30,
-        backgroundColor: "#FCF4A3"
+        backgroundColor: "white"
+        //#FCF4A3
     },
     
 })

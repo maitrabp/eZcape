@@ -20,6 +20,10 @@
 		3BC796A37071472496B4586E /* defaultUser.png in Resources */ = {isa = PBXBuildFile; fileRef = F7AEB94249CA48AC92085545 /* defaultUser.png */; };
 		867F37024C7C4B15B3F2A080 /* EmailVerificationGraphic.png in Resources */ = {isa = PBXBuildFile; fileRef = 867767EBD05347A2A54A4470 /* EmailVerificationGraphic.png */; };
 		8ADAEDB522E546919B7546EB /* loginBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF2DF36C917F4DD5A5A23D36 /* loginBackground.jpg */; };
+		5AF59165DF574D31AB25DE79 /* IMG-2595.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F8EA00C777844F9EA7187D59 /* IMG-2595.jpg */; };
+		28258309DF6E42478E72D7EC /* sidebarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE8909DAD01477D9A696C03 /* sidebarBackground.png */; };
+		27CA5A577F1F48E483403CBA /* sidebarBackground2.png in Resources */ = {isa = PBXBuildFile; fileRef = AE6DDA4AAFD04E91AA7CB4BA /* sidebarBackground2.png */; };
+		7C1BE271EB56468B9C79EBF4 /* Spartan-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 609A0A9AC48A4E039D23DEA1 /* Spartan-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		F7AEB94249CA48AC92085545 /* defaultUser.png */ = {isa = PBXFileReference; name = "defaultUser.png"; path = "../Assets/defaultUser.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		867767EBD05347A2A54A4470 /* EmailVerificationGraphic.png */ = {isa = PBXFileReference; name = "EmailVerificationGraphic.png"; path = "../Assets/EmailVerificationGraphic.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		FF2DF36C917F4DD5A5A23D36 /* loginBackground.jpg */ = {isa = PBXFileReference; name = "loginBackground.jpg"; path = "../Assets/loginBackground.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F8EA00C777844F9EA7187D59 /* IMG-2595.jpg */ = {isa = PBXFileReference; name = "IMG-2595.jpg"; path = "../Assets/IMG-2595.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7CE8909DAD01477D9A696C03 /* sidebarBackground.png */ = {isa = PBXFileReference; name = "sidebarBackground.png"; path = "../Assets/sidebarBackground.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AE6DDA4AAFD04E91AA7CB4BA /* sidebarBackground2.png */ = {isa = PBXFileReference; name = "sidebarBackground2.png"; path = "../Assets/sidebarBackground2.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		609A0A9AC48A4E039D23DEA1 /* Spartan-Medium.ttf */ = {isa = PBXFileReference; name = "Spartan-Medium.ttf"; path = "../Assets/Fonts/Spartan-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +149,10 @@
 				F7AEB94249CA48AC92085545 /* defaultUser.png */,
 				867767EBD05347A2A54A4470 /* EmailVerificationGraphic.png */,
 				FF2DF36C917F4DD5A5A23D36 /* loginBackground.jpg */,
+				F8EA00C777844F9EA7187D59 /* IMG-2595.jpg */,
+				7CE8909DAD01477D9A696C03 /* sidebarBackground.png */,
+				AE6DDA4AAFD04E91AA7CB4BA /* sidebarBackground2.png */,
+				609A0A9AC48A4E039D23DEA1 /* Spartan-Medium.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -216,6 +228,10 @@
 				3BC796A37071472496B4586E /* defaultUser.png in Resources */,
 				867F37024C7C4B15B3F2A080 /* EmailVerificationGraphic.png in Resources */,
 				8ADAEDB522E546919B7546EB /* loginBackground.jpg in Resources */,
+				5AF59165DF574D31AB25DE79 /* IMG-2595.jpg in Resources */,
+				28258309DF6E42478E72D7EC /* sidebarBackground.png in Resources */,
+				27CA5A577F1F48E483403CBA /* sidebarBackground2.png in Resources */,
+				7C1BE271EB56468B9C79EBF4 /* Spartan-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

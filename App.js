@@ -27,8 +27,8 @@ export default function App() {
       require('./Assets/EmailVerificationGraphic.png'),
       require('./Assets/default_user.png'),
       require('./Assets/defaultUser.png'),
-      require("./Assets/sidebarBackground.png"),
-      require("./Assets/sidebarBackground2.png")
+      require('./Assets/sidebarBackground.png'),
+      require('./Assets/sidebarBackground2.png')
     ]);
 
     const fontAssets = cacheFonts([
