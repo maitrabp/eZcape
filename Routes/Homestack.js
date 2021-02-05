@@ -9,6 +9,7 @@ import MainScreen from "../Screens/MainScreen";
 import Screen from "../Screens/Screen"
 import Profile from "../Screens/Profile"
 
+
 const screens = {
     "Profile": {
         screen: Profile,

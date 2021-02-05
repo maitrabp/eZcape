@@ -28,7 +28,8 @@ export default function App() {
       require('./Assets/default_user.png'),
       require('./Assets/defaultUser.png'),
       require('./Assets/sidebarBackground.png'),
-      require('./Assets/sidebarBackground2.png')
+      require('./Assets/sidebarBackground2.png'),
+      require('./Assets/IMG-2595.jpg')
     ]);
 
     const fontAssets = cacheFonts([
