@@ -1,16 +1,39 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
-import firebase from '../Firebase/firebaseConfig';
+import firebase, {db} from '../Firebase/firebaseConfig';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as Animatable from 'react-native-animatable';
 import {Ionicons} from '@expo/vector-icons'
+import * as ImagePicker from 'expo-image-picker';
 import EzProfileInput from "../Components/EzProfileInput"
 import EzButton from "../Components/EzButton"
 const Profile = () => {
+
     var user = firebase.auth().currentUser;
-    const [imageSource, setImageSource] = useState(require('../Assets/IMG-2595.jpg'));
-//hhh
-    const fetchImage = async () => {
+
+    //Updated Variables
+    const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
+    const [updatedSource, setUpdatedSource] = useState([false, false, false, false, false, false])
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    const [phnum, setPhnum] = useState('');
+
+    //Error Variables
+    const [firstnameError, setFirstnameError] = useState('');
+    const [lastnameError, setLastnameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [addressError, setAddressError] = useState('');
+    const [phnumError, setPhnumError] = useState('');
+
+    //Calls this function on page load/re-renders
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    //Get Image from firebase storage
+    const fetchImage = () => {
         firebase.storage()
             .ref('profile_pictures/' + user.uid) //name in storage in firebase console
             .getDownloadURL()
@@ -18,45 +41,225 @@ const Profile = () => {
                 setImageSource({uri: url});
             }).catch((e) => console.log('Errors while downloading => ', e));
     };
-    //fetchImage();
 
-    const something = () => {
+    //Get ALL data for profile page from firebase by just calling this function
+    const fetchData = async() => {
+        fetchImage();
 
+        setEmail(user.email);
+        //Set user data
+        db.collection('Users').doc(user.uid).get().then(documentSnapshot => {
+              setFirstname(documentSnapshot.data().firstName);
+              setLastname(documentSnapshot.data().lastName);
+              formatPhoneNum(documentSnapshot.data().phoneNumber);
+              setAddress(documentSnapshot.data().address);
+        });
+    }
+
+    //Phone number formatted
+    function formatPhoneNum(text)
+    {
+        let formatted = '';
+        var cleaned = ('' + text).replace(/\D/g, '')
+        for(var i = 0; i < cleaned.length; i++){
+            if(i==0){
+                formatted = '(';
+            } else if(i == 3){
+                formatted = formatted + ') ';
+            } else if(i == 6){
+                formatted = formatted + '-';
+            }
+            formatted = formatted + cleaned[i];
+        }
+        setPhnum(formatted);
+    }
+    //pick a new profile image and display it on the frame
+    const changeImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [3, 3],
+          quality: 1,
+        });
+    
+        // console.log(result);
+    
+        if (result.error) {
+            console.log(error)
+        }
+        else if (!result.didCancel) {
+            setImageSource({
+                uri: result.uri
+            });
+            let updatedArr = [...updatedSource];
+            updatedArr[0] = true;
+            setUpdatedSource(updatedArr);
+        }
+    }
+    const changeEmail = () => {
+
+    }
+    
+    const firstNameOCTvalidation = (typedText) => {
+        var pattern = /^[a-zA-Z]+$/
+        if (typedText === '')
+        {
+            setFirstnameError("First name must not be empty!");
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[2] = false;
+            setUpdatedSource(updatedArr);
+
+        }
+        else if (!pattern.test(typedText))
+        {
+            setFirstnameError("First name can only contain letters!")
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[2] = false;
+            setUpdatedSource(updatedArr);
+
+        } else {
+            setFirstnameError("");
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[2] = true;
+            setUpdatedSource(updatedArr);
+        }
+        setFirstname(typedText);
+    }
+    const lastNameOCTvalidation = (typedText) => {
+        var pattern = /^[a-zA-Z]+$/
+        if (typedText === '')
+        {
+            setLastnameError("Last name must not be empty!");
+
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[3] = false;
+            setUpdatedSource(updatedArr);
+        }
+        else if(!pattern.test(typedText)){
+            setLastnameError("Last name can only contain letters!")
+
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[3] = false;
+            setUpdatedSource(updatedArr);
+        }
+        else {
+            setLastnameError("");
+
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[3] = true;
+            setUpdatedSource(updatedArr);
+        }
+        setLastname(typedText);
+    }
+
+    const addressOCTvalidation = (typedText) => {
+        if(typedText === '') {
+            setAddressError("Address must not be empty!")
+
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[4] = false;
+            setUpdatedSource(updatedArr);
+        } else {
+            setAddressError("");
+
+             //Updated checkmark
+             let updatedArr = [...updatedSource];
+             updatedArr[4] = true;
+             setUpdatedSource(updatedArr);
+        }
+        setAddress(typedText);
+    } 
+
+    const phnumOCTvalidation = (typedText) => {
+        if(typedText === '') {
+            setPhnumError("Phone number must not be empty!")
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[5] = false;
+            setUpdatedSource(updatedArr);
+        } 
+        else if (typedText.length < 14)
+        {
+            setPhnumError("Phone number should be 10 digits!");
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[5] = false;
+            setUpdatedSource(updatedArr);
+        }
+        else {
+            setPhnumError("");
+            //Updated checkmark
+            let updatedArr = [...updatedSource];
+            updatedArr[5] = true;
+            setUpdatedSource(updatedArr);
+        }
+        formatPhoneNum(typedText)
+    }
+
+
+    //Update button click method
+    const update = () => {
+       const updated = updatedSource.filter(update => update == true)
+       if(updated[0]){
+           alert("Your profile has successfully been updated!")
+       } else {
+           alert("No changes detected")
+       }
     }
 
     return (
-        <KeyboardAwareScrollView extraHeight={300} contentContainerStyle = {styles.container} enableOnAndroid>
-
+        <KeyboardAwareScrollView extraHeight={250} contentContainerStyle = {styles.container} enableOnAndroid>
             <Animatable.View style={styles.fieldsBackboard} animation = "fadeInUpBig" duration={1200}>
                 <View style={styles.headerSpecs}>
                     <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
-                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>Maitra Patel</Text>
+                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{user?.displayName}</Text>
                     <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="location-sharp" size={18} color="#FFBF00"/> {6} Friends</Text>
                 </View>
                 <View style={styles.fieldsContainer}>
                     <EzProfileInput
                         iconName="mail-outline"
-                        defaultValue="maitrabp@umich.edu"
+                        defaultValue={email}
+                        error = {emailError}
+                        updated = {updatedSource[1]}
                     />
                      <EzProfileInput
                         iconName="person-outline"
-                        defaultValue="Maitra"
+                        defaultValue={firstname}
+                        onChangeText={firstNameOCTvalidation}
+                        error = {firstnameError}
+                        updated = {updatedSource[2]}
                     />
                      <EzProfileInput
                         iconName="person-outline"
-                        defaultValue="Patel"
+                        defaultValue={lastname}
+                        onChangeText = {lastNameOCTvalidation}
+                        error = {lastnameError}
+                        updated = {updatedSource[3]}
                     />
                     <EzProfileInput
                         iconName="home-outline"
-                        defaultValue="49593 Courtyard Ln, Canton, MI"
+                        defaultValue={address}
+                        onChangeText = {addressOCTvalidation}
+                        error = {addressError}
+                        updated = {updatedSource[4]}
                     />
                     <EzProfileInput
                         iconName="call-outline"
-                        defaultValue="+1(734)560-5708"
+                        defaultValue={phnum}
+                        onChangeText = {phnumOCTvalidation}
+                        error = {phnumError}
+                        updated = {updatedSource[5]}
                     />
                     <EzButton
                         title={"Update"}
-                        onPress={something}
+                        onPress={update}
                     />
                 </View>
                
@@ -64,9 +267,15 @@ const Profile = () => {
             <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1200}>
                 <View style={styles.imageContainer}>
                     <Image source={imageSource} style={styles.profile}/>
-                    <TouchableOpacity onPress={something} style = {styles.editImageBtn}>
+                    <TouchableOpacity onPress={changeImage} style = {styles.editImageBtn}>
                         <Ionicons name="add-circle-outline" size={30} color="#FFBF00"/>
                     </TouchableOpacity>
+                    {updatedSource[0]?
+                    <View style={styles.imageUpdatedCheck}>
+                        <Ionicons name="checkbox-outline" size={20} color="green"/>
+                    </View>
+                    :null}
+                    
                 </View>
             </Animatable.View>
         </KeyboardAwareScrollView>
@@ -78,7 +287,6 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: "#212121",
-        
     },
     headerSpecs: {
         color: "black",
@@ -109,6 +317,11 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: -8,
         bottom: 0,
+    },
+    imageUpdatedCheck: {
+        position: "absolute",
+        right: -28,
+        bottom: 4
     },
     imageBackboard: {
         height: "20%",

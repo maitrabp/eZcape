@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { Text, View, StyleSheet, ScrollView, ImageBackground, Image} from 'react-native'
 import {DrawerNavigatorItems} from 'react-navigation-drawer'
 import {Ionicons} from '@expo/vector-icons'
@@ -7,7 +7,7 @@ import firebase from '../Firebase/firebaseConfig';
 export default function EzSideBar(props) {
     var user = firebase.auth().currentUser;
 
-    const useEffect = async () => {
+    const imageFetch = async () => {
         firebase.storage()
             .ref('profile_pictures/' + user.uid) //name in storage in firebase console
             .getDownloadURL()
@@ -17,7 +17,11 @@ export default function EzSideBar(props) {
     };
     
     const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
-    useEffect();
+
+    useEffect(() => {
+        imageFetch();
+    }, [])
+    
 
     return (
         <ScrollView>
