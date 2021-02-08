@@ -7,6 +7,7 @@ import {Ionicons} from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker';
 import EzProfileInput from "../Components/EzProfileInput"
 import EzButton from "../Components/EzButton"
+import { back } from 'react-native/Libraries/Animated/src/Easing';
 const Profile = () => {
 
     var user = firebase.auth().currentUser;
@@ -216,68 +217,71 @@ const Profile = () => {
 
     return (
         <KeyboardAwareScrollView extraHeight={250} contentContainerStyle = {styles.container} enableOnAndroid>
-            <Animatable.View style={styles.fieldsBackboard} animation = "fadeInUpBig" duration={1200}>
-                <View style={styles.headerSpecs}>
-                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
-                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{user?.displayName}</Text>
-                    <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="location-sharp" size={18} color="#FFBF00"/> {6} Friends</Text>
-                </View>
-                <View style={styles.fieldsContainer}>
-                    <EzProfileInput
-                        iconName="mail-outline"
-                        defaultValue={email}
-                        error = {emailError}
-                        updated = {updatedSource[1]}
-                    />
-                     <EzProfileInput
-                        iconName="person-outline"
-                        defaultValue={firstname}
-                        onChangeText={firstNameOCTvalidation}
-                        error = {firstnameError}
-                        updated = {updatedSource[2]}
-                    />
-                     <EzProfileInput
-                        iconName="person-outline"
-                        defaultValue={lastname}
-                        onChangeText = {lastNameOCTvalidation}
-                        error = {lastnameError}
-                        updated = {updatedSource[3]}
-                    />
-                    <EzProfileInput
-                        iconName="home-outline"
-                        defaultValue={address}
-                        onChangeText = {addressOCTvalidation}
-                        error = {addressError}
-                        updated = {updatedSource[4]}
-                    />
-                    <EzProfileInput
-                        iconName="call-outline"
-                        defaultValue={phnum}
-                        onChangeText = {phnumOCTvalidation}
-                        error = {phnumError}
-                        updated = {updatedSource[5]}
-                    />
-                    <EzButton
-                        title={"Update"}
-                        onPress={update}
-                    />
-                </View>
-               
-            </Animatable.View>
-            <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1200}>
-                <View style={styles.imageContainer}>
-                    <Image source={imageSource} style={styles.profile}/>
-                    <TouchableOpacity onPress={changeImage} style = {styles.editImageBtn}>
-                        <Ionicons name="add-circle-outline" size={30} color="#FFBF00"/>
-                    </TouchableOpacity>
-                    {updatedSource[0]?
-                    <View style={styles.imageUpdatedCheck}>
-                        <Ionicons name="checkbox-outline" size={20} color="green"/>
+            <Animatable.View  animation = "fadeInUpBig" duration={1200}>
+                <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1200}>
+                    <View style={styles.imageContainer}>
+                        <Image source={imageSource} style={styles.profile}/>
+                        <TouchableOpacity onPress={changeImage} style = {styles.editImageBtn}>
+                            <Ionicons name="add-circle-outline" size={30} color="#FFBF00"/>
+                        </TouchableOpacity>
+                        {updatedSource[0]?
+                        <View style={styles.imageUpdatedCheck}>
+                            <Ionicons name="checkbox-outline" size={20} color="green"/>
+                        </View>
+                        :null}
+                        
                     </View>
-                    :null}
-                    
+                </Animatable.View>
+                <View style={{paddingTop:"5%"}}>
+                    <View style={styles.headerSpecs}>
+                        <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
+                        <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{user?.displayName}</Text>
+                        <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="location-sharp" size={18} color="#FFBF00"/> {6} Friends</Text>
+                    </View>
+                    <View style={styles.fieldsContainer}>
+                        <EzProfileInput
+                            iconName="mail-outline"
+                            defaultValue={email}
+                            error = {emailError}
+                            updated = {updatedSource[1]}
+                        />
+                        <EzProfileInput
+                            iconName="person-outline"
+                            defaultValue={firstname}
+                            onChangeText={firstNameOCTvalidation}
+                            error = {firstnameError}
+                            updated = {updatedSource[2]}
+                        />
+                        <EzProfileInput
+                            iconName="person-outline"
+                            defaultValue={lastname}
+                            onChangeText = {lastNameOCTvalidation}
+                            error = {lastnameError}
+                            updated = {updatedSource[3]}
+                        />
+                        <EzProfileInput
+                            iconName="home-outline"
+                            defaultValue={address}
+                            onChangeText = {addressOCTvalidation}
+                            error = {addressError}
+                            updated = {updatedSource[4]}
+                        />
+                        <EzProfileInput
+                            iconName="call-outline"
+                            defaultValue={phnum}
+                            onChangeText = {phnumOCTvalidation}
+                            error = {phnumError}
+                            updated = {updatedSource[5]}
+                        />
+                        <EzButton
+                            title={"Update"}
+                            onPress={update}
+                        />
+                    </View>
                 </View>
+                
             </Animatable.View>
+           
         </KeyboardAwareScrollView>
     )
 }
@@ -286,9 +290,10 @@ export default Profile
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: "#212121",
+        backgroundColor: "white",
     },
     headerSpecs: {
+        marginVertical: 30,
         color: "black",
         width: "100%",
         display: "flex",
@@ -297,7 +302,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#b7b7b7",
     },
     fieldsContainer: {
-        marginVertical: 30,
+        
         width: "100%",
         alignItems: "center"
     },
@@ -328,9 +333,11 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "flex-end",
+        backgroundColor: "#121212"
         
     },
     fieldsBackboard: {
+        marginVertical: 30,
         paddingTop: 40,
         position: 'absolute',
         bottom: 0,
