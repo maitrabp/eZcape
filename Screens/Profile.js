@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
 import firebase, {db} from '../Firebase/firebaseConfig';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -20,6 +20,7 @@ const Profile = () => {
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [phnum, setPhnum] = useState('');
+    const [password, setPassword] = useState('');
 
     //Error Variables
     const [firstnameError, setFirstnameError] = useState('');
@@ -27,6 +28,10 @@ const Profile = () => {
     const [emailError, setEmailError] = useState('');
     const [addressError, setAddressError] = useState('');
     const [phnumError, setPhnumError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+    //Toggle Variables
+    const [toggleChangePassword, setToggleChangePassword] = useState(false)
 
     //Calls this function on page load/re-renders
     useEffect(() => {
@@ -101,6 +106,22 @@ const Profile = () => {
 
     }
     
+    const changePasswordOCTvalidation = (typedText) => {
+        if (typedText.length < 8)
+        {
+            let updatedArr = [...updatedSource];
+            updatedArr[5] = false;
+            setUpdatedSource(updatedArr);
+            setPasswordError("Password must be atleast 8 characters in length");
+        } else {
+            setPasswordError("");
+            let updatedArr = [...updatedSource];
+            updatedArr[5] = true;
+            setUpdatedSource(updatedArr);
+        }
+        setPassword(typedText);
+    }
+    
     const firstNameOCTvalidation = (typedText) => {
         var pattern = /^[a-zA-Z]+$/
         if (typedText === '')
@@ -108,7 +129,7 @@ const Profile = () => {
             setFirstnameError("First name must not be empty!");
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[2] = false;
+            updatedArr[1] = false;
             setUpdatedSource(updatedArr);
 
         }
@@ -117,14 +138,14 @@ const Profile = () => {
             setFirstnameError("First name can only contain letters!")
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[2] = false;
+            updatedArr[1] = false;
             setUpdatedSource(updatedArr);
 
         } else {
             setFirstnameError("");
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[2] = true;
+            updatedArr[1] = true;
             setUpdatedSource(updatedArr);
         }
         setFirstname(typedText);
@@ -137,7 +158,7 @@ const Profile = () => {
 
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[3] = false;
+            updatedArr[2] = false;
             setUpdatedSource(updatedArr);
         }
         else if(!pattern.test(typedText)){
@@ -145,7 +166,7 @@ const Profile = () => {
 
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[3] = false;
+            updatedArr[2] = false;
             setUpdatedSource(updatedArr);
         }
         else {
@@ -153,7 +174,7 @@ const Profile = () => {
 
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[3] = true;
+            updatedArr[2] = true;
             setUpdatedSource(updatedArr);
         }
         setLastname(typedText);
@@ -165,14 +186,14 @@ const Profile = () => {
 
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[4] = false;
+            updatedArr[3] = false;
             setUpdatedSource(updatedArr);
         } else {
             setAddressError("");
 
              //Updated checkmark
              let updatedArr = [...updatedSource];
-             updatedArr[4] = true;
+             updatedArr[3] = true;
              setUpdatedSource(updatedArr);
         }
         setAddress(typedText);
@@ -183,7 +204,7 @@ const Profile = () => {
             setPhnumError("Phone number must not be empty!")
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[5] = false;
+            updatedArr[4] = false;
             setUpdatedSource(updatedArr);
         } 
         else if (typedText.length < 14)
@@ -191,14 +212,14 @@ const Profile = () => {
             setPhnumError("Phone number should be 10 digits!");
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[5] = false;
+            updatedArr[4] = false;
             setUpdatedSource(updatedArr);
         }
         else {
             setPhnumError("");
             //Updated checkmark
             let updatedArr = [...updatedSource];
-            updatedArr[5] = true;
+            updatedArr[4] = true;
             setUpdatedSource(updatedArr);
         }
         formatPhoneNum(typedText)
@@ -232,7 +253,7 @@ const Profile = () => {
                         
                     </View>
                 </Animatable.View>
-                <View  style = {{padding: "4%"}}>
+                <View  style={{paddingVertical: "5%"}}>
                     <View style={styles.headerSpecs}>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{user?.displayName}</Text>
@@ -243,36 +264,57 @@ const Profile = () => {
                             iconName="mail-outline"
                             defaultValue={email}
                             error = {emailError}
-                            updated = {updatedSource[1]}
+                            editable = {false}
                         />
                         <EzProfileInput
                             iconName="person-outline"
                             defaultValue={firstname}
                             onChangeText={firstNameOCTvalidation}
                             error = {firstnameError}
-                            updated = {updatedSource[2]}
+                            updated = {updatedSource[1]}
                         />
                         <EzProfileInput
                             iconName="person-outline"
                             defaultValue={lastname}
                             onChangeText = {lastNameOCTvalidation}
                             error = {lastnameError}
-                            updated = {updatedSource[3]}
+                            updated = {updatedSource[2]}
                         />
                         <EzProfileInput
                             iconName="home-outline"
                             defaultValue={address}
                             onChangeText = {addressOCTvalidation}
                             error = {addressError}
-                            updated = {updatedSource[4]}
+                            updated = {updatedSource[3]}
                         />
                         <EzProfileInput
                             iconName="call-outline"
                             defaultValue={phnum}
                             onChangeText = {phnumOCTvalidation}
                             error = {phnumError}
-                            updated = {updatedSource[5]}
+                            updated = {updatedSource[4]}
                         />
+                        {toggleChangePassword? 
+                        
+                        <Animatable.View style = {{width: "100%", alignItems: "center"}}animation = "bounceInDown" duration={400}>
+                            <EzProfileInput
+                                iconName="key-outline"
+                                placeholder = {"New Password?"}
+                                onChangeText = {changePasswordOCTvalidation}
+                                error = {passwordError}
+                                secureTextEntry={true}
+                                updated = {updatedSource[5]}
+                            />
+                            <TouchableOpacity style = {styles.revertPasswordChange} onPress = {() => setToggleChangePassword(false)}>
+                                <Text style={{color: "red", fontFamily: "Spartan-Medium"}}>Don't want to change password</Text>
+                            </TouchableOpacity>
+                        </Animatable.View>
+                        :
+                        <EzButton
+                            title={"Reset Password?"}
+                            onPress={() => setToggleChangePassword(true)}
+                        />
+                        }
                         <EzButton
                             title={"Update"}
                             onPress={update}
@@ -292,7 +334,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
     },
     headerSpecs: {
-        marginVertical: 30,
+        marginVertical: 18,
         color: "black",
         width: "100%",
         display: "flex",
@@ -348,5 +390,14 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
         //#FCF4A3
     },
+    revertPasswordChange: {
+        width: "90%",
+        textAlign: "center",
+        borderColor: "red",
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15,
+        marginVertical: "3%"
+    }
     
 })
