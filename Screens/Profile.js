@@ -217,7 +217,7 @@ const Profile = () => {
 
     return (
         <KeyboardAwareScrollView extraHeight={250} contentContainerStyle = {styles.container} enableOnAndroid>
-            <Animatable.View  animation = "fadeInUpBig" duration={1200}>
+            <View>
                 <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1200}>
                     <View style={styles.imageContainer}>
                         <Image source={imageSource} style={styles.profile}/>
@@ -232,7 +232,7 @@ const Profile = () => {
                         
                     </View>
                 </Animatable.View>
-                <View style={{paddingTop:"5%"}}>
+                <View  style = {{padding: "4%"}}>
                     <View style={styles.headerSpecs}>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{user?.displayName}</Text>
@@ -280,8 +280,7 @@ const Profile = () => {
                     </View>
                 </View>
                 
-            </Animatable.View>
-           
+            </View>
         </KeyboardAwareScrollView>
     )
 }
@@ -329,11 +328,11 @@ const styles = StyleSheet.create({
         bottom: 4
     },
     imageBackboard: {
-        height: "20%",
+        height: "30%",
         width: "100%",
         alignItems: "center",
         justifyContent: "flex-end",
-        backgroundColor: "#121212"
+        backgroundColor: "#121212",
         
     },
     fieldsBackboard: {
