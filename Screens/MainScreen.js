@@ -11,28 +11,28 @@ import {ProfileScreen, HomeScreen, TripScreen, SignOut} from "../Screens";
 import EzSideBar from "../Components/EzSideBar"
 
 const DrawerNavigator = createDrawerNavigator({
-    ProfileScreen: {
+    "ProfileScreen": {
         screen: ProfileScreen,
         navigationOptions: {
             title: "Profile",
             drawerIcon: ({tintColor}) => <Feather name = "user" size={16} color={tintColor}/>
         }
     },
-    HomeScreen: {
+    "HomeScreen": {
         screen: HomeScreen,
         navigationOptions: {
             title: "Home",
             drawerIcon: ({tintColor}) => <Feather name = "home" size={16} color={tintColor}/>
         }
     },
-    TripScreen: {
+    "TripScreen": {
         screen: TripScreen,
         navigationOptions: {
             title: "Trip",
             drawerIcon: ({tintColor}) => <Feather name = "map-pin" size={16} color={tintColor}/>
         }
     },
-    SignOut: {
+    "SignOut": {
         screen: SignOut,
         navigationOptions: {
             title: "Sign Out",

@@ -11,12 +11,6 @@ import Profile from "../Screens/Profile"
 
 
 const screens = {
-    "Profile": {
-        screen: Profile,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
     "Login": {
         screen: Login,
         navigationOptions: {
@@ -32,6 +26,12 @@ const screens = {
             headerShown: false,
         }
     },
+    "Profile": {
+        screen: Profile,
+        navigationOptions: {
+            headerShown: false,
+        }
+   },
     "Password Reset": {
         screen: PasswordReset
     },

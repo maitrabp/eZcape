@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View, Text} from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
 import * as Animatable from 'react-native-animatable';
 
-export default function EzProfileInput({placeholder, error, updated, iconName, ...props}) {
+export default function EzProfileInput({placeholder, error, updated, iconName, editable, ...props}) {
     return (
         <View style={{width:"85%", marginBottom: "6%"}}>
             <View style = {styles.frame}>
@@ -13,13 +13,19 @@ export default function EzProfileInput({placeholder, error, updated, iconName, .
                 <TextInput 
                     style={styles.textInput}
                     placeholder={placeholder}
+                    editable = {editable}
                     {...props}
                 />
                 {updated?
                 <View style = {{justifyContent: 'center'}}>
                     <Ionicons style={{justifyContent: "center"}} name="checkmark-outline" size={18} color="green"></Ionicons>
                 </View>:
-                updated=null}
+                (editable == false)?
+                <View style = {{justifyContent: 'center'}}>
+                    <Ionicons style={{justifyContent: "center"}} name="close-circle-outline" size={18} color="red"></Ionicons>
+                </View>
+                : null
+                }
             </View>
             {error ? <Animatable.Text animation="slideInLeft" duration={500} style={styles.error}>{error}</Animatable.Text> : <Text style={styles.error}></Text>}
         </View>

@@ -8,9 +8,10 @@ import * as ImagePicker from 'expo-image-picker';
 import EzProfileInput from "../Components/EzProfileInput"
 import EzButton from "../Components/EzButton"
 import { back } from 'react-native/Libraries/Animated/src/Easing';
-const Profile = () => {
+const Profile = ({navigation}) => {
 
     var user = firebase.auth().currentUser;
+    var usersCollection = db.collection('Users');
 
     //Updated Variables
     const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
@@ -81,6 +82,7 @@ const Profile = () => {
     }
     //pick a new profile image and display it on the frame
     const changeImage = async () => {
+        console.log(user.uid)
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
@@ -102,8 +104,21 @@ const Profile = () => {
             setUpdatedSource(updatedArr);
         }
     }
-    const changeEmail = () => {
+    const uriToBlob = (uri) => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                resolve(xhr.response);
+            };
 
+            xhr.onerror = function(){
+                reject(new Error('Error on upload image'));
+            };
+
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+            xhr.send(null);
+        });
     }
     
     const changePasswordOCTvalidation = (typedText) => {
@@ -225,14 +240,58 @@ const Profile = () => {
         formatPhoneNum(typedText)
     }
 
+    const dontChangePassword = () => {
+        updatedSource[5] = false;
+        setPassword("");
+        setToggleChangePassword(false)
+    }
+
 
     //Update button click method
-    const update = () => {
+    const update = async() => {
        const updated = updatedSource.filter(update => update == true)
+       let success = false;
+       let updatedElements = "";
        if(updated[0]){
-           alert("Your profile has successfully been updated!")
+           if(updatedSource[0]) {
+                const file = await uriToBlob(imageSource.uri);
+                firebase.storage().ref('profile_pictures/' + user.uid)
+                .put(file)
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    success = true
+                    updatedElements += "Profile Image, \n"
+                }).catch(error => {
+                    // setUpload(false);
+                    // setImageSource(require('../Assets/default_user.png'));
+                    // alert(error);
+                    success = false
+                    console.log(error);
+                });
+           }
+           if(updatedSource[1] || updatedSource[2]) {
+                const updatedData = {
+                    displayName: firstname + ' ' + lastname
+                }
+                await user.updateProfile(updatedData);
+                user.reload();
+           }
+           if(updatedSource[5]) {
+               if(user) {
+                   user.updatePassword(password)
+               }
+           }
+           //Update everything else
+           usersCollection.doc(user.uid).update({
+                firstName: firstname,
+                lastName: lastname,
+                address: address,
+                phoneNumber: phnum
+            })
+            alert('Your profile has successfully been updated!')
+            navigation.navigate("HomeScreen")
        } else {
-           alert("No changes detected")
+           alert("Nothing to update")
        }
     }
 
@@ -253,7 +312,7 @@ const Profile = () => {
                         
                     </View>
                 </Animatable.View>
-                <View  style={{paddingVertical: "5%"}}>
+                <View  style={{marginTop: "5%"}}>
                     <View style={styles.headerSpecs}>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{user?.displayName}</Text>
@@ -305,8 +364,8 @@ const Profile = () => {
                                 secureTextEntry={true}
                                 updated = {updatedSource[5]}
                             />
-                            <TouchableOpacity style = {styles.revertPasswordChange} onPress = {() => setToggleChangePassword(false)}>
-                                <Text style={{color: "red", fontFamily: "Spartan-Medium"}}>Don't want to change password</Text>
+                            <TouchableOpacity style = {styles.revertPasswordChange} onPress = {dontChangePassword}>
+                                <Text style={{color: "red", fontFamily: "Spartan-Medium"}}>Don't change my password</Text>
                             </TouchableOpacity>
                         </Animatable.View>
                         :
