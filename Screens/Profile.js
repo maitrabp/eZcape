@@ -35,7 +35,7 @@ export default function Profile({navigation}) {
     const [toggleChangePassword, setToggleChangePassword] = useState(false)
 
     useEffect(() => {
-        fetchData();
+       await fetchData();
     }, [user])
 
     //Get Image from firebase storage
