@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Image } from 'react-native';
-import Navigator from './Routes/Homestack';
+import {AuthProvider} from './Contexts/AuthProvider'
+import Router from './Router'
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -14,6 +15,7 @@ function cacheImages(images) {
     }
   });
 }
+
 function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
@@ -43,7 +45,9 @@ export default function App() {
 
   if (assetsLoaded) {
     return (
-      <Navigator /> //there's screens inside here..
+      <AuthProvider>
+          <Router/>
+      </AuthProvider>
     );
   } else {
     return (
@@ -54,7 +58,6 @@ export default function App() {
       />
     )
   }
-
 }
 const styles = StyleSheet.create({
   container: {

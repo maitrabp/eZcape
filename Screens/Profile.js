@@ -8,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import EzProfileInput from "../Components/EzProfileInput"
 import EzButton from "../Components/EzButton"
 import { back } from 'react-native/Libraries/Animated/src/Easing';
-const Profile = ({navigation}) => {
+export default function Profile({navigation}) {
 
     var user = firebase.auth().currentUser;
     var usersCollection = db.collection('Users');
@@ -34,10 +34,9 @@ const Profile = ({navigation}) => {
     //Toggle Variables
     const [toggleChangePassword, setToggleChangePassword] = useState(false)
 
-    //Calls this function on page load/re-renders
     useEffect(() => {
         fetchData();
-    }, [])
+    }, [user])
 
     //Get Image from firebase storage
     const fetchImage = () => {
@@ -385,7 +384,6 @@ const Profile = ({navigation}) => {
         </KeyboardAwareScrollView>
     )
 }
-export default Profile
 
 const styles = StyleSheet.create({
     container:{
@@ -433,6 +431,8 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "flex-end",
+        borderBottomEndRadius: 25,
+        borderBottomStartRadius: 25,
         backgroundColor: "#121212",
         
     },

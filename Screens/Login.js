@@ -1,6 +1,7 @@
 import React from 'react'
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import { StyleSheet, View, Text, ImageBackground} from 'react-native'
+import {AuthContext} from '../Contexts/AuthProvider'
 import EzButton from '../Components/EzButton'
 import firebase from '../Firebase/firebaseConfig';
 import EzTextInput from '../Components/EzTextInput';
@@ -8,6 +9,9 @@ import EzTextLink from '../Components/EzTextLink';
 import * as Animatable from 'react-native-animatable';
 
 export default function Login({navigation}) {
+
+    //User Context
+    const {loggedIn, setLoggedIn} = useContext(AuthContext);
 
     //State Change Variables
     const [email, setemail] = useState('');
@@ -33,8 +37,9 @@ export default function Login({navigation}) {
                     navigation.navigate("Email Verification")
                     // alert("Please check your email for a verification link. Once you're verified, you may successfully login! Enjoy!")
                       
-                } else {
-                    navigation.navigate('MainScreen')
+                }
+                else {
+                    setLoggedIn(true)
                 }
             })
             //Failure
@@ -68,10 +73,6 @@ export default function Login({navigation}) {
 
     const redirectPasswordReset = () => {
         navigation.navigate('Password Reset');
-    }
-
-    const redirectEmailVerification = () => {
-        navigation.navigate('Email Verification');
     }
 
     //Email validation when user clicks out of the email input field

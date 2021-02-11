@@ -18,7 +18,7 @@ export default function EmailVerification({navigation}) {
                 //otherwise if it was already unmounted, then the response was late so ignore
                 if(mounted){
                     if(user.emailVerified){
-                        navigation.navigate('MainScreen')
+                        setIsLoggedIn(true)
                     } else {
                         alert("Please verify your email before proceeding.");
                     }

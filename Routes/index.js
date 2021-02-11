@@ -1,5 +1,5 @@
 import React from "react"
-import Screen from './Screen'
+import Screen from '../Screens/Screen'
 
 export const ProfileScreen = ({navigation}) => <Screen navigation={navigation} name="Profile"/>
 export const HomeScreen = ({navigation}) => <Screen navigation={navigation} name="Home"/>

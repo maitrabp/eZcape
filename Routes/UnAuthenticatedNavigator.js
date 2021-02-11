@@ -5,7 +5,7 @@ import SignUp from '../Screens/SignUp';
 import PasswordReset from '../Screens/PasswordReset';
 import Home from '../Screens/Home';
 import EmailVerification from '../Screens/EmailVerification';
-import MainScreen from "../Screens/MainScreen";
+import MainScreen from "./AuthenticatedNavigator";
 import Screen from "../Screens/Screen"
 import Profile from "../Screens/Profile"
 

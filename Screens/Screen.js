@@ -1,48 +1,52 @@
-import React, { Component } from 'react'
+import React, { Component, useContext, useEffect } from 'react'
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native'
 import {FontAwesome5} from '@expo/vector-icons'
 import Home from './Home'
 import Profile from './Profile'
 import firebase from '../Firebase/firebaseConfig';
+import {AuthContext} from '../Contexts/AuthProvider';
 
-export default class Screen extends Component {
-    render() {
-        const SignOutUser = () => {
-            firebase.auth().signOut()
-            .then((res) => {
-                console.log("DONE");
-                this.props.navigation.navigate("Login")
-            })  
-            .catch((error) => {
-                if (error.code == "auth/too-many-requests")
-                {
-                    alert("Due to security reasons, please try again in about 30 seconds.")
-                } else {
-                    console.log(error);
-                }
-            })  
-        }
-        return (
-            <View style={styles.container}>
-                <SafeAreaView style={{flex: 1}}>
-                    <TouchableOpacity 
-                        style={{alignItems: "flex-start", margin: 16}}
-                        onPress = {this.props.navigation.openDrawer}
-                    >
-                        <FontAwesome5 name="bars" size={24} color="black"/>
+export default function Screen({navigation, name}) {
 
-                    </TouchableOpacity>
-                    <View style={{flex:1, borderTopColor: "black", borderTopWidth: 2}}>
-                        {
-                            this.props.name==="Home"?<Home navigation={this.props.navigation}></Home>:
-                            (this.props.name==="Profile"?<Profile navigation={this.props.navigation}></Profile>:
-                            (this.props.name==="SignOut"?SignOutUser():<Text>Some Other Screen!!</Text>))
-                        }
-                    </View>
-                </SafeAreaView>
-            </View>
-        )
+    //User Context
+    const {loggedIn, setLoggedIn} = useContext(AuthContext);
+ 
+
+    const SignOutUser = () => {
+        firebase.auth().signOut()
+        .then((res) => {
+            console.log("Logging off")
+            setLoggedIn(false);
+        })  
+        .catch((error) => {
+            if (error.code == "auth/too-many-requests")
+            {
+                alert("Due to security reasons, please try again in about 30 seconds.")
+            } else {
+                console.log(error);
+            }
+        })  
     }
+    return (
+        <View style={styles.container}>
+            <SafeAreaView style={{flex: 1}}>
+                <TouchableOpacity 
+                    style={{alignItems: "flex-start", margin: 16}}
+                    onPress = {navigation.openDrawer}
+                >
+                    <FontAwesome5 name="bars" size={24} color="black"/>
+
+                </TouchableOpacity>
+                <View style={{flex:1, borderTopColor: "black", borderTopWidth: 2}}>
+                    {
+                        name==="Home"?<Home navigation={navigation}></Home>:
+                        (name==="Profile"?<Profile navigation={navigation}></Profile>:
+                        (name==="SignOut"?SignOutUser():<Text>Some Other Screen!!</Text>))
+                    }
+                </View>
+            </SafeAreaView>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
