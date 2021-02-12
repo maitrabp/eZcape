@@ -22,6 +22,7 @@ export default function Profile({navigation}) {
     const [address, setAddress] = useState('');
     const [phnum, setPhnum] = useState('');
     const [password, setPassword] = useState('');
+    const [updateButtonClick, setUpdatedButtonClick] = useState(false)
 
     //Error Variables
     const [firstnameError, setFirstnameError] = useState('');
@@ -35,17 +36,12 @@ export default function Profile({navigation}) {
     const [toggleChangePassword, setToggleChangePassword] = useState(false)
 
     useEffect(() => {
-       await fetchData();
-    }, [user])
+        fetchData();
+    }, [updateButtonClick, user])
 
     //Get Image from firebase storage
     const fetchImage = () => {
-        firebase.storage()
-            .ref('profile_pictures/' + user.uid) //name in storage in firebase console
-            .getDownloadURL()
-            .then((url) => {
-                setImageSource({uri: url});
-            }).catch((e) => console.log('Errors while downloading => ', e));
+        setImageSource(user?.photoURL);
     };
 
     //Get ALL data for profile page from firebase by just calling this function
@@ -81,7 +77,6 @@ export default function Profile({navigation}) {
     }
     //pick a new profile image and display it on the frame
     const changeImage = async () => {
-        console.log(user.uid)
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
@@ -254,10 +249,15 @@ export default function Profile({navigation}) {
        if(updated[0]){
            if(updatedSource[0]) {
                 const file = await uriToBlob(imageSource.uri);
-                firebase.storage().ref('profile_pictures/' + user.uid)
+                await firebase.storage().ref('profile_pictures/' + user.uid)
                 .put(file)
                 .then(snapshot => snapshot.ref.getDownloadURL())
                 .then(url => {
+                    console.log("BEFORE", url)
+                    user.updateProfile({
+                        photoURL: url
+                    })
+                    console.log("AFTER1", user.photoURL)
                     success = true
                     updatedElements += "Profile Image, \n"
                 }).catch(error => {
@@ -287,8 +287,8 @@ export default function Profile({navigation}) {
                 address: address,
                 phoneNumber: phnum
             })
+            setUpdatedButtonClick(true)
             alert('Your profile has successfully been updated!')
-            navigation.navigate("HomeScreen")
        } else {
            alert("Nothing to update")
        }

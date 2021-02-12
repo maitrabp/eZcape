@@ -8,12 +8,7 @@ export default function EzSideBar(props) {
     var user = firebase.auth().currentUser;
 
     const imageFetch = async () => {
-        firebase.storage()
-            .ref('profile_pictures/' + user.uid) //name in storage in firebase console
-            .getDownloadURL()
-            .then((url) => {
-                setImageSource({uri: url});
-            }).catch((e) => console.log('Errors while downloading => ', e));
+        setImageSource(user.photoURL);
     };
     
     const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));

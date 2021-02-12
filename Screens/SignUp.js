@@ -77,6 +77,9 @@ export default function SignUp({navigation}) {
             .then(url => {
                 updateUserImage(url);
                 setImageUrl(url);
+                res.user.updateProfile({
+                    photoURL: url
+                })
                 console.log("URL: ", url);
             }).catch(error => {
                 // setUpload(false);
