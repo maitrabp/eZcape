@@ -16,7 +16,7 @@ export default function Home({navigation}) {
         // const managementDocs = [];
         // const tripDocs = [];
 
-        const [managementDocs, setManagementDocs] = useState(["dummy"]);
+        const [managementDocs, setManagementDocs] = useState([]);
         const [tripDocs, setTripDocs] = useState([{}]);
 
         const [dataFetchDone, setDataFetchDone] = useState(false);
@@ -32,7 +32,7 @@ export default function Home({navigation}) {
         }
         
         useEffect(() => {
-            await getManagementDocs();
+            getManagementDocs();
             
         }, [])
 
@@ -75,9 +75,6 @@ export default function Home({navigation}) {
             </EzTripCard>
             
         );
-
-        // if (dataFetchDone)
-        // {
             console.log(tripDocs);
             return (
                 <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={{flex: 1}}>
@@ -95,33 +92,12 @@ export default function Home({navigation}) {
                     </Animatable.View>
                 </ImageBackground>
             )
-        // } else {
-        //     return (
-        //         <AppLoading
-        //             startAsync={useEffect()}
-        //             onFinish={() => {setDataFetchDone(true)}}
-        //             onError={console.warn}
-        //         />
-        //     )
-        // }
         
     
 
 
     
     }
-
-    
-
-    
-    // this.getUser();
-
-    // console.log(snapshot);
-    
-
-    // const [trips, setTrip] = useState(
-        
-    // );
 
     const DATA = [
         {
@@ -159,44 +135,9 @@ export default function Home({navigation}) {
             tripName: 'Yeh Zindagi Na Milegi Dobara',
             numMembers: '7',
             balance: '100'
-        },
-        // {
-        //     // id: '1',
-        //     tripName: 'Trip 2020',
-        //     numMembers: '7',
-        //     balance: '100'
-        // },
-        // {
-        //     // id: '1',
-        //     tripName: 'Trip 2020',
-        //     numMembers: '7',
-        //     balance: '100'
-        // },
-        // {
-        //     // id: '1',
-        //     tripName: 'Trip 2020',
-        //     numMembers: '7',
-        //     balance: '100'
-        // },
-        // {
-        //     // id: '1',
-        //     tripName: 'Trip 2020',
-        //     numMembers: '7',
-        //     balance: '100'
-        // },
-        // {
-        //     // id: '1',
-        //     tripName: 'Trip 2020',
-        //     numMembers: '7',
-        //     balance: '100'
-        // },
-        
+        }
     ]
 
-    
-
-    
-// }
 
 //Styles for Home Page
 const styles = StyleSheet.create({
