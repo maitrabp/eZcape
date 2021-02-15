@@ -8,6 +8,7 @@ import AppLoading from 'expo-app-loading';
 import EzButton from '../Components/EzButton';
 import { concat } from 'react-native-reanimated';
 import { render } from 'react-dom';
+import { FAB } from 'react-native-paper';
 
     
 
@@ -17,7 +18,8 @@ export default function Home({navigation}) {
         // const tripDocs = [];
 
         const [managementDocs, setManagementDocs] = useState([]);
-        const [tripDocs, setTripDocs] = useState([{}]);
+        const [tripDocs, setTripDocs] = useState([]);
+        const [isDone, setIsDone] = useState(false);
 
         const [dataFetchDone, setDataFetchDone] = useState(false);
 
@@ -26,15 +28,38 @@ export default function Home({navigation}) {
         const usersCollection = db.collection('Users');
         const managementCollection = db.collection('Management');
         const tripsCollection = db.collection('Trips');
-
-        function ehh(){
-            console.log(tripDocs);
-        }
+        
         
         useEffect(() => {
-            getManagementDocs();
-            
+            const snapshot = managementCollection.where('UserID', '==', user.uid).get().then(res => {
+                res.forEach(doc => {
+                // managementDocs.push(doc.data().TripID);
+                // console.log(doc.data().TripID)
+                managementDocs.push(doc.data().TripID);
+                // setManagementDocs(oldData => [...oldData, doc.data().TripID]);
+                // console.log("ManagementDocs:", managementDocs);
+                });
+                console.log("ManagementDocs:", managementDocs);
+                // const temp = await getTrips().then(setIsDone(true));
+            }).then(res2 => {
+                    managementDocs.forEach(tripId => {
+                        tripsCollection.doc(tripId).get().then(data => {
+                        tripDocs.push(data.data());
+                        // console.log(data.data())
+                        // setTripDocs(oldData => [...oldData, data.data()]);
+                        // console.log(tripDocs);
+                    }).then(res0 => setIsDone(true));
+                })
+                console.log("Trip Docs:", tripDocs);
+                console.log("Data:", DATA);
+            });
+
+
         }, [])
+
+        function ehh() {
+            console.log(tripDocs);
+        }
 
         async function getManagementDocs() {
             // console.log(tripsCollection.doc('2rEkbJAwWnfzK8wUk6wQ'));
@@ -42,13 +67,13 @@ export default function Home({navigation}) {
             const snapshot = await managementCollection.where('UserID', '==', user.uid).get();
             snapshot.forEach(doc => {
                // managementDocs.push(doc.data().TripID);
-                console.log(doc.data().TripID)
-                setManagementDocs(oldData => [...oldData, doc.data().TripID]);
-                console.log("ManagementDocs:", managementDocs);
+                // console.log(doc.data().TripID)
+                managementDocs.push(doc.data().TripID);
+                // setManagementDocs(oldData => [...oldData, doc.data().TripID]);
+                // console.log("ManagementDocs:", managementDocs);
             });
             console.log("ManagementDocs:", managementDocs);
-            getTrips();
-            
+            const temp = await getTrips().then(setIsDone(true));
             // console.log(managementDocs);
         }
 
@@ -57,13 +82,15 @@ export default function Home({navigation}) {
             // const tripsCollection = db.collection('Trips');
             managementDocs.forEach(tripId => {
                     tripsCollection.doc(tripId).get().then(data => {
-                    // tripDocs.push(data.data());
-                    console.log(data.data())
-                    setTripDocs(oldData => [...oldData, data.data()]);
+                    tripDocs.push(data.data());
+                    // console.log(data.data())
+                    // setTripDocs(oldData => [...oldData, data.data()]);
                     // console.log(tripDocs);
                 });
             })
             console.log("Trip Docs:", tripDocs);
+            console.log("Data:", DATA);
+            return tripDocs;
         }
 
         const renderItem = ({ item }) => (
@@ -75,7 +102,9 @@ export default function Home({navigation}) {
             </EzTripCard>
             
         );
-            console.log(tripDocs);
+
+        if (isDone)
+        {
             return (
                 <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={{flex: 1}}>
                     <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
@@ -85,13 +114,27 @@ export default function Home({navigation}) {
                             keyExtractor={item => item.tripName}
                             renderItem={renderItem}
                         />
+                        {/* <EzButton onPress={ehh}></EzButton> */}
+                        {/* <h1>{tripDocs[0].tripName}</h1> */}
                     </ScrollView>
-                        {/* <EzButton onPress={getManagementDocs} value="Click Me">
-                        </EzButton> */}
+                    <FAB
+                        style={styles.fab}
+                        small
+                        icon="plus"
+                        onPress={() => console.log('Pressed')}
+                    />
 
                     </Animatable.View>
                 </ImageBackground>
             )
+        } else {
+            return (
+                <View>
+                <h1>Loading...</h1>
+            </View>
+            )
+        }
+            
         
     
 
@@ -144,5 +187,11 @@ const styles = StyleSheet.create({
     container: {
         // alignItems: 'center',
         // paddingTop: '20%',
-    }
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+      },
   });
