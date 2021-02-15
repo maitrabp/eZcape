@@ -10,19 +10,19 @@ import EzButton from "../Components/EzButton"
 import { back } from 'react-native/Libraries/Animated/src/Easing';
 export default function Profile({navigation}) {
 
-    var user = firebase.auth().currentUser;
     var usersCollection = db.collection('Users');
+    var user = firebase.auth().currentUser
 
     //Updated Variables
     const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
     const [updatedSource, setUpdatedSource] = useState([false, false, false, false, false, false])
+    const [fullname, setFullName] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [phnum, setPhnum] = useState('');
     const [password, setPassword] = useState('');
-    const [updateButtonClick, setUpdatedButtonClick] = useState(false)
 
     //Error Variables
     const [firstnameError, setFirstnameError] = useState('');
@@ -36,26 +36,31 @@ export default function Profile({navigation}) {
     const [toggleChangePassword, setToggleChangePassword] = useState(false)
 
     useEffect(() => {
-        fetchData();
-    }, [updateButtonClick, user])
+        fetchData()
+    }, [user])
 
     //Get Image from firebase storage
     const fetchImage = () => {
-        setImageSource(user?.photoURL);
+        setImageSource({
+            uri: user?.photoURL
+        });
     };
+    const fetchDocumentData = async() => {
+        //Set user data
+        await db.collection('Users').doc(user.uid).get().then(documentSnapshot => {
+            setFirstname(documentSnapshot.data().firstName)
+            setLastname(documentSnapshot.data().lastName)
+            setFullName(documentSnapshot.data().firstName + " " + documentSnapshot.data().lastName)
+            setAddress(documentSnapshot.data().address)
+            setPhnum(documentSnapshot.data().phoneNumber)
+        })
+    }
 
     //Get ALL data for profile page from firebase by just calling this function
     const fetchData = async() => {
         fetchImage();
-
         setEmail(user.email);
-        //Set user data
-        db.collection('Users').doc(user.uid).get().then(documentSnapshot => {
-              setFirstname(documentSnapshot.data().firstName);
-              setLastname(documentSnapshot.data().lastName);
-              formatPhoneNum(documentSnapshot.data().phoneNumber);
-              setAddress(documentSnapshot.data().address);
-        });
+        fetchDocumentData()
     }
 
     //Phone number formatted
@@ -75,6 +80,7 @@ export default function Profile({navigation}) {
         }
         setPhnum(formatted);
     }
+    
     //pick a new profile image and display it on the frame
     const changeImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -83,8 +89,6 @@ export default function Profile({navigation}) {
           aspect: [3, 3],
           quality: 1,
         });
-    
-        // console.log(result);
     
         if (result.error) {
             console.log(error)
@@ -239,13 +243,15 @@ export default function Profile({navigation}) {
         setPassword("");
         setToggleChangePassword(false)
     }
+    const clickUpdate = () => {
+       update()
+       //navigation.navigate("HomeScreen")
+    }
 
 
-    //Update button click method
+    //Update button click method, move this in useeffect also..look at cleanup code..
     const update = async() => {
        const updated = updatedSource.filter(update => update == true)
-       let success = false;
-       let updatedElements = "";
        if(updated[0]){
            if(updatedSource[0]) {
                 const file = await uriToBlob(imageSource.uri);
@@ -253,31 +259,30 @@ export default function Profile({navigation}) {
                 .put(file)
                 .then(snapshot => snapshot.ref.getDownloadURL())
                 .then(url => {
-                    console.log("BEFORE", url)
                     user.updateProfile({
                         photoURL: url
+                    }).then(res => {
+                        setImageSource({
+                            uri: user?.photoURL
+                        });
                     })
-                    console.log("AFTER1", user.photoURL)
-                    success = true
-                    updatedElements += "Profile Image, \n"
                 }).catch(error => {
-                    // setUpload(false);
-                    // setImageSource(require('../Assets/default_user.png'));
-                    // alert(error);
-                    success = false
-                    console.log(error);
-                });
+                    alert(`Unable to update the profile image. Error: ${error}`);
+                })
            }
            if(updatedSource[1] || updatedSource[2]) {
                 const updatedData = {
                     displayName: firstname + ' ' + lastname
                 }
-                await user.updateProfile(updatedData);
-                user.reload();
+
+                user.updateProfile(updatedData).then(res => {
+                    console.log("DISPLAY NAME IN UPDATE: ", user.displayName)
+                    setFullName(user.displayName)
+                })
            }
            if(updatedSource[5]) {
                if(user) {
-                   user.updatePassword(password)
+                   await user.updatePassword(password)
                }
            }
            //Update everything else
@@ -286,16 +291,20 @@ export default function Profile({navigation}) {
                 lastName: lastname,
                 address: address,
                 phoneNumber: phnum
+            }).then(res => {
+                //Update fields once the data has been uploaded
+                fetchDocumentData()
+                setUpdatedSource([false, false, false, false, false, false])
+                user.reload()
+                alert("Your profile has been updated!")
             })
-            setUpdatedButtonClick(true)
-            alert('Your profile has successfully been updated!')
        } else {
            alert("Nothing to update")
        }
     }
 
     return (
-        <KeyboardAwareScrollView extraHeight={250} contentContainerStyle = {styles.container} enableOnAndroid>
+        <KeyboardAwareScrollView extraHeight={300} contentContainerStyle = {styles.container} enableOnAndroid>
             <View>
                 <Animatable.View style = {styles.imageBackboard} animation = "fadeInDownBig" duration={1200}>
                     <View style={styles.imageContainer}>
@@ -311,10 +320,10 @@ export default function Profile({navigation}) {
                         
                     </View>
                 </Animatable.View>
-                <View  style={{marginTop: "5%"}}>
+                <View  style={{marginVertical: "5%"}}>
                     <View style={styles.headerSpecs}>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="pin-sharp" size={18} color="#FFBF00"/> {20} Trips</Text>
-                        <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{user?.displayName}</Text>
+                        <Text style={{fontFamily: "Spartan-Medium", fontSize: 18, fontWeight: "400"}}>{fullname}</Text>
                         <Text style={{fontFamily: "Spartan-Medium", fontSize: 11, color: "black"}}><Ionicons name="location-sharp" size={18} color="#FFBF00"/> {6} Friends</Text>
                     </View>
                     <View style={styles.fieldsContainer}>
@@ -375,7 +384,7 @@ export default function Profile({navigation}) {
                         }
                         <EzButton
                             title={"Update"}
-                            onPress={update}
+                            onPress={clickUpdate}
                         />
                     </View>
                 </View>
@@ -427,7 +436,7 @@ const styles = StyleSheet.create({
         bottom: 4
     },
     imageBackboard: {
-        height: "30%",
+        height: "18%",
         width: "100%",
         alignItems: "center",
         justifyContent: "flex-end",

@@ -4,18 +4,23 @@ import {DrawerNavigatorItems} from 'react-navigation-drawer'
 import {Ionicons} from '@expo/vector-icons'
 import firebase from '../Firebase/firebaseConfig';
 
+//NOTE: Image uploads to storage behind the scenes..
+//Image does not get linked to photoURL right after uploaded to the storage, maybe some issue with async uplaod....
+
 export default function EzSideBar(props) {
     var user = firebase.auth().currentUser;
 
     const imageFetch = async () => {
-        setImageSource(user.photoURL);
+        setImageSource({
+            uri: user?.photoURL
+        });
     };
     
     const [imageSource, setImageSource] = useState(require('../Assets/default_user.png'));
 
     useEffect(() => {
         imageFetch();
-    }, [])
+    }, [user])
     
 
     return (
@@ -24,7 +29,7 @@ export default function EzSideBar(props) {
                 source={require("../Assets/sidebarBackground2.png")}
                 style={{width: undefined, padding: 16, paddingTop: 48, backgroundColor: "black"}}>
                     <View style={{width: undefined, alignItems: "center"}}>
-                        <Image source={imageSource} style={styles.profile}/>
+                        <Image source={user?user.photoURL: imageSource} style={styles.profile}/>
                         <Text style={styles.name}>{user?.displayName}</Text> 
                         <View style={{flexDirection: "row"}}>
                             <Text style={styles.tripsTaken}>{25} Trips </Text>
@@ -33,7 +38,7 @@ export default function EzSideBar(props) {
                     </View>
             </ImageBackground>
             <View style={styles.container}>
-                <DrawerNavigatorItems {...props}/>
+                <DrawerNavigatorItems {...props} />
             </View>
         </ScrollView>
     )

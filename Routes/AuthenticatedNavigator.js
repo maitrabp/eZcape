@@ -14,6 +14,7 @@ const DrawerNavigator = createDrawerNavigator({
     "HomeScreen": {
         screen: HomeScreen,
         navigationOptions: {
+            unmountInactiveRoutes: true,
             title: "Home",
             drawerIcon: ({tintColor}) => <Feather name = "home" size={16} color={tintColor}/>
         }
@@ -30,6 +31,7 @@ const DrawerNavigator = createDrawerNavigator({
     "TripScreen": {
         screen: TripScreen,
         navigationOptions: {
+            unmountInactiveRoutes: true,
             title: "Trip",
             drawerIcon: ({tintColor}) => <Feather name = "map-pin" size={16} color={tintColor}/>
         }
@@ -37,6 +39,7 @@ const DrawerNavigator = createDrawerNavigator({
     "SignOut": {
         screen: SignOut,
         navigationOptions: {
+            unmountInactiveRoutes: true,
             title: "Sign Out",
             drawerIcon: ({tintColor}) => <Feather name = "log-out" size={16} color={tintColor}/>
         }
@@ -59,7 +62,7 @@ const DrawerNavigator = createDrawerNavigator({
             borderRadius: 4
         }
     }
-}
+},
 )
 
 

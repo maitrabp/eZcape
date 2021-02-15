@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import {StyleSheet,View, Text, Image } from 'react-native'
+import {AuthContext} from '../Contexts/AuthProvider'
 import firebase from '../Firebase/firebaseConfig';
 import EzButton from '../Components/EzButton';
 import * as Animatable from 'react-native-animatable';
 export default function EmailVerification({navigation}) {
 
     var user = firebase.auth().currentUser;
+    //User Context
+    const {loggedIn, setLoggedIn} = useContext(AuthContext);
     const imageEV = require('../Assets/EmailVerificationGraphic.png');
     const [proceed, setProcceed] = useState(0)
     useEffect(() => {
@@ -18,7 +21,7 @@ export default function EmailVerification({navigation}) {
                 //otherwise if it was already unmounted, then the response was late so ignore
                 if(mounted){
                     if(user.emailVerified){
-                        setIsLoggedIn(true)
+                        setLoggedIn(true)
                     } else {
                         alert("Please verify your email before proceeding.");
                     }
