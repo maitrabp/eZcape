@@ -8,7 +8,7 @@ import AppLoading from 'expo-app-loading';
 import EzButton from '../Components/EzButton';
 import { concat } from 'react-native-reanimated';
 import { render } from 'react-dom';
-import { FAB } from 'react-native-paper';
+// import { FAB } from 'react-native-paper';
 
     
 
@@ -117,14 +117,17 @@ export default function Home({navigation}) {
                         {/* <EzButton onPress={ehh}></EzButton> */}
                         {/* <h1>{tripDocs[0].tripName}</h1> */}
                     </ScrollView>
-                    <FAB
+                    {/* <FAB
                         style={styles.fab}
                         small
                         icon="plus"
                         onPress={() => console.log('Pressed')}
-                    />
-
+                    /> */}
+                    <TouchableOpacity style={styles.fab}>
+                        <Text style={styles.fabText}>+</Text>
+                    </TouchableOpacity>
                     </Animatable.View>
+                    
                 </ImageBackground>
             )
         } else {
@@ -190,8 +193,20 @@ const styles = StyleSheet.create({
     },
     fab: {
         position: 'absolute',
-        margin: 16,
-        right: 0,
-        bottom: 0,
+        width: 50,
+        height: 50,
+        backgroundColor:'black',
+        borderRadius: 50,
+        bottom: 10,
+        right: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+        // margin: 16,
+        // right: 0,
+        // bottom: 0,
       },
+      fabText: {
+        color: 'white',
+        fontSize: 50
+      }
   });
