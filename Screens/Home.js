@@ -1,21 +1,12 @@
-import React, {Component, useState, useEffect} from 'react'
-import { View, Text, FlatList, Button, ImageBackground, StyleSheet } from 'react-native'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import React, {useState, useEffect} from 'react'
+import { View, FlatList, ImageBackground, StyleSheet } from 'react-native'
 import EzTripCard from '../Components/EzTripCard'
 import firebase, {db} from '../Firebase/firebaseConfig';
 import * as Animatable from 'react-native-animatable';
-import AppLoading from 'expo-app-loading';
-import EzButton from '../Components/EzButton';
-import { concat } from 'react-native-reanimated';
-import { render } from 'react-dom';
-// import { FAB } from 'react-native-paper';
 
     
 
 export default function Home({navigation}) {
-
-        // const managementDocs = [];
-        // const tripDocs = [];
 
         const [managementDocs, setManagementDocs] = useState([]);
         const [tripDocs, setTripDocs] = useState([]);
@@ -33,63 +24,34 @@ export default function Home({navigation}) {
         useEffect(() => {
             const snapshot = managementCollection.where('UserID', '==', user.uid).get().then(res => {
                 res.forEach(doc => {
-                // managementDocs.push(doc.data().TripID);
-                // console.log(doc.data().TripID)
                 managementDocs.push(doc.data().TripID);
-                // setManagementDocs(oldData => [...oldData, doc.data().TripID]);
-                // console.log("ManagementDocs:", managementDocs);
                 });
-                console.log("ManagementDocs:", managementDocs);
-                // const temp = await getTrips().then(setIsDone(true));
             }).then(res2 => {
                     managementDocs.forEach(tripId => {
                         tripsCollection.doc(tripId).get().then(data => {
                         tripDocs.push(data.data());
-                        // console.log(data.data())
-                        // setTripDocs(oldData => [...oldData, data.data()]);
-                        // console.log(tripDocs);
                     }).then(res0 => setIsDone(true));
                 })
-                console.log("Trip Docs:", tripDocs);
-                console.log("Data:", DATA);
             });
 
 
         }, [])
 
-        function ehh() {
-            console.log(tripDocs);
-        }
-
         async function getManagementDocs() {
-            // console.log(tripsCollection.doc('2rEkbJAwWnfzK8wUk6wQ'));
-            // const managementCollection = db.collection('Management');
             const snapshot = await managementCollection.where('UserID', '==', user.uid).get();
             snapshot.forEach(doc => {
-               // managementDocs.push(doc.data().TripID);
-                // console.log(doc.data().TripID)
                 managementDocs.push(doc.data().TripID);
-                // setManagementDocs(oldData => [...oldData, doc.data().TripID]);
-                // console.log("ManagementDocs:", managementDocs);
             });
-            console.log("ManagementDocs:", managementDocs);
             const temp = await getTrips().then(setIsDone(true));
-            // console.log(managementDocs);
         }
 
 
         async function getTrips() {
-            // const tripsCollection = db.collection('Trips');
             managementDocs.forEach(tripId => {
                     tripsCollection.doc(tripId).get().then(data => {
                     tripDocs.push(data.data());
-                    // console.log(data.data())
-                    // setTripDocs(oldData => [...oldData, data.data()]);
-                    // console.log(tripDocs);
                 });
             })
-            console.log("Trip Docs:", tripDocs);
-            console.log("Data:", DATA);
             return tripDocs;
         }
 
@@ -98,7 +60,6 @@ export default function Home({navigation}) {
                 tripName={item.tripName}
                 numMembers={item.numMembers}
                 balance={item.balance}>
-                {/* <Text>{item.tripName}</Text> */}
             </EzTripCard>
             
         );
@@ -106,28 +67,14 @@ export default function Home({navigation}) {
         if (isDone)
         {
             return (
-                <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={{flex: 1}}>
-                    <Animatable.View animation="fadeInDown" duration={1000} style={styles.container}>
-                    <ScrollView>
+                <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={styles.container}>
+                    <Animatable.View animation="fadeInDown" duration={1000} style={styles.container2}>
                         <FlatList 
                             data={tripDocs}
-                            keyExtractor={item => item.tripName}
                             renderItem={renderItem}
                         />
-                        {/* <EzButton onPress={ehh}></EzButton> */}
-                        {/* <h1>{tripDocs[0].tripName}</h1> */}
-                    </ScrollView>
-                    {/* <FAB
-                        style={styles.fab}
-                        small
-                        icon="plus"
-                        onPress={() => console.log('Pressed')}
-                    /> */}
-                    <TouchableOpacity style={styles.fab}>
-                        <Text style={styles.fabText}>+</Text>
-                    </TouchableOpacity>
-                    </Animatable.View>
                     
+                    </Animatable.View>
                 </ImageBackground>
             )
         } else {
@@ -181,6 +128,24 @@ export default function Home({navigation}) {
             tripName: 'Yeh Zindagi Na Milegi Dobara',
             numMembers: '7',
             balance: '100'
+        },
+        {
+            // id: '1',
+            tripName: 'Yeh Zindagi Na Milegi Dobara',
+            numMembers: '7',
+            balance: '100'
+        },
+        {
+            // id: '1',
+            tripName: 'Yeh Zindagi Na Milegi Dobara',
+            numMembers: '7',
+            balance: '100'
+        },
+        {
+            // id: '1',
+            tripName: 'Yeh Zindagi Na Milegi Dobara',
+            numMembers: '7',
+            balance: '100'
         }
     ]
 
@@ -188,8 +153,14 @@ export default function Home({navigation}) {
 //Styles for Home Page
 const styles = StyleSheet.create({
     container: {
-        // alignItems: 'center',
-        // paddingTop: '20%',
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingTop: 0,
+        paddingHorizontal: 0
+    },
+    container2: {
+        flex: 1,
+        opacity: 0
     },
     fab: {
         position: 'absolute',
@@ -201,9 +172,6 @@ const styles = StyleSheet.create({
         right: 10,
         alignItems: 'center',
         justifyContent: 'center'
-        // margin: 16,
-        // right: 0,
-        // bottom: 0,
       },
       fabText: {
         color: 'white',
