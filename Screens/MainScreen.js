@@ -7,7 +7,7 @@ import {Dimensions} from 'react-native'
 
 import {Feather} from '@expo/vector-icons'
 
-import {ProfileScreen, HomeScreen, TripScreen, SignOut} from "../Screens";
+import {ProfileScreen, HomeLandingPage, TripScreen, SignOut, HomeLandingScreen} from "../Screens";
 import EzSideBar from "../Components/EzSideBar"
 
 const DrawerNavigator = createDrawerNavigator({
@@ -18,8 +18,8 @@ const DrawerNavigator = createDrawerNavigator({
             drawerIcon: ({tintColor}) => <Feather name = "user" size={16} color={tintColor}/>
         }
     },
-    HomeScreen: {
-        screen: HomeScreen,
+    HomeLandingPage: {
+        screen: HomeLandingScreen,
         navigationOptions: {
             title: "Home",
             drawerIcon: ({tintColor}) => <Feather name = "home" size={16} color={tintColor}/>

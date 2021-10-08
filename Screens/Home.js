@@ -3,6 +3,7 @@ import { View, FlatList, ImageBackground, StyleSheet } from 'react-native'
 import EzTripCard from '../Components/EzTripCard'
 import firebase, {db} from '../Firebase/firebaseConfig';
 import * as Animatable from 'react-native-animatable';
+import { FAB } from 'react-native-paper';
 
     
 
@@ -10,62 +11,89 @@ export default function Home({navigation}) {
 
         const [managementDocs, setManagementDocs] = useState([]);
         const [tripDocs, setTripDocs] = useState([]);
+        const [transDocs, setTransDocs] = useState([]);
         const [isDone, setIsDone] = useState(false);
 
-        const [dataFetchDone, setDataFetchDone] = useState(false);
+        // const [dataFetchDone, setDataFetchDone] = useState(false);
 
         const user = firebase.auth().currentUser;
-        const userId = user.uid;
-        const usersCollection = db.collection('Users');
+        // const userId = user.uid;
+        // const usersCollection = db.collection('Users');
         const managementCollection = db.collection('Management');
         const tripsCollection = db.collection('Trips');
-        
+        const transCollections = db.collection('Transactions');
         
         useEffect(() => {
             const snapshot = managementCollection.where('UserID', '==', user.uid).get().then(res => {
                 res.forEach(doc => {
-                managementDocs.push(doc.data().TripID);
+                    managementDocs.push({
+                        tripId: doc.data().TripID, 
+                        transId: doc.data().TransID
+                    });
                 });
             }).then(res2 => {
-                    managementDocs.forEach(tripId => {
-                        tripsCollection.doc(tripId).get().then(data => {
+                managementDocs.forEach(temp => {
+                    tripsCollection.doc(temp.tripId).get().then(data => {
                         tripDocs.push(data.data());
-                    }).then(res0 => setIsDone(true));
+                    })
                 })
-            });
+            }).then(res3 => {
+                managementDocs.forEach(temp => {
+                    transCollections.doc(temp.transId).get().then(data => {
+                        transDocs.push(data.data());
+                        // console.log(transDocs);
+                    });
+                })
+            }).then(setIsDone(true));
+            // }).then(res4 => {
+            //     console.log("Trip Docs", tripDocs);
+            //     console.log("Trans Docs", transDocs);
+            //     for (let index = 0; index < tripDocs.length; index++) {
+            //         console.log("Hello World");
+            //     }
+            //     console.log("Trip Docs After:", tripDocs);
+            // }).then(() => setIsDone(true));
 
 
-        }, [])
+        }, []);
 
-        async function getManagementDocs() {
-            const snapshot = await managementCollection.where('UserID', '==', user.uid).get();
-            snapshot.forEach(doc => {
-                managementDocs.push(doc.data().TripID);
-            });
-            const temp = await getTrips().then(setIsDone(true));
-        }
+        // async function getManagementDocs() {
+        //     const snapshot = await managementCollection.where('UserID', '==', user.uid).get();
+        //     snapshot.forEach(doc => {
+        //         managementDocs.push(doc.data().TripID);
+        //     });
+        //     const temp = await getTrips().then(setIsDone(true));
+        // }
 
 
-        async function getTrips() {
-            managementDocs.forEach(tripId => {
-                    tripsCollection.doc(tripId).get().then(data => {
-                    tripDocs.push(data.data());
-                });
-            })
-            return tripDocs;
-        }
+        // async function getTrips() {
+        //     managementDocs.forEach(tripId => {
+        //             tripsCollection.doc(tripId).get().then(data => {
+        //             tripDocs.push(data.data());
+        //         });
+        //     })
+        //     return tripDocs;
+        // }
 
-        const renderItem = ({ item }) => (
-            <EzTripCard 
-                tripName={item.tripName}
-                numMembers={item.numMembers}
-                balance={item.balance}>
-            </EzTripCard>
+        // const renderItem = ({ item }) => (
+        //     <EzTripCard 
+        //         tripName={item.tripName}
+        //         numMembers={item.numMembers}
+        //         balance={item.balance}>
+        //     </EzTripCard>
             
-        );
+        // );
 
         if (isDone)
         {
+            const renderItem = ({ item }) => (
+                <EzTripCard 
+                    tripName={item.tripName}
+                    numMembers={item.numMembers}
+                    balance={item.balance}>
+                </EzTripCard>
+                
+            );
             return (
                 <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={styles.container}>
                     <Animatable.View animation="fadeInDown" duration={1000} style={styles.container2}>
@@ -73,8 +101,15 @@ export default function Home({navigation}) {
                             data={tripDocs}
                             renderItem={renderItem}
                         />
-                    
+                        
                     </Animatable.View>
+                    <FAB
+                        style={styles.fab}
+                        medium
+                        icon="plus"
+                        onPress={() => console.log('Pressed')}
+                        color="#000000"
+                    />
                 </ImageBackground>
             )
         } else {
@@ -84,70 +119,7 @@ export default function Home({navigation}) {
             </View>
             )
         }
-            
-        
-    
-
-
-    
     }
-
-    const DATA = [
-        {
-            // id: '1',
-            tripName: 'Trip 2020',
-            numMembers: '7',
-            balance: '100'
-        },
-        {
-            // id: '2',
-            tripName: 'Trip 2019',
-            numMembers: '5',
-            balance: '500'
-        },
-        {
-            // id: '1',
-            tripName: 'Trip to Chicago',
-            numMembers: '7',
-            balance: '100'
-        },
-        {
-            // id: '1',
-            tripName: 'Michigan Adventures',
-            numMembers: '7',
-            balance: '100'
-        },
-        {
-            // id: '1',
-            tripName: 'Harsh\'s Wedding',
-            numMembers: '7',
-            balance: '100'
-        },
-        {
-            // id: '1',
-            tripName: 'Yeh Zindagi Na Milegi Dobara',
-            numMembers: '7',
-            balance: '100'
-        },
-        {
-            // id: '1',
-            tripName: 'Yeh Zindagi Na Milegi Dobara',
-            numMembers: '7',
-            balance: '100'
-        },
-        {
-            // id: '1',
-            tripName: 'Yeh Zindagi Na Milegi Dobara',
-            numMembers: '7',
-            balance: '100'
-        },
-        {
-            // id: '1',
-            tripName: 'Yeh Zindagi Na Milegi Dobara',
-            numMembers: '7',
-            balance: '100'
-        }
-    ]
 
 
 //Styles for Home Page
@@ -164,17 +136,9 @@ const styles = StyleSheet.create({
     },
     fab: {
         position: 'absolute',
-        width: 50,
-        height: 50,
-        backgroundColor:'black',
-        borderRadius: 50,
-        bottom: 10,
-        right: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
-      },
-      fabText: {
-        color: 'white',
-        fontSize: 50
-      }
+        margin: 16,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#FFBF00'
+    }
   });

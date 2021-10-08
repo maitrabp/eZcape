@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { View, Text, StyleSheet, ImageBackground } from 'react-native'
 
-export default function ExTripCard({tripName, numMembers, balance, ...props}) {
+export default function EzTripCard({tripName, numMembers, balance, ...props}) {
     return (
         <View style={styles.card}>
             {/* <ImageBackground 

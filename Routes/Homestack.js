@@ -4,6 +4,8 @@ import Login from '../Screens/Login';
 import SignUp from '../Screens/SignUp';
 import PasswordReset from '../Screens/PasswordReset';
 import Home from '../Screens/Home';
+import HomePage from '../Screens/HomePage';
+import HomeLandingPage from '../Screens/HomeLandingPage';
 import EmailVerification from '../Screens/EmailVerification';
 import MainScreen from "../Screens/MainScreen";
 
@@ -18,8 +20,8 @@ const screens = {
     "Sign Up": {
         screen: SignUp
     },
-    "Home": {
-        screen: Home,
+    "HomeLandingPage": {
+        screen: HomeLandingPage,
         navigationOptions: {
             headerShown: false,
         }
@@ -42,5 +44,8 @@ const screens = {
 }
 
 const HomeStack = createStackNavigator(screens);
+// const HomeStack = createStackNavigator({
+//     HomeLandingPage: HomeLandingPage
+// });
 
 export default createAppContainer(HomeStack);

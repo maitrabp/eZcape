@@ -5,6 +5,7 @@ import Home from './Home'
 import Profile from './Profile'
 import firebase from '../Firebase/firebaseConfig';
 import App from '../App'
+import HomeLandingPage from './HomeLandingPage'
 
 export default class Screen extends Component {
     render() {
@@ -35,7 +36,7 @@ export default class Screen extends Component {
                     </TouchableOpacity>
                     <View style={{flex:1, borderTopColor: "black", borderTopWidth: 2}}>
                         {
-                            this.props.name==="Home"?<Home navigation={this.props.navigation}></Home>:
+                            this.props.name==="Home"?<HomeLandingPage navigation={this.props.navigation}></HomeLandingPage>:
                             (this.props.name==="Profile"?<Profile navigation={this.props.navigation}></Profile>:
                             (this.props.name==="SignOut"?SignOutUser():<Text>Some Other Screen!!</Text>))
                         }
