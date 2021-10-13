@@ -1,18 +1,43 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { render, ReactDOM } from 'react-dom';
 import {StyleSheet, TouchableOpacity, ImageBackground, Text, View, FlatList} from 'react-native';
 import EzTripCard from '../Components/EzTripCard';
 import * as Animatable from 'react-native-animatable';
+import { getManagementDocs, getTripDocs } from "../Shared/Api/TripsApi";
+import firebase from '../Firebase/firebaseConfig';
 
-// const user = firebase.auth().currentUser;
-
+// const [trips, setTrips] = useState([]);
 export default class HomeLandingPage extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            trips: []
+        }
+    }
+
+    componentDidMount() {
+        getManagementDocs(firebase.auth().currentUser.uid, this.onManagementDocsReceived);
+    }
+
+    onManagementDocsReceived = (managementDocs) => {
+        console.log(managementDocs);
+        const tempTrips = getTripDocs(managementDocs)
+        console.log(tempTrips)
+        this.setState({
+            trips: tempTrips
+        });
+        // this.setState(prevState => ({
+        //     managementDocs: prevState.managementDocs = managementDocs
+        // }));
+    }
+
     render() {
         return (
             <ImageBackground source = {require('../Assets/loginBackground.jpg')} style={styles.container}>
                 <Animatable.View animation="fadeInUp" duration={1000} style={styles.container2}>
                     <FlatList 
-                        data={data}
+                        data={this.state.trips} //List of trips
                         keyExtractor={(data => data.tripName)}
                         renderItem={({item}) => 
                             <EzTripCard tripName={item.tripName}

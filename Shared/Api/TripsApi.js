@@ -23,5 +23,15 @@ export async function getManagementDocs(uid, managementRetrieved) {
     //     managementList.push(doc.data())
     // });
 
-    managementRetrieved(managementList);
+    managementRetrieved(managementDocs);
+}
+
+export async function getTripDocs(tripIdList) {
+    var tripDocs = [];
+    tripIdList.forEach(temp => {
+        tripsCollection.doc(temp.tripId).get().then(data => {
+            tripDocs.push(data.data());
+        })
+    })
+    return tripDocs;
 }
